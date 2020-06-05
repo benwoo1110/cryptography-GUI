@@ -7,8 +7,9 @@ import glob
 ## Essentials functions
 class pygame_ess:
     
-    def load_images(image_dir='images/', file_type='.png'):
+    def load_images(image_page=[], file_type='.png'):
         images = dict()
+        image_dir = 'images/{}/'.format('/'.join(image_page))
         # Get all image file from givent directory
         image_dir_list = glob.glob(image_dir+"*"+file_type)
 
@@ -23,11 +24,22 @@ class pygame_ess:
         for event in pygame.event.get():
             # Check for left click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                # Load cipher screen
                 print("clicked", selection_type)
-                runclass.run()
 
-                return True
+                # Load new screen
+                try: 
+                    runclass.run()
+                    return True
+                except: 
+                    try:                
+                        # If its to go back or quit
+                        if runclass.isalpha(): 
+                            print('no defined class to run')
+                            return runclass
+                    except: 
+                        print('error loading', selection_type)
+                        return True
+        return False
 
     def selection(screen, current_screen, selection_types):
         mouse_pos = pygame.mouse.get_pos()
@@ -41,8 +53,10 @@ class pygame_ess:
                     pygame_ess.update()
 
                 # Check of click
-                if pygame_ess.click_event(selection_type, selection_types[selection_type]): 
-                    return True
+                click_result = pygame_ess.click_event(selection_type, selection_types[selection_type]) 
+                if click_result != False: return click_result
+                    
+                # if click_result: return True
 
                 # Get new mouse position
                 mouse_pos = pygame.mouse.get_pos()
