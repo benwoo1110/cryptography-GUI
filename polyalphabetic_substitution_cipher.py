@@ -1,7 +1,7 @@
 ##
 ## Import and initialize the librarys
 import pygame
-from image_storage import *
+from item_storage import *
 from pygame_ess import pygame_ess
 
 

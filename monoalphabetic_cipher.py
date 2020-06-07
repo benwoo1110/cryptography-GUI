@@ -1,7 +1,7 @@
 ##
 ## Import and initialize the librarys
 import pygame
-from image_storage import *
+from item_storage import *
 from pygame_ess import pygame_ess
 
 
@@ -30,7 +30,7 @@ monoalphabetic_cipher_screen = pygame_ess.load_images([page_name])
 
 # Buttons
 for button_type in button_types.keys():
-    monoalphabetic_cipher_screen[button_type] = image_item(button_type,
+    monoalphabetic_cipher_screen[button_type] = item(button_type,
                                       pygame_ess.load_images([page_name, button_type]),
                                       coord(47 + 766 * list(button_types.keys()).index(button_type), 28, 
                                             162, 67, 
