@@ -4,7 +4,7 @@ import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
 from caesar_cipher import caesar_cipher
-from monoalphabetic_cipher import monoalphabetic_cipher
+from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
 from homophonic_substitution_cipher import homophonic_substitution_cipher
 from polygram_subsitution_cipher import polygram_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
@@ -34,7 +34,7 @@ cipher_types = {'caesar_cipher':caesar_cipher,
 '''
 
 cipher_types = {'caesar_cipher':caesar_cipher, 
-                'monoalphabetic_cipher':'monoalphabetic_cipher', 
+                'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher, 
                 'homophonic_substitution_cipher':'homophonic_substitution_cipher',
                 'polygram_subsitution_cipher':'polygram_subsitution_cipher', 
                 'polyalphabetic_substitution_cipher':'polyalphabetic_substitution_cipher'}
@@ -86,6 +86,6 @@ if __name__ == "__main__":
     cryptography.run()
 
     # Done! Time to quit.
-    print('Exiting progam...')
+    print('Exiting program...')
     pygame.quit()
 

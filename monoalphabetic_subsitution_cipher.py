@@ -4,6 +4,8 @@ import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
+import random
+
 
 ##
 ## Initialization
@@ -17,22 +19,22 @@ window = pygame.surface.Surface((window_size))
 
 ##
 ## Variables
-page_name = 'caesar_cipher'
+page_name = 'monoalphabetic_subsitution_cipher'
 button_types = {'back':'back', 'info':''}
-caesar_cipher_objects = dict()
+monoalphabetic_subsitution_cipher_objects = dict()
 
 
 ##
 ## Load home screen objects
 
 # background image
-caesar_cipher_objects['background'] = item(name='cryptography background',
+monoalphabetic_subsitution_cipher_objects['background'] = item(name='cryptography background',
                                            type='background', 
                                            images=pygame_ess.load_images([page_name]))
 
 # Buttons
 for button_type in button_types.keys():
-    caesar_cipher_objects[button_type] = item(name=button_type,
+    monoalphabetic_subsitution_cipher_objects[button_type] = item(name=button_type,
                                               type='button',
                                               images=pygame_ess.load_images([page_name, button_type]),
                                               frame=coord(
@@ -42,8 +44,18 @@ for button_type in button_types.keys():
                                                   ),
                                               runclass=button_types[button_type])
 
+monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
+                                              type='button',
+                                              images=pygame_ess.load_images([page_name, 'shuffle']),
+                                              frame=coord(
+                                                  738, 459, 
+                                                  199, 56, 
+                                                  738, 459
+                                                  ),
+                                              runclass='shuffle')
+
 # Textfield
-caesar_cipher_objects['plaintext'] = item(name='plaintext',
+monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                           type='textfield',
                                           meta=text_data(
                                               text='plaintext',
@@ -53,29 +65,13 @@ caesar_cipher_objects['plaintext'] = item(name='plaintext',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
-                                              325, 156, 
+                                              325, 172, 
                                               632, 62, 
-                                              307, 146
+                                              307, 165
                                               ),
                                           runclass=textfield_event)
 
-caesar_cipher_objects['key'] = item(name='key',
-                                          type='textfield',
-                                          meta=text_data(
-                                              text='1',
-                                              font_type='Monaco.dfont',
-                                              font_size=34,
-                                              colour=(0,0,0)
-                                              ),
-                                          images=pygame_ess.load_images([page_name, 'key']),
-                                          frame=coord(
-                                              325, 238, 
-                                              160, 62, 
-                                              307, 229
-                                              ),
-                                          runclass=textfield_event)
-
-caesar_cipher_objects['alphabet'] = item(name='alphabet',
+monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
                                           type='text',
                                           meta=text_data(
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
@@ -85,29 +81,29 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'alphabet']),
                                           frame=coord(
-                                              311, 403, 
-                                              649, 47, 
-                                              311, 403
+                                              325, 314, 
+                                              632, 62, 
+                                              325, 314
                                               ),
                                           runclass='')
 
-caesar_cipher_objects['replaced'] = item(name='replaced',
+monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                           type='text',
                                           meta=text_data(
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=(0,0,0)
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'replaced']),
+                                          images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
-                                              311, 464, 
-                                              649, 47, 
-                                              311, 464
+                                              325, 384, 
+                                              632, 62, 
+                                              307, 375
                                               ),
                                           runclass='')
 
-caesar_cipher_objects['cyphertext'] = item(name='cyphertext',
+monoalphabetic_subsitution_cipher_objects['cyphertext'] = item(name='cyphertext',
                                           type='text',
                                           meta=text_data(
                                               text='cyphertext',
@@ -117,82 +113,78 @@ caesar_cipher_objects['cyphertext'] = item(name='cyphertext',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'cyphertext']),
                                           frame=coord(
-                                              325, 574, 
+                                              325, 609, 
                                               632, 62, 
-                                              307, 564
+                                              307, 601
                                               ),
                                           runclass='')
 
 
 ##
 ## 
-class caesar_cipher:
+class monoalphabetic_subsitution_cipher:
+
+    def shuffle():
+        # Shuffle the key
+        shuffled_alphabet = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        random.shuffle(shuffled_alphabet)
+        monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
+
+        # Update key text        
+        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
+        
+        # Update the cyphertext
+        monoalphabetic_subsitution_cipher.algorithm()
 
     def algorithm():
-        try: 
-            plaintext = str(caesar_cipher_objects['plaintext'].meta.text)
-            key = int(caesar_cipher_objects['key'].meta.text)
-        except:
-            print('type error')
-            return
+        # Get plaintext and key
+        plaintext = monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text
+        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
 
-        alphablet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        replaced = alphablet[key%26:] + alphablet[:key%26]
-        
-        caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'
-       
+        # Get cyphertext
         cyphertext = ''
-
-        # Convert to cyphertext
         for char in plaintext:
             if char.isalpha():
-                cypherchar = replaced[alphablet.index(char.upper())]
-                if not char.isupper(): cypherchar = cypherchar.lower()
-                cyphertext += cypherchar
+                cypherchar = key[alphabet.index(char.upper())]
+                if char.islower(): cypherchar = cypherchar.lower()
 
+                cyphertext += cypherchar
+                
             else: cyphertext += char
 
-        # Save it to data
-        caesar_cipher_objects['cyphertext'].meta.text = cyphertext
+        monoalphabetic_subsitution_cipher_objects['cyphertext'].meta.text = cyphertext
 
-        # Print data to screen
-        textfield_event.update_textfield(screen, caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(screen, caesar_cipher_objects['cyphertext'], False)
-
-        return cyphertext
+        # Update screen
+        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['cyphertext'], False)
     
     def run():
-        # Load the screen
-        pygame_ess.load_screen(screen, caesar_cipher_objects)
-        caesar_cipher.algorithm()
-         
+        # Load screen
+        pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
+        monoalphabetic_subsitution_cipher.algorithm()
+        
+        # Check for selection
         while True:
-            # Check for selection
-            selection_result = pygame_ess.selection(screen, caesar_cipher_objects)
+            selection_result = pygame_ess.selection(screen, monoalphabetic_subsitution_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
-            # Button pressed
-            if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(screen, caesar_cipher_objects)
-                elif selection_result_value == 'back': return True
             
-            # Testfield pressed
-            elif selection_result_key == 'textfield':
-                # Store back
-                #caesar_cipher_objects[selection_result_value.name] = selection_result_value
-                #pygame_ess.load_screen(screen, caesar_cipher_objects)
+            if selection_result_key == 'button': 
+                if selection_result_value == True: pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
+                if selection_result_value == 'shuffle': monoalphabetic_subsitution_cipher.shuffle()
+                elif selection_result_value == 'back': break
 
-                # Update cyphertext
-                caesar_cipher.algorithm()
+            elif selection_result_key == 'textfield': monoalphabetic_subsitution_cipher.algorithm()
 
-            if pygame_ess.buffer(): return True
+
+            if pygame_ess.buffer(): break
 
 
 ##
 ## Main loop
 if __name__ == "__main__":
     # Run home screen
-    caesar_cipher.run()
+    monoalphabetic_subsitution_cipher.run()
 
     # Done! Time to quit.
     print('Exiting program...')
