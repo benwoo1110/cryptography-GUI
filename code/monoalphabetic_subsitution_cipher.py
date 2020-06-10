@@ -161,7 +161,7 @@ class monoalphabetic_subsitution_cipher:
     def run():
         # Load screen
         pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
-        monoalphabetic_subsitution_cipher.algorithm()
+        monoalphabetic_subsitution_cipher.shuffle()
         
         # Check for selection
         while True:

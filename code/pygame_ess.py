@@ -10,7 +10,7 @@ class pygame_ess:
     
     def load_images(image_page=[], file_type='.png'):
         images = dict()
-        image_dir = 'images/{}/'.format('/'.join(image_page))
+        image_dir = '../images/{}/'.format('/'.join(image_page))
         # Get all image file from givent directory
         image_dir_list = glob.glob(image_dir+"*"+file_type)
 
