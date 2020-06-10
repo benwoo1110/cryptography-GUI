@@ -29,7 +29,7 @@ class coord:
 class text_data:
     def __init__(self, text='', font_type=None, font_size=36, colour=(255, 255, 255)):
         self.text = text
-        self.font_type = 'font/'+font_type
+        self.font_type = '../font/'+font_type
         self.font_size = font_size
         self.colour = colour
 

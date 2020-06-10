@@ -25,19 +25,11 @@ pygame.display.set_caption("Cryptography")
 ## Variables
 page_name = 'cryptography'
 
-'''
-cipher_types = {'caesar_cipher':caesar_cipher, 
-                'monoalphabetic_cipher':monoalphabetic_cipher, 
-                'homophonic_substitution_cipher':homophonic_substitution_cipher,
-                'polygram_subsitution_cipher':polygram_subsitution_cipher, 
-                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher}
-'''
-
 cipher_types = {'caesar_cipher':caesar_cipher, 
                 'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher, 
                 'homophonic_substitution_cipher':'homophonic_substitution_cipher',
                 'polygram_subsitution_cipher':'polygram_subsitution_cipher', 
-                'polyalphabetic_substitution_cipher':'polyalphabetic_substitution_cipher'}
+                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher}
 
 cryptography_objects = dict()
 
