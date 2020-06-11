@@ -30,6 +30,17 @@ monoalphabetic_subsitution_cipher_objects = dict()
 # background image
 pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name)
 
+# Button
+monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
+                                              type='button',
+                                              images=pygame_ess.load_images([page_name, 'shuffle']),
+                                              frame=coord(
+                                                  738, 459, 
+                                                  199, 56, 
+                                                  738, 459
+                                                  ),
+                                              runclass='shuffle')
+
 # Textfield
 monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                           type='textfield',
@@ -79,15 +90,15 @@ monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                               ),
                                           runclass='')
 
-monoalphabetic_subsitution_cipher_objects['cyphertext'] = item(name='cyphertext',
+monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='text',
                                           meta=text_data(
-                                              text='cyphertext',
+                                              text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
                                               colour=(0,0,0)
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'cyphertext']),
+                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 609, 
                                               632, 62, 
@@ -109,7 +120,7 @@ class monoalphabetic_subsitution_cipher:
         # Update key text        
         textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
         
-        # Update the cyphertext
+        # Update the ciphertext
         monoalphabetic_subsitution_cipher.algorithm()
 
     def algorithm():
@@ -118,21 +129,21 @@ class monoalphabetic_subsitution_cipher:
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
 
-        # Get cyphertext
-        cyphertext = ''
+        # Get ciphertext
+        ciphertext = ''
         for char in plaintext:
             if char.isalpha():
-                cypherchar = key[alphabet.index(char.upper())]
-                if char.islower(): cypherchar = cypherchar.lower()
+                cipherchar = key[alphabet.index(char.upper())]
+                if char.islower(): cipherchar = cipherchar.lower()
 
-                cyphertext += cypherchar
+                ciphertext += cipherchar
                 
-            else: cyphertext += char
+            else: ciphertext += char
 
-        monoalphabetic_subsitution_cipher_objects['cyphertext'].meta.text = cyphertext
+        monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['cyphertext'], False)
+        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
     
     def run():
         # Load screen

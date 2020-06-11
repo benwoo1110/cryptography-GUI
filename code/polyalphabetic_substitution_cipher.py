@@ -94,15 +94,15 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                               ),
                                           runclass='')
 
-polyalphabetic_substitution_cipher_objects['cyphertext'] = item(name='cyphertext',
+polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='text',
                                           meta=text_data(
-                                              text='cyphertext',
+                                              text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
                                               colour=(0,0,0)
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'cyphertext']),
+                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 572, 
                                               632, 62, 
@@ -132,23 +132,23 @@ class polyalphabetic_substitution_cipher:
 
         polyalphabetic_substitution_cipher_objects['key'].meta.text = key
 
-        # Calculate cyphertext
-        cyphertext = ''
+        # Calculate ciphertext
+        ciphertext = ''
         for char in range(plaintext_length):
             if plaintext[char].isalpha():
-                cypherchar = alphabet[ ( alphabet.find(plaintext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
-                if plaintext[char].islower(): cypherchar = cypherchar.lower()
-                cyphertext += cypherchar
+                cipherchar = alphabet[ ( alphabet.find(plaintext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
+                if plaintext[char].islower(): cipherchar = cipherchar.lower()
+                ciphertext += cipherchar
 
-            else: cyphertext += plaintext[char]
+            else: ciphertext += plaintext[char]
 
-        polyalphabetic_substitution_cipher_objects['cyphertext'].meta.text = cyphertext
+        polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Output to screen
-        for text in ['text', 'key', 'cyphertext']:
+        for text in ['text', 'key', 'ciphertext']:
             textfield_event.update_textfield(screen, polyalphabetic_substitution_cipher_objects[text], False)
 
-        return cyphertext
+        return ciphertext
 
     def run():
         # Load screen

@@ -90,15 +90,15 @@ caesar_cipher_objects['replaced'] = item(name='replaced',
                                               ),
                                           runclass='')
 
-caesar_cipher_objects['cyphertext'] = item(name='cyphertext',
+caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='text',
                                           meta=text_data(
-                                              text='cyphertext',
+                                              text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
                                               colour=(0,0,0)
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'cyphertext']),
+                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 574, 
                                               632, 62, 
@@ -124,25 +124,25 @@ class caesar_cipher:
         
         caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'
        
-        cyphertext = ''
+        ciphertext = ''
 
-        # Convert to cyphertext
+        # Convert to ciphertext
         for char in plaintext:
             if char.isalpha():
-                cypherchar = replaced[alphablet.index(char.upper())]
-                if not char.isupper(): cypherchar = cypherchar.lower()
-                cyphertext += cypherchar
+                cipherchar = replaced[alphablet.index(char.upper())]
+                if not char.isupper(): cipherchar = cipherchar.lower()
+                ciphertext += cipherchar
 
-            else: cyphertext += char
+            else: ciphertext += char
 
         # Save it to data
-        caesar_cipher_objects['cyphertext'].meta.text = cyphertext
+        caesar_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Print data to screen
         textfield_event.update_textfield(screen, caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(screen, caesar_cipher_objects['cyphertext'], False)
+        textfield_event.update_textfield(screen, caesar_cipher_objects['ciphertext'], False)
 
-        return cyphertext
+        return ciphertext
     
     def run():
         # Load the screen
@@ -165,7 +165,7 @@ class caesar_cipher:
                 #caesar_cipher_objects[selection_result_value.name] = selection_result_value
                 #pygame_ess.load_screen(screen, caesar_cipher_objects)
 
-                # Update cyphertext
+                # Update ciphertext
                 caesar_cipher.algorithm()
 
             if pygame_ess.buffer(): return True

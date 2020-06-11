@@ -41,13 +41,13 @@ class textfield_event:
                     elif event.key == pygame.K_BACKSPACE:
                         textfield_object.meta.text = textfield_object.meta.text[:-1]
                         textfield_event.update_textfield(screen, textfield_object, True, True)
+                        textfield_event.update_textfield(screen, textfield_object, True)
                     
                     # Add character
-                    else: 
+                    elif event.unicode != '': 
                         textfield_object.meta.text += event.unicode
                         textfield_event.update_textfield(screen, textfield_object, True, True)
-                    
-                    textfield_event.update_textfield(screen, textfield_object, True)
+                        textfield_event.update_textfield(screen, textfield_object, True)
 
                 # Exit textfield
                 elif event.type == pygame.QUIT: 

@@ -44,15 +44,15 @@ atbash_cipher_objects['plaintext'] = item(name='plaintext',
                                               ),
                                           runclass=textfield_event)
 
-atbash_cipher_objects['cyphertext'] = item(name='cyphertext',
+atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='text',
                                           meta=text_data(
-                                              text='cyphertext',
+                                              text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
                                               colour=(0,0,0)
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'cyphertext']),
+                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 540, 
                                               632, 62, 
@@ -73,7 +73,7 @@ class atbash_cipher:
         alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
         replace = alphabet[::-1]
 
-        # Calculate cyphertext
+        # Calculate ciphertext
         ciphertext = ''
         for char in plaintext:
             if char.isalpha():
@@ -84,8 +84,8 @@ class atbash_cipher:
             else: ciphertext += char
 
         # Output to screen
-        atbash_cipher_objects['cyphertext'].meta.text = ciphertext
-        textfield_event.update_textfield(screen, atbash_cipher_objects['cyphertext'], False)
+        atbash_cipher_objects['ciphertext'].meta.text = ciphertext
+        textfield_event.update_textfield(screen, atbash_cipher_objects['ciphertext'], False)
 
         return ciphertext
 
@@ -106,7 +106,7 @@ class atbash_cipher:
             
             # Testfield pressed
             elif selection_result_key == 'textfield':
-                # Update cyphertext
+                # Update ciphertext
                 atbash_cipher.algorithm()
 
             # Kill page
