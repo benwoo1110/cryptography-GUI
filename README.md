@@ -1,7 +1,7 @@
 # cryptography-GUI
 A Simple visualisation for basic string cryptography algorithms.
 
-List of algorithms:
+## List of algorithms:
 * Atbash Cipher
 * Affine Cipher
 * Caesar Cipher
@@ -9,13 +9,19 @@ List of algorithms:
 * Polyalphabetic Substitution Cipher
 * Rail-fence Cipher
 
-Depencencies needed:
+## Depencencies needed:
 * python 3.x
 * pygame
 
 pygame installation: `pip3 install pygame` <br />
 
-To run to the program, execute the file in `code/00 home_screen.py`
-<br />
-<br />
-Done by: Benedict Woo Jun Kai
+## To run to the program:
+#### For macos/linux:
+```
+chmod +x start.sh
+./start.sh
+```
+#### For windows: (coming soon)
+run `start.bat` file<br /><br />
+
+#### Done by: Benedict Woo Jun Kai
