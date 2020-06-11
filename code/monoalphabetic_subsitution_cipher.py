@@ -1,5 +1,6 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
@@ -7,8 +8,9 @@ from textfield_event import textfield_event
 import random
 
 
-##
-## Initialization
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -17,17 +19,19 @@ screen = pygame.display.set_mode((1024, 768))
 window = pygame.surface.Surface((window_size))
 
 
-##
-## Variables
+#########################
+# Variables declaration #
+#########################
 page_name = 'monoalphabetic_subsitution_cipher'
 button_types = {'back':'back', 'info':''}
 monoalphabetic_subsitution_cipher_objects = dict()
 
 
-##
-## Load home screen objects
+##############################
+# Load affine cipher objects #
+##############################
 
-# background image
+# Load essentials images
 pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name)
 
 # Button
@@ -107,11 +111,15 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                           runclass='')
 
 
-##
-## 
+##########################################
+# Monoalphabetic Subsitution Cipher Page #
+##########################################
 class monoalphabetic_subsitution_cipher:
+    '''Monoalphabetic Subsitution Cipher Page'''
 
     def shuffle():
+        ''' Encrypt plaintext'''
+
         # Shuffle the key
         shuffled_alphabet = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
         random.shuffle(shuffled_alphabet)
@@ -146,33 +154,37 @@ class monoalphabetic_subsitution_cipher:
         textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
     
     def run():
+        '''Display Monoalphabetic Subsitution Cipher Page'''
+
         # Load screen
         pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
         monoalphabetic_subsitution_cipher.shuffle()
         
-        # Check for selection
         while True:
+            # Check for selection
             selection_result = pygame_ess.selection(screen, monoalphabetic_subsitution_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
-            
+            # Button pressed
             if selection_result_key == 'button': 
                 if selection_result_value == True: pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
                 if selection_result_value == 'shuffle': monoalphabetic_subsitution_cipher.shuffle()
                 elif selection_result_value == 'back': break
 
-            elif selection_result_key == 'textfield': monoalphabetic_subsitution_cipher.algorithm()
+            # Testfield pressed
+            elif selection_result_key == 'textfield': 
+                monoalphabetic_subsitution_cipher.algorithm()
 
 
             if pygame_ess.buffer(): break
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     monoalphabetic_subsitution_cipher.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()

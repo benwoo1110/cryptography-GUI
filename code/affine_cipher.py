@@ -1,12 +1,15 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
 
-##
-## Initialization
+
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -15,14 +18,18 @@ screen = pygame.display.set_mode((1024, 768))
 window = pygame.surface.Surface((window_size))
 
 
-##
-## Variables
+#########################
+# Variables declaration #
+#########################
 page_name = 'affine_cipher'
 affine_cipher_objects = dict()
 
 
-##
-## Load home screen objects
+##############################
+# Load affine cipher objects #
+##############################
+
+# Load essentials images
 pygame_ess.load_essential_objects(affine_cipher_objects, page_name)
 
 # Textfields
@@ -91,11 +98,15 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
-##
-##
+######################
+# Affine Cipher Page #
+######################
 class affine_cipher:
+    '''Affine Cipher Page'''
 
     def algorithm():
+        ''' Encrypt plaintext'''
+
         # Get plaintext and keys
         try:
             plaintext = str(affine_cipher_objects['plaintext'].meta.text)
@@ -105,10 +116,10 @@ class affine_cipher:
             print('type error.')
             return
 
-        # Variable
-        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        # Variables
+        alphabet = pygame_ess.alphabet
 
-        # Get ciphertext
+        # Calculate ciphertext
         ciphertext = ''
         for char in plaintext:
             if char.isalpha():
@@ -118,6 +129,7 @@ class affine_cipher:
 
             else: ciphertext += char
 
+        # Save back to ciphertext object
         affine_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
@@ -126,6 +138,8 @@ class affine_cipher:
         return ciphertext
 
     def run():
+        '''Display Affine Cipher Page'''
+
         # Load screen
         pygame_ess.load_screen(screen, affine_cipher_objects)
         affine_cipher.algorithm()
@@ -148,12 +162,12 @@ class affine_cipher:
             if pygame_ess.buffer(): return True
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     affine_cipher.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()

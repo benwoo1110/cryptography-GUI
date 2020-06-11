@@ -1,10 +1,12 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 
 
-##
-## Storage images and its cooridinates
+#######################################
+# Storage images and its cooridinates #
+#######################################
 class coord:
     def __init__(self, bx=0, by=0, w=0, h=0, ix=0, iy=0):
         self.bx = bx
@@ -26,6 +28,10 @@ class coord:
     def __str__(self):
         return 'x:{} y:{} w:{} h:{}'.format(self.bx, self.by, self.w, self.h)
 
+
+#####################################
+# Stores data for text & textfields #
+#####################################
 class text_data:
     def __init__(self, text='', font_type=None, font_size=36, colour=(255, 255, 255)):
         self.text = text
@@ -38,6 +44,9 @@ class text_data:
         return font.render(self.text, True, self.colour)
 
 
+###########################
+# Storages UI object data #
+###########################
 class item:
     def __init__(self, name='name', type='button', meta={}, images=dict(), frame=coord(), hover=False, runclass=None):
         self.name = name

@@ -1,5 +1,6 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
@@ -10,8 +11,9 @@ from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
 
 
-##
-## Initialization
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -21,8 +23,9 @@ window = pygame.surface.Surface((window_size))
 pygame.display.set_caption("Cryptography")
 
 
-##
-## Variables
+########################
+# Variables declaration #
+########################
 page_name = 'cryptography'
 
 cipher_types = {'atbash_cipher':atbash_cipher,
@@ -35,13 +38,14 @@ cipher_types = {'atbash_cipher':atbash_cipher,
 cryptography_objects = dict()
 
 
-##
-## Load home screen objects
+############################
+# Load home screen objects #
+############################
 
-# background image
+# Load essentials images
 pygame_ess.load_essential_objects(cryptography_objects, page_name, back=False, info=False)
 
-# cipher list
+# cipher types view list
 for cipher_type in cipher_types.keys():
     cipher_type_y_coord = 112 + list(cipher_types.keys()).index(cipher_type) * 106
     cryptography_objects[cipher_type] = item(name=cipher_type,
@@ -51,10 +55,15 @@ for cipher_type in cipher_types.keys():
                                              runclass=cipher_types[cipher_type])
 
 
-##
-##
+#############
+# Home Page #
+#############
 class cryptography:
+    '''cryptography home page'''
+
     def run():
+        '''Display cryptography home page'''
+
         # Load the screen
         pygame_ess.load_screen(screen, cryptography_objects)
 
@@ -70,13 +79,13 @@ class cryptography:
             if pygame_ess.buffer(): return True
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     cryptography.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()
 

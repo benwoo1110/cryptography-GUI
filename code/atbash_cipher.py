@@ -1,12 +1,15 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
 
-##
-## Initialization
+
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -15,14 +18,16 @@ screen = pygame.display.set_mode((1024, 768))
 window = pygame.surface.Surface((window_size))
 
 
-##
-## Variables
+#########################
+# Variables declaration #
+#########################
 page_name = 'atbash_cipher'
 atbash_cipher_objects = dict()
 
 
-##
-## Load home screen objects
+##############################
+# Load affine cipher objects #
+##############################
 
 # background image
 pygame_ess.load_essential_objects(atbash_cipher_objects, page_name)
@@ -61,16 +66,20 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
-##
-##
+######################
+# Atbash Cipher Page #
+######################
 class atbash_cipher:
+    '''Atbash Cipher Page'''
 
     def algorithm():
+        ''' Encrypt plaintext'''
+
         # Get plaintext
         plaintext = atbash_cipher_objects['plaintext'].meta.text
 
         # Variables
-        alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
+        alphabet = pygame_ess.alphabet
         replace = alphabet[::-1]
 
         # Calculate ciphertext
@@ -90,6 +99,8 @@ class atbash_cipher:
         return ciphertext
 
     def run():
+        '''Display Atbash Cipher Page'''
+
         # Load the screen
         pygame_ess.load_screen(screen, atbash_cipher_objects)
         atbash_cipher.algorithm()
@@ -113,12 +124,12 @@ class atbash_cipher:
             if pygame_ess.buffer(): return True
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     atbash_cipher.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()

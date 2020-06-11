@@ -1,12 +1,18 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from pygame_ess import pygame_ess
 
-
+#################################################
+# Handles textfield objects and keyboard input #
+#################################################
 class textfield_event:
+    '''Handles textfield objects and keyboard input'''
 
     def update_textfield(screen, textfield_object, selected=True, back=False):
+        '''Update the text displayed on screen'''
+
         # textfield is selected
         if selected: 
             screen.blit(textfield_object.images['textfield_selected'], (textfield_object.frame.image_coord()))
@@ -26,6 +32,8 @@ class textfield_event:
 
 
     def run(screen, textfield_object):
+        '''keyboard input'''
+
         textfield_event.update_textfield(screen, textfield_object, True)
 
         while True:
@@ -56,8 +64,7 @@ class textfield_event:
 
                 # Exit textfield if click out
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos()):
-                        # Check if not in box
-                        print(textfield_object.meta.text)
                         textfield_event.update_textfield(screen, textfield_object, False)
                         return textfield_object

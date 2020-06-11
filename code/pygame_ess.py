@@ -1,13 +1,25 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 import glob
 from item_storage import *
 
-##
-## Essentials functions
 
+########################
+# Essentials functions #
+########################
 class pygame_ess:
+    '''Essentials functions and variables for pygame'''
+
+    # Shared / common variables
+    alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
+
+    class colour:
+        '''Colour types in RGB form'''
+        black = (0, 0, 0)
+        white = (255, 255, 255)
+        red = (255, 0, 0)
     
     def load_images(image_page=[], file_type='.png'):
         images = dict()
@@ -133,3 +145,7 @@ class pygame_ess:
     def buffer():
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return True
+
+    def quit():
+        print('Exiting program...')
+        pygame.quit()

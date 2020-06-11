@@ -1,12 +1,15 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
 
-##
-## Initialization
+
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -15,14 +18,18 @@ screen = pygame.display.set_mode((1024, 768))
 window = pygame.surface.Surface((window_size))
 
 
-##
-## Variables
+#########################
+# Variables declaration #
+#########################
 page_name = 'caesar_cipher'
 caesar_cipher_objects = dict()
 
 
-##
-## Load home screen objects
+##############################
+# Load affine cipher objects #
+##############################
+
+# Load essentials images
 pygame_ess.load_essential_objects(caesar_cipher_objects, page_name)
 
 # Textfield
@@ -107,11 +114,16 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
-##
-## 
+######################
+# Caesar Cipher Page #
+######################
 class caesar_cipher:
+    '''Caesar Cipher Page'''
 
     def algorithm():
+        ''' Encrypt plaintext'''
+
+        # Get plaintext and keys
         try: 
             plaintext = str(caesar_cipher_objects['plaintext'].meta.text)
             key = int(caesar_cipher_objects['key'].meta.text)
@@ -145,6 +157,8 @@ class caesar_cipher:
         return ciphertext
     
     def run():
+        '''Display Caesar Cipher Page'''
+        
         # Load the screen
         pygame_ess.load_screen(screen, caesar_cipher_objects)
         caesar_cipher.algorithm()
@@ -167,12 +181,12 @@ class caesar_cipher:
             if pygame_ess.buffer(): return True
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     caesar_cipher.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()

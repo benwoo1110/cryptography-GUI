@@ -1,13 +1,15 @@
-##
-## Import and initialize the librarys
+######################################
+# Import and initialize the librarys #
+######################################
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
 
 
-##
-## Initialization
+##################
+# Initialization #
+##################
 pygame.init()
 
 # Set up the drawing window
@@ -16,17 +18,19 @@ screen = pygame.display.set_mode((1024, 768))
 window = pygame.surface.Surface((window_size))
 
 
-##
-## Variables
+#########################
+# Variables declaration #
+#########################
 page_name = 'polyalphabetic_substitution_cipher'
 button_types = {'back':'back', 'info':''}
 polyalphabetic_substitution_cipher_objects = dict()
 
 
-##
-## Load home screen objects
+##############################
+# Load affine cipher objects #
+##############################
 
-# background image
+# Load essentials images
 pygame_ess.load_essential_objects(polyalphabetic_substitution_cipher_objects, page_name)
 
 # Textfield
@@ -111,17 +115,22 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                           runclass='')
 
 
-
-##
-## 
+###########################################
+# Polyalphabetic Substitution Cipher Page #
+###########################################
 class polyalphabetic_substitution_cipher:
+    '''Polyalphabetic Substitution Cipher Page'''
 
     def algorithm():
-        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        ''' Encrypt plaintext'''
+
         # Get keyword and plaintext
         keyword = polyalphabetic_substitution_cipher_objects['keyword'].meta.text
         plaintext = polyalphabetic_substitution_cipher_objects['plaintext'].meta.text
 
+        # Variables
+        alphabet = alphabet = pygame_ess.alphabet
+        
         # Update text
         polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
 
@@ -151,6 +160,8 @@ class polyalphabetic_substitution_cipher:
         return ciphertext
 
     def run():
+        '''Polyalphabetic Substitution Cipher Page'''
+
         # Load screen
         pygame_ess.load_screen(screen, polyalphabetic_substitution_cipher_objects)
         polyalphabetic_substitution_cipher.algorithm()
@@ -172,12 +183,12 @@ class polyalphabetic_substitution_cipher:
             if pygame_ess.buffer(): break
 
 
-##
-## Main loop
+#############
+# Main loop #
+#############
 if __name__ == "__main__":
     # Run home screen
     polyalphabetic_substitution_cipher.run()
 
     # Done! Time to quit.
-    print('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()
