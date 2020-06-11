@@ -13,8 +13,7 @@ Depencencies needed:
 * python 3.x
 * pygame
 
-pygame installation:
-```pip install pygame```
-\n
+pygame installation: `pip install pygame`
+
 
 Done by: Benedict Woo Jun Kai

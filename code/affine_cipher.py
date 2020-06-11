@@ -106,7 +106,7 @@ class affine_cipher:
             return
 
         # Variable
-        alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
+        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
         # Get ciphertext
         ciphertext = ''
