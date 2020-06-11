@@ -4,7 +4,7 @@ import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
 from atbash_cipher import atbash_cipher
-#from affine_cipher import affine_cipher
+from affine_cipher import affine_cipher
 from caesar_cipher import caesar_cipher
 from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
@@ -26,7 +26,7 @@ pygame.display.set_caption("Cryptography")
 page_name = 'cryptography'
 
 cipher_types = {'atbash_cipher':atbash_cipher,
-                'affine_cipher':'affine_cipher',
+                'affine_cipher':affine_cipher,
                 'caesar_cipher':caesar_cipher, 
                 'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher, 
                 'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher

@@ -161,10 +161,6 @@ class caesar_cipher:
             
             # Testfield pressed
             elif selection_result_key == 'textfield':
-                # Store back
-                #caesar_cipher_objects[selection_result_value.name] = selection_result_value
-                #pygame_ess.load_screen(screen, caesar_cipher_objects)
-
                 # Update ciphertext
                 caesar_cipher.algorithm()
 
