@@ -30,7 +30,7 @@ caesar_cipher_objects = dict()
 ##############################
 
 # Load essentials images
-pygame_ess.load_essential_objects(caesar_cipher_objects, page_name)
+pygame_ess.load_essential_objects(caesar_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 caesar_cipher_objects['plaintext'] = item(name='plaintext',
@@ -151,8 +151,8 @@ class caesar_cipher:
         caesar_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Print data to screen
-        textfield_event.update_textfield(screen, caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(screen, caesar_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(caesar_cipher_objects['replaced'], False)
+        textfield_event.update_textfield(caesar_cipher_objects['ciphertext'], False)
 
         return ciphertext
     
@@ -160,17 +160,17 @@ class caesar_cipher:
         '''Display Caesar Cipher Page'''
         
         # Load the screen
-        pygame_ess.load_screen(screen, caesar_cipher_objects)
+        pygame_ess.load_screen( caesar_cipher_objects)
         caesar_cipher.algorithm()
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(screen, caesar_cipher_objects)
+            selection_result = pygame_ess.selection(caesar_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
             # Button pressed
             if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(screen, caesar_cipher_objects)
+                if selection_result_value == True: pygame_ess.load_screen(caesar_cipher_objects)
                 elif selection_result_value == 'back': return True
             
             # Testfield pressed

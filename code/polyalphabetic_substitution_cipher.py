@@ -31,7 +31,7 @@ polyalphabetic_substitution_cipher_objects = dict()
 ##############################
 
 # Load essentials images
-pygame_ess.load_essential_objects(polyalphabetic_substitution_cipher_objects, page_name)
+pygame_ess.load_essential_objects(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
@@ -155,7 +155,7 @@ class polyalphabetic_substitution_cipher:
 
         # Output to screen
         for text in ['text', 'key', 'ciphertext']:
-            textfield_event.update_textfield(screen, polyalphabetic_substitution_cipher_objects[text], False)
+            textfield_event.update_textfield(polyalphabetic_substitution_cipher_objects[text], False)
 
         return ciphertext
 
@@ -163,17 +163,17 @@ class polyalphabetic_substitution_cipher:
         '''Polyalphabetic Substitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(screen, polyalphabetic_substitution_cipher_objects)
+        pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
         polyalphabetic_substitution_cipher.algorithm()
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(screen, polyalphabetic_substitution_cipher_objects)
+            selection_result = pygame_ess.selection(polyalphabetic_substitution_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
             # Button pressed
             if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(screen, polyalphabetic_substitution_cipher_objects)
+                if selection_result_value == True: pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
                 elif selection_result_value == 'back': return True
             
             # Testfield pressed

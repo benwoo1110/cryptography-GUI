@@ -32,7 +32,7 @@ monoalphabetic_subsitution_cipher_objects = dict()
 ##############################
 
 # Load essentials images
-pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name)
+pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
 
 # Button
 monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
@@ -126,7 +126,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
         # Update key text        
-        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
+        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_objects['key'], selected=False)
         
         # Update the ciphertext
         monoalphabetic_subsitution_cipher.algorithm()
@@ -151,23 +151,23 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield(screen, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield( monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
     
     def run():
         '''Display Monoalphabetic Subsitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
+        pygame_ess.load_screen(monoalphabetic_subsitution_cipher_objects)
         monoalphabetic_subsitution_cipher.shuffle()
         
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(screen, monoalphabetic_subsitution_cipher_objects)
+            selection_result = pygame_ess.selection(monoalphabetic_subsitution_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
             # Button pressed
             if selection_result_key == 'button': 
-                if selection_result_value == True: pygame_ess.load_screen(screen, monoalphabetic_subsitution_cipher_objects)
+                if selection_result_value == True: pygame_ess.load_screen(monoalphabetic_subsitution_cipher_objects)
                 if selection_result_value == 'shuffle': monoalphabetic_subsitution_cipher.shuffle()
                 elif selection_result_value == 'back': break
 

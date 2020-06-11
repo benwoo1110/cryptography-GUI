@@ -43,7 +43,7 @@ cryptography_objects = dict()
 ############################
 
 # Load essentials images
-pygame_ess.load_essential_objects(cryptography_objects, page_name, back=False, info=False)
+pygame_ess.load_essential_objects(cryptography_objects, page_name)
 
 # cipher types view list
 for cipher_type in cipher_types.keys():
@@ -65,15 +65,15 @@ class cryptography:
         '''Display cryptography home page'''
 
         # Load the screen
-        pygame_ess.load_screen(screen, cryptography_objects)
+        pygame_ess.load_screen(cryptography_objects)
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(screen, cryptography_objects)
+            selection_result = pygame_ess.selection(cryptography_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
             if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(screen, cryptography_objects)
+                if selection_result_value == True: pygame_ess.load_screen(cryptography_objects)
             
             # Kill page
             if pygame_ess.buffer(): return True

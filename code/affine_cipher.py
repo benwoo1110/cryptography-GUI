@@ -26,11 +26,11 @@ affine_cipher_objects = dict()
 
 
 ##############################
-# Load affine cipher objects #
+# Load Affine Cipher objects #
 ##############################
 
 # Load essentials images
-pygame_ess.load_essential_objects(affine_cipher_objects, page_name)
+pygame_ess.load_essential_objects(affine_cipher_objects, page_name, ['back', 'info'])
 
 # Textfields
 affine_cipher_objects['plaintext'] = item(name='plaintext',
@@ -133,7 +133,7 @@ class affine_cipher:
         affine_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield(screen, affine_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(affine_cipher_objects['ciphertext'], False)
 
         return ciphertext
 
@@ -141,17 +141,17 @@ class affine_cipher:
         '''Display Affine Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(screen, affine_cipher_objects)
+        pygame_ess.load_screen(affine_cipher_objects)
         affine_cipher.algorithm()
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(screen, affine_cipher_objects)
+            selection_result = pygame_ess.selection(affine_cipher_objects)
             selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
             
             # Button pressed
             if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(screen, affine_cipher_objects)
+                if selection_result_value == True: pygame_ess.load_screen(affine_cipher_objects)
                 elif selection_result_value == 'back': return True
             
             # Testfield pressed
