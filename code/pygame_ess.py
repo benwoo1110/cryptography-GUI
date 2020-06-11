@@ -40,7 +40,7 @@ class pygame_ess:
 
         # Load them into pygame
         for image in image_dir_list:
-            image_name = image.split('/')[-1].split('.')[0]
+            image_name = image.split('/')[-1].split('\\')[-1].split('.')[0]
             images[image_name] = pygame.image.load(image).convert()
 
         return images
@@ -130,7 +130,7 @@ class pygame_ess:
         return {'':''}
                 
 
-    def update(tick=120):
+    def update(tick=60):
         pygame.display.flip()
         pygame.display.update()
         pygame.time.Clock().tick(tick)
