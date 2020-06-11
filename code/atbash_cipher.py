@@ -54,9 +54,9 @@ atbash_cipher_objects['cyphertext'] = item(name='cyphertext',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'cyphertext']),
                                           frame=coord(
-                                              325, 609, 
+                                              325, 540, 
                                               632, 62, 
-                                              307, 601
+                                              307, 533
                                               ),
                                           runclass='')
 
@@ -66,7 +66,28 @@ atbash_cipher_objects['cyphertext'] = item(name='cyphertext',
 class atbash_cipher:
 
     def algorithm():
-        pass
+        # Get plaintext
+        plaintext = atbash_cipher_objects['plaintext'].meta.text
+
+        # Variables
+        alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
+        replace = alphabet[::-1]
+
+        # Calculate cyphertext
+        ciphertext = ''
+        for char in plaintext:
+            if char.isalpha():
+                cipherchar = replace[alphabet.find(char.upper())]
+                if char.islower(): cipherchar = cipherchar.lower()
+                ciphertext += cipherchar
+
+            else: ciphertext += char
+
+        # Output to screen
+        atbash_cipher_objects['cyphertext'].meta.text = ciphertext
+        textfield_event.update_textfield(screen, atbash_cipher_objects['cyphertext'], False)
+
+        return ciphertext
 
     def run():
         # Load the screen
@@ -76,6 +97,17 @@ class atbash_cipher:
         while True:
             # Check for selection
             selection_result = pygame_ess.selection(screen, atbash_cipher_objects)
+            selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
+            
+            # Button pressed
+            if selection_result_key == 'button':
+                if selection_result_value == True: pygame_ess.load_screen(screen, atbash_cipher_objects)
+                elif selection_result_value == 'back': return True
+            
+            # Testfield pressed
+            elif selection_result_key == 'textfield':
+                # Update cyphertext
+                atbash_cipher.algorithm()
 
             # Kill page
             if pygame_ess.buffer(): return True

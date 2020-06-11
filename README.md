@@ -10,11 +10,11 @@ List of algorithms:
 * Rail-fence Cipher
 
 Depencencies needed:
-* python 3
+* python 3.x
 * pygame
 
 pygame installation:
 ```pip install pygame```
-
+\n
 
 Done by: Benedict Woo Jun Kai
