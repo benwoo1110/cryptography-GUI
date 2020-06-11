@@ -3,10 +3,10 @@
 import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
+#from atbash_cipher import atbash_cipher
+#from affine_cipher import affine_cipher
 from caesar_cipher import caesar_cipher
 from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
-from homophonic_substitution_cipher import homophonic_substitution_cipher
-from polygram_subsitution_cipher import polygram_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
 
 
@@ -25,11 +25,12 @@ pygame.display.set_caption("Cryptography")
 ## Variables
 page_name = 'cryptography'
 
-cipher_types = {'caesar_cipher':caesar_cipher, 
+cipher_types = {#'atbash_cipher':'atbash_cipher',
+                #'affine_cipher':'affine_cipher',
+                'caesar_cipher':caesar_cipher, 
                 'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher, 
-                'homophonic_substitution_cipher':'homophonic_substitution_cipher',
-                'polygram_subsitution_cipher':'polygram_subsitution_cipher', 
-                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher}
+                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher
+                }
 
 cryptography_objects = dict()
 
@@ -38,9 +39,7 @@ cryptography_objects = dict()
 ## Load home screen objects
 
 # background image
-cryptography_objects['background'] = item(name='cryptography background',
-                                          type='background', 
-                                          images=pygame_ess.load_images([page_name]))
+pygame_ess.load_essential_objects(cryptography_objects, page_name, back=False, info=False)
 
 # cipher list
 for cipher_type in cipher_types.keys():
@@ -67,7 +66,7 @@ class cryptography:
             if selection_result_key == 'button':
                 if selection_result_value == True: pygame_ess.load_screen(screen, cryptography_objects)
             
-            # End program
+            # Kill page
             if pygame_ess.buffer(): return True
 
 

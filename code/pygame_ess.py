@@ -2,6 +2,7 @@
 ## Import and initialize the librarys
 import pygame
 import glob
+from item_storage import *
 
 ##
 ## Essentials functions
@@ -20,6 +21,36 @@ class pygame_ess:
             images[image_name] = pygame.image.load(image).convert()
 
         return images
+
+    def load_essential_objects(objects=dict(), page_name='', background=True, back=True, info=True):
+        if background:
+            objects['background'] = item(name='cryptography background', 
+                                        type='background', 
+                                        images=pygame_ess.load_images([page_name]))
+
+        if back:
+            objects['back'] = item(name='back',
+                                   type='button',
+                                   images=pygame_ess.load_images(['shared_objects', 'back']),
+                                   frame=coord(
+                                        47, 28, 
+                                        162, 67, 
+                                        0, 0 
+                                        ),
+                                   runclass='back')
+
+        if info:
+            objects['info'] = item(name='info',
+                             type='button',
+                             images=pygame_ess.load_images(['shared_objects', 'info']),
+                             frame=coord(
+                                    813, 28, 
+                                    162, 67, 
+                                    814, 0 
+                                    ),
+                             runclass='info')
+
+        return objects
 
     def load_screen(screen, screen_objects):
         # Load background

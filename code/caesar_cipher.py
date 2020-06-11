@@ -18,29 +18,12 @@ window = pygame.surface.Surface((window_size))
 ##
 ## Variables
 page_name = 'caesar_cipher'
-button_types = {'back':'back', 'info':''}
 caesar_cipher_objects = dict()
 
 
 ##
 ## Load home screen objects
-
-# background image
-caesar_cipher_objects['background'] = item(name='cryptography background',
-                                           type='background', 
-                                           images=pygame_ess.load_images([page_name]))
-
-# Buttons
-for button_type in button_types.keys():
-    caesar_cipher_objects[button_type] = item(name=button_type,
-                                              type='button',
-                                              images=pygame_ess.load_images([page_name, button_type]),
-                                              frame=coord(
-                                                  47 + 766 * list(button_types.keys()).index(button_type), 28, 
-                                                  162, 67, 
-                                                  (48 + 766) * list(button_types.keys()).index(button_type), 0
-                                                  ),
-                                              runclass=button_types[button_type])
+pygame_ess.load_essential_objects(caesar_cipher_objects, page_name)
 
 # Textfield
 caesar_cipher_objects['plaintext'] = item(name='plaintext',

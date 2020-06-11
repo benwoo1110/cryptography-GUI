@@ -2,11 +2,12 @@
 A Simple visualisation for basic string cryptography algorithms.
 
 List of algorithms:
+* Atbash Cipher
+* Affine Cipher
 * Caesar Cipher
 * Monoalphabetic Cipher
-* Homophonic Substitution Cipher
-* Polygram Substitution Cipher
 * Polyalphabetic Substitution Cipher
+* Rail-fence Cipher
 
 Depencencies needed:
 * python 3

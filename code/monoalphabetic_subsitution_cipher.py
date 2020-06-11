@@ -28,31 +28,7 @@ monoalphabetic_subsitution_cipher_objects = dict()
 ## Load home screen objects
 
 # background image
-monoalphabetic_subsitution_cipher_objects['background'] = item(name='cryptography background',
-                                           type='background', 
-                                           images=pygame_ess.load_images([page_name]))
-
-# Buttons
-for button_type in button_types.keys():
-    monoalphabetic_subsitution_cipher_objects[button_type] = item(name=button_type,
-                                              type='button',
-                                              images=pygame_ess.load_images([page_name, button_type]),
-                                              frame=coord(
-                                                  47 + 766 * list(button_types.keys()).index(button_type), 28, 
-                                                  162, 67, 
-                                                  (48 + 766) * list(button_types.keys()).index(button_type), 0
-                                                  ),
-                                              runclass=button_types[button_type])
-
-monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
-                                              type='button',
-                                              images=pygame_ess.load_images([page_name, 'shuffle']),
-                                              frame=coord(
-                                                  738, 459, 
-                                                  199, 56, 
-                                                  738, 459
-                                                  ),
-                                              runclass='shuffle')
+pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name)
 
 # Textfield
 monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
