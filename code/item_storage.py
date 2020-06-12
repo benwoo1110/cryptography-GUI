@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import os
 
 
 #######################################
@@ -33,11 +34,23 @@ class coord:
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text='', font_type=None, font_size=36, colour=(255, 255, 255)):
+    def __init__(self, text:str = '', font_type = None, is_custom_font:bool = True, font_size:int = 36, colour:set =(255, 255, 255)):
         self.text = text
-        self.font_type = '../font/'+font_type
+        self.font_type = font_type
+        self.is_custom_font = is_custom_font
         self.font_size = font_size
         self.colour = colour
+
+        # Get font file if its custom
+        if is_custom_font:
+            # Get font type file
+            font_dir = 'font/'+font_type
+
+            # If in code directory and not root, go back a step
+            if os.path.basename(os.getcwd()) == 'code': font_dir = '../' + font_dir
+            
+            # Save dir of custom font
+            self.font_type = font_dir
 
     def render_text(self):
         font = pygame.font.Font(self.font_type, self.font_size)

@@ -4,6 +4,7 @@
 import pygame
 import glob
 from item_storage import *
+import os
 
 
 ##################
@@ -33,8 +34,13 @@ class pygame_ess:
         red = (255, 0, 0)
     
     def load_images(image_page:list, file_type:str = '.png'):
+        # Define variables
         images = dict()
-        image_dir = '../images/{}/'.format('/'.join(image_page))
+        image_dir = 'images/{}/'.format('/'.join(image_page))
+
+        # If in code directory and not root, go back a step
+        if os.path.basename(os.getcwd()) == 'code': image_dir = '../' + image_dir
+        
         # Get all image file from givent directory
         image_dir_list = glob.glob(image_dir+"*"+file_type)
 
