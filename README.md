@@ -21,7 +21,11 @@ pygame installation: `pip3 install pygame` <br />
 chmod +x start.sh
 ./start.sh
 ```
-#### For windows: (coming soon)
-run `start.bat` file<br /><br />
+#### For windows:
+run `start.bat` file
+```
+./start.bat
+```
+<br />
 
 #### Done by: Benedict Woo Jun Kai

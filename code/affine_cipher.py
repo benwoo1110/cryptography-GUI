@@ -39,7 +39,7 @@ affine_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -55,7 +55,7 @@ affine_cipher_objects['a'] = item(name='a',
                                     text='1',
                                     font_type='Monaco.dfont',
                                     font_size=34,
-                                    colour=(0,0,0)
+                                    colour=pygame_ess.colour.black
                                     ),
                                 images=pygame_ess.load_images([page_name, 'a']),
                                 frame=coord(
@@ -71,7 +71,7 @@ affine_cipher_objects['b'] = item(name='b',
                                     text='2',
                                     font_type='Monaco.dfont',
                                     font_size=34,
-                                    colour=(0,0,0)
+                                    colour=pygame_ess.colour.black
                                     ),
                                 images=pygame_ess.load_images([page_name, 'b']),
                                 frame=coord(
@@ -87,7 +87,7 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

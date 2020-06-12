@@ -52,7 +52,7 @@ monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -60,7 +60,7 @@ monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               632, 62, 
                                               307, 165
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
                                           type='textfield',
@@ -68,7 +68,7 @@ monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=pygame_ess.colour.white
                                               ),
                                           images=pygame_ess.load_images([page_name, 'alphabet']),
                                           frame=coord(
@@ -84,7 +84,7 @@ monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
@@ -100,7 +100,7 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

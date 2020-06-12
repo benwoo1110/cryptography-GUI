@@ -31,8 +31,7 @@ class textfield_event:
             if not backspace: textfield_object.meta.text += '_'
         
         # textfield not selected
-        else: 
-            screen.blit(textfield_object.images['textfield'], (textfield_object.frame.image_coord()))
+        else: screen.blit(textfield_object.images['textfield'], (textfield_object.frame.image_coord()))
 
         # Render the text
         screen.blit(textfield_object.meta.render_text(), textfield_object.frame.box_coord())
@@ -64,7 +63,7 @@ class textfield_event:
                     # Exit textfield if click return or escape
                     elif event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
                         textfield_event.update_textfield(textfield_object, False)
-                        return textfield_object.meta.text
+                        return textfield_event
 
                     # Add character
                     else: 
@@ -73,11 +72,11 @@ class textfield_event:
                         textfield_event.update_textfield(textfield_object, True)
 
                 # Exit textfield if click out
-                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos()):
                         textfield_event.update_textfield(textfield_object, False)
-                        return textfield_object.meta.text
+                        return textfield_event
 
                 # Quit program
-                elif event.type == pygame.QUIT: return 'quit'
+                if event.type == pygame.QUIT: return 'quit'

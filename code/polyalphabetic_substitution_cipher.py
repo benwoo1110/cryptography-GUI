@@ -40,7 +40,7 @@ polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
                                               text='KEYWORD',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'keyword']),
                                           frame=coord(
@@ -48,7 +48,7 @@ polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
                                               632, 62, 
                                               307, 165
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                           type='textfield',
@@ -56,7 +56,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -64,7 +64,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               632, 62, 
                                               307, 248
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                           type='textfield',
@@ -72,7 +72,7 @@ polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                               text='text',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=pygame_ess.colour.white
                                               ),
                                           images=pygame_ess.load_images([page_name, 'text']),
                                           frame=coord(
@@ -88,7 +88,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                               text='key',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=pygame_ess.colour.white
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
@@ -104,7 +104,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

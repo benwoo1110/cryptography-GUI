@@ -144,7 +144,7 @@ class pygame_ess:
         # User did not click
         return False   
 
-    def update(tick:int = 240):
+    def update(tick:int = 60):
         pygame.display.flip()
         pygame.display.update()
         pygame.time.Clock().tick(tick)

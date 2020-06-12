@@ -34,7 +34,7 @@ class coord:
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text:str = '', font_type = None, is_custom_font:bool = True, font_size:int = 36, colour:set =(255, 255, 255)):
+    def __init__(self, text:str = '', font_type = None, is_custom_font:bool = True, font_size:int = 36, colour:set = (0, 0, 0), validation = None):
         self.text = text
         self.font_type = font_type
         self.is_custom_font = is_custom_font
@@ -70,7 +70,7 @@ class item:
         self.frame = frame
         self.hover_action = hover_action
         self.runclass = runclass
-        self.runclass_parameter= runclass_parameter
+        self.runclass_parameter = runclass_parameter
 
         # Set to default hover_action if not defined
         if hover_action == None:

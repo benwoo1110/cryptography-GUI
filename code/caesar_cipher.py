@@ -39,7 +39,7 @@ caesar_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -55,7 +55,7 @@ caesar_cipher_objects['key'] = item(name='key',
                                               text='1',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
@@ -71,7 +71,7 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=pygame_ess.colour.white
                                               ),
                                           images=pygame_ess.load_images([page_name, 'alphabet']),
                                           frame=coord(
@@ -87,7 +87,7 @@ caesar_cipher_objects['replaced'] = item(name='replaced',
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(255,255,255)
+                                              colour=pygame_ess.colour.white
                                               ),
                                           images=pygame_ess.load_images([page_name, 'replaced']),
                                           frame=coord(
@@ -103,7 +103,7 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=(0,0,0)
+                                              colour=pygame_ess.colour.black
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
