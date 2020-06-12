@@ -173,7 +173,7 @@ class monoalphabetic_subsitution_cipher:
                 # Go back to previous page
                 if selection_result['action_result'] == 'back': return True
                 # Shuffle the key
-                elif selection_result['shuffle'] == 'back': monoalphabetic_subsitution_cipher.shuffle()
+                elif selection_result['action_result'] == 'shuffle': monoalphabetic_subsitution_cipher.shuffle()
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':

@@ -5,6 +5,7 @@ import pygame
 import glob
 from item_storage import *
 import os
+import traceback
 
 
 ##################
@@ -135,9 +136,9 @@ class pygame_ess:
                     else: return selection_object.runclass(selection_object.runclass_parameter)
                 
                 # When errors loading screen/runclass
-                except Exception as error: 
-                    print('error loading', selection_object.name)
-                    print(error)
+                except: 
+                    print('error running', selection_object.name)
+                    traceback.print_exc()
                     return True
 
         # User did not click
