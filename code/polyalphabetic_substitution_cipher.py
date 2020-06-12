@@ -67,7 +67,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                           runclass=textfield_event)
 
 polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='text',
                                               font_type='Monaco.dfont',
@@ -83,7 +83,7 @@ polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                           runclass='')
 
 polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='key',
                                               font_type='Monaco.dfont',
@@ -99,7 +99,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                           runclass='')
 
 polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
@@ -121,7 +121,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
 class polyalphabetic_substitution_cipher:
     '''Polyalphabetic Substitution Cipher Page'''
 
-    def algorithm():
+    def encrypt():
         ''' Encrypt plaintext'''
 
         # Get keyword and plaintext
@@ -139,6 +139,7 @@ class polyalphabetic_substitution_cipher:
         keyword_length = len(keyword)
         key = keyword.upper() * (plaintext_length//keyword_length) + keyword.upper()[:plaintext_length%keyword_length]
 
+        # Stores key
         polyalphabetic_substitution_cipher_objects['key'].meta.text = key
 
         # Calculate ciphertext
@@ -151,6 +152,7 @@ class polyalphabetic_substitution_cipher:
 
             else: ciphertext += plaintext[char]
 
+        # Stores ciphertext
         polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Output to screen
@@ -168,19 +170,24 @@ class polyalphabetic_substitution_cipher:
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(polyalphabetic_substitution_cipher_objects)
-            selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
-            
-            # Button pressed
-            if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
-                elif selection_result_value == 'back': return True
-            
-            # Testfield pressed
-            elif selection_result_key == 'textfield':
-                polyalphabetic_substitution_cipher.algorithm()
+            selection_result = pygame_ess.selection_event(polyalphabetic_substitution_cipher_objects)
 
-            if pygame_ess.buffer(): break
+            # Load back current screen
+            if selection_result['action_result'] == True: pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
+            
+            # Button press
+            elif selection_result['object_type'] == 'button':
+                # Go back to previous page
+                if selection_result['action_result'] == 'back': return True
+            
+            # Textfield updated
+            elif selection_result['object_type'] == 'textfield':
+                # Update ciphertext
+                polyalphabetic_substitution_cipher.encrypt()
+
+            # Quit program
+            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+
 
 
 #############

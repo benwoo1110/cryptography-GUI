@@ -47,7 +47,7 @@ caesar_cipher_objects['plaintext'] = item(name='plaintext',
                                               632, 62, 
                                               307, 146
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 caesar_cipher_objects['key'] = item(name='key',
                                           type='textfield',
@@ -63,10 +63,10 @@ caesar_cipher_objects['key'] = item(name='key',
                                               160, 62, 
                                               307, 229
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 caesar_cipher_objects['alphabet'] = item(name='alphabet',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
@@ -82,7 +82,7 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                           runclass='')
 
 caesar_cipher_objects['replaced'] = item(name='replaced',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
@@ -98,7 +98,7 @@ caesar_cipher_objects['replaced'] = item(name='replaced',
                                           runclass='')
 
 caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
@@ -120,7 +120,7 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
 class caesar_cipher:
     '''Caesar Cipher Page'''
 
-    def algorithm():
+    def encrypt():
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
@@ -161,24 +161,27 @@ class caesar_cipher:
         
         # Load the screen
         pygame_ess.load_screen( caesar_cipher_objects)
-        caesar_cipher.algorithm()
+        caesar_cipher.encrypt()
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(caesar_cipher_objects)
-            selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
-            
-            # Button pressed
-            if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(caesar_cipher_objects)
-                elif selection_result_value == 'back': return True
-            
-            # Testfield pressed
-            elif selection_result_key == 'textfield':
-                # Update ciphertext
-                caesar_cipher.algorithm()
+            selection_result = pygame_ess.selection_event(caesar_cipher_objects)
 
-            if pygame_ess.buffer(): return True
+            # Load back current screen
+            if selection_result['action_result'] == True: pygame_ess.load_screen(caesar_cipher_objects)
+            
+            # Button press
+            elif selection_result['object_type'] == 'button':
+                # Go back to previous page
+                if selection_result['action_result'] == 'back': return True
+            
+            # Textfield updated
+            elif selection_result['object_type'] == 'textfield':
+                # Update ciphertext
+                caesar_cipher.encrypt()
+
+            # Quit program
+            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############

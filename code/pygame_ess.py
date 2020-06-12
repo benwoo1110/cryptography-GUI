@@ -58,84 +58,91 @@ class pygame_ess:
         return objects
 
     def load_screen(screen_objects):
-        # Load background
-        screen.blit(screen_objects['background'].images['background'],  screen_objects['background'].frame.image_coord())
-
-        # Load buttons items
+        # Load all items
         for screen_object in screen_objects.values():
-            if screen_object.type == 'button':
-                screen.blit(screen_object.images[screen_object.type], screen_object.frame.image_coord())
-            elif screen_object.type in ['textfield', 'text']:
-                screen.blit(screen_object.images['textfield'], screen_object.frame.image_coord())
+            # Load image of item
+            screen.blit(screen_object.images[screen_object.type], screen_object.frame.image_coord())
+
+            # Load text for textfield objects
+            if screen_object.type == 'textfield':
                 screen.blit(screen_object.meta.render_text(), screen_object.frame.box_coord())
 
+        # Output to screen
         pygame_ess.update()
 
-    def button_event(selection_object):
+    def selection_event(selection_objects) -> dict:
+        selection_result = {'object_type':'', 'object_name':'', 'action_result':''}
+
+        for selection_object in selection_objects.values():
+        
+            # Skip selection check if runclass is empty
+            if not ( type(selection_object.runclass) == str and selection_object.runclass.strip() == '' ): 
+
+                # Check if mouse in selection object box
+                mouse_hover_over_object  = False
+                while selection_object.in_box(pygame.mouse.get_pos()):
+
+                    # Change to hover type
+                    if selection_object.hover_action and not mouse_hover_over_object:
+                        screen.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
+                        mouse_hover_over_object = True
+                        pygame_ess.update()
+
+                    # Run click event
+                    click_result = pygame_ess.click_event(selection_object) 
+
+                    # If clicked on object
+                    if click_result != False: 
+                        # Stores click_result
+                        selection_result['object_type'] = selection_object.type
+                        selection_result['object_name'] = selection_object.name
+                        selection_result['action_result'] = click_result
+                        # Return data of click result
+                        print(selection_result)
+                        return selection_result
+
+                # Moved out of hitbox
+                if mouse_hover_over_object:
+                    screen.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
+                    selection_object.hover = False
+                    pygame_ess.update()
+
+        # No selections/clicks were made
+        return selection_result
+
+    def click_event(selection_object):
         for event in pygame.event.get():                
             # Check for left click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                print("clicked", selection_object.name)
+                print("clicked", selection_object.type, selection_object.name)
 
+                # When there is no function to run
                 if type(selection_object.runclass) == str: return selection_object.runclass
 
                 # Load new screen
                 try: 
-                    runclass_result = selection_object.runclass.run()
-                    return True
-                except: print('error loading', selection_object.name)
-                finally: return True
-
-        return False
-
-    def textfield_event(selection_object):
-        for event in pygame.event.get():                
-            # Check for left click
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                textfield_result = selection_object.runclass.run(selection_object)
-                return textfield_result
-
-        return False
-
-    def selection(selection_objects):
-
-        for selection_object in selection_objects.values():
-
-            object_type = selection_object.type
-
-            while selection_object.in_box(pygame.mouse.get_pos()):
-                if object_type == 'button': 
-                    # Change to hover type
-                    if selection_object.hover == False:
-                        screen.blit(selection_object.images['button_hover'], (selection_object.frame.image_coord()))
-                        selection_object.hover = True
-                        pygame_ess.update()
-
-                    # Check of click
-                    button_result = pygame_ess.button_event(selection_object) 
-                    if button_result != False: return {'button': button_result}
-
-                elif object_type == 'textfield': 
-                    textfield_result = pygame_ess.textfield_event(selection_object) 
-                    if textfield_result != False: return {'textfield': textfield_result}
-
-                else: pygame_ess.buffer()
-
-            # Moved out of hitbox
-            if selection_object.hover:
-                screen.blit(selection_object.images['button'], (selection_object.frame.image_coord()))
-                selection_object.hover = False
-                pygame_ess.update()
-
-        return {'':''}
+                    # Use selection_object as parameter
+                    if selection_object.runclass_parameter == True: return selection_object.runclass(selection_object)
+                    # No parameter needed
+                    elif selection_object.runclass_parameter == False: return selection_object.runclass()
+                    # Use custom parameter
+                    else: return selection_object.runclass(selection_object.runclass_parameter)
                 
+                # When errors loading screen/runclass
+                except Exception as error: 
+                    print('error loading', selection_object.name)
+                    print(error)
+                    return True
 
-    def update(tick=60):
+        # User did not click
+        return False   
+
+    def update(tick:int = 240):
         pygame.display.flip()
         pygame.display.update()
         pygame.time.Clock().tick(tick)
 
-    def buffer():
+    def buffer() -> bool:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return True
 
@@ -153,18 +160,18 @@ shared_objects['back'] = item(name='back',
                               type='button',
                               images=pygame_ess.load_images(['shared_objects', 'back']),
                               frame=coord(
-                                    47, 28, 
-                                    162, 67, 
-                                    0, 0 
-                                    ),
+                                        47, 28,
+                                        162, 67,
+                                        0, 0
+                                        ),
                               runclass='back')
             
 shared_objects['info'] = item(name='info',
-                       type='button',
-                       images=pygame_ess.load_images(['shared_objects', 'info']),
-                       frame=coord(
-                            813, 28, 
-                            162, 67, 
-                            814, 0 
-                            ),
-                       runclass='info')
+                            type='button',
+                            images=pygame_ess.load_images(['shared_objects', 'info']),
+                            frame=coord(
+                                        813, 28,
+                                        162, 67,
+                                        814, 0
+                                        ),
+                            runclass='info')

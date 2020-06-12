@@ -48,14 +48,26 @@ class text_data:
 # Storages UI object data #
 ###########################
 class item:
-    def __init__(self, name='name', type='button', meta={}, images=dict(), frame=coord(), hover=False, runclass=None):
+    def __init__(self, name:str = 'name', type:str = 'button', meta:dict = {}, images:dict = {}, frame:coord = coord(), hover_action:bool = None, runclass:bool = None, runclass_parameter = None):
+        # Stores object data
         self.name = name
         self.type = type
         self.meta = meta
         self.images = images
         self.frame = frame
-        self.hover = hover
+        self.hover_action = hover_action
         self.runclass = runclass
+        self.runclass_parameter= runclass_parameter
+
+        # Set to default hover_action if not defined
+        if hover_action == None:
+            if self.type == 'button': self.hover_action = True
+            else: hover_action = False
+
+        # Set to default runclass_parameter if not defined
+        if runclass_parameter == None:
+            if self.type == 'textfield': self.runclass_parameter = True
+            else: self.runclass_parameter = False
 
     def __str__(self):
         return 'meta={} images={} frame={}'.format(self.meta, self.images, self.frame)

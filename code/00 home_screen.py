@@ -28,11 +28,11 @@ pygame.display.set_caption("Cryptography")
 ########################
 page_name = 'cryptography'
 
-cipher_types = {'atbash_cipher':atbash_cipher,
-                'affine_cipher':affine_cipher,
-                'caesar_cipher':caesar_cipher, 
-                'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher, 
-                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher
+cipher_types = {'atbash_cipher':atbash_cipher.run,
+                'affine_cipher':affine_cipher.run,
+                'caesar_cipher':caesar_cipher.run, 
+                'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher.run, 
+                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher.run
                 }
 
 cryptography_objects = dict()
@@ -69,14 +69,13 @@ class cryptography:
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(cryptography_objects)
-            selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
-            
-            if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(cryptography_objects)
-            
-            # Kill page
-            if pygame_ess.buffer(): return True
+            selection_result = pygame_ess.selection_event(cryptography_objects)
+
+            # Load back current screen
+            if selection_result['action_result'] == True: pygame_ess.load_screen(cryptography_objects)
+
+            # Quit program
+            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############

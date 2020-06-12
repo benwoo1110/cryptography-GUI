@@ -47,42 +47,42 @@ affine_cipher_objects['plaintext'] = item(name='plaintext',
                                               632, 62, 
                                               307, 150
                                               ),
-                                          runclass=textfield_event)
+                                          runclass=textfield_event.run)
 
 affine_cipher_objects['a'] = item(name='a',
-                                          type='textfield',
-                                          meta=text_data(
-                                              text='1',
-                                              font_type='Monaco.dfont',
-                                              font_size=34,
-                                              colour=(0,0,0)
-                                              ),
-                                          images=pygame_ess.load_images([page_name, 'a']),
-                                          frame=coord(
-                                              325, 248, 
-                                              160, 62, 
-                                              307, 238
-                                              ),
-                                          runclass=textfield_event)     
+                                type='textfield',
+                                meta=text_data(
+                                    text='1',
+                                    font_type='Monaco.dfont',
+                                    font_size=34,
+                                    colour=(0,0,0)
+                                    ),
+                                images=pygame_ess.load_images([page_name, 'a']),
+                                frame=coord(
+                                    325, 248, 
+                                    160, 62, 
+                                    307, 238
+                                    ),
+                                runclass=textfield_event.run)     
 
 affine_cipher_objects['b'] = item(name='b',
-                                          type='textfield',
-                                          meta=text_data(
-                                              text='2',
-                                              font_type='Monaco.dfont',
-                                              font_size=34,
-                                              colour=(0,0,0)
-                                              ),
-                                          images=pygame_ess.load_images([page_name, 'b']),
-                                          frame=coord(
-                                              569, 247, 
-                                              160, 62, 
-                                              551, 238
-                                              ),
-                                          runclass=textfield_event)   
+                                type='textfield',
+                                meta=text_data(
+                                    text='2',
+                                    font_type='Monaco.dfont',
+                                    font_size=34,
+                                    colour=(0,0,0)
+                                    ),
+                                images=pygame_ess.load_images([page_name, 'b']),
+                                frame=coord(
+                                    569, 247, 
+                                    160, 62, 
+                                    551, 238
+                                    ),
+                                runclass=textfield_event.run)   
 
 affine_cipher_objects['ciphertext'] = item(name='ciphertext',
-                                          type='text',
+                                          type='textfield',
                                           meta=text_data(
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
@@ -104,7 +104,7 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
 class affine_cipher:
     '''Affine Cipher Page'''
 
-    def algorithm():
+    def encrypt():
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
@@ -142,24 +142,27 @@ class affine_cipher:
 
         # Load screen
         pygame_ess.load_screen(affine_cipher_objects)
-        affine_cipher.algorithm()
+        affine_cipher.encrypt()
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection(affine_cipher_objects)
-            selection_result_key, selection_result_value = list(selection_result.keys())[0], list(selection_result.values())[0]
-            
-            # Button pressed
-            if selection_result_key == 'button':
-                if selection_result_value == True: pygame_ess.load_screen(affine_cipher_objects)
-                elif selection_result_value == 'back': return True
-            
-            # Testfield pressed
-            elif selection_result_key == 'textfield':
-                # Update ciphertext
-                affine_cipher.algorithm()
+            selection_result = pygame_ess.selection_event(affine_cipher_objects)
 
-            if pygame_ess.buffer(): return True
+            # Load back current screen
+            if selection_result['action_result'] == True: pygame_ess.load_screen(affine_cipher_objects)
+            
+            # Button press
+            elif selection_result['object_type'] == 'button':
+                # Go back to previous page
+                if selection_result['action_result'] == 'back': return True
+            
+            # Textfield updated
+            elif selection_result['object_type'] == 'textfield':
+                # Update ciphertext
+                affine_cipher.encrypt()
+
+            # Quit program
+            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############
