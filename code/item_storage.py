@@ -3,13 +3,14 @@
 ######################################
 import pygame
 import os
+from validation import validation
 
 
 #######################################
 # Storage images and its cooridinates #
 #######################################
 class coord:
-    def __init__(self, bx=0, by=0, w=0, h=0, ix=0, iy=0):
+    def __init__(self, bx:int = 0, by:int = 0, w:int = 0, h:int = 0, ix:int = 0, iy:int = 0):
         self.bx = bx
         self.by = by
         self.w = w
@@ -27,22 +28,30 @@ class coord:
         return (self.ix, self.iy)
 
     def __str__(self):
-        return 'x:{} y:{} w:{} h:{}'.format(self.bx, self.by, self.w, self.h)
+        return '''
+    bx:{} by:{} 
+    w:{} h:{}
+    ix:{} iy:{} 
+        '''.format(self.bx, self.by, self.w, self.h, self.ix, self.iy)
 
 
 #####################################
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text:str = '', font_type = None, is_custom_font:bool = True, font_size:int = 36, colour:set = (0, 0, 0), validation = None):
+    def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, font_size:int = 36, colour:set = (0, 0, 0), validation:validation = validation.text):
         self.text = text
-        self.font_type = font_type
-        self.is_custom_font = is_custom_font
         self.font_size = font_size
         self.colour = colour
+        self.validation = validation
+
+        # Check if custom font is defined
+        if font_type == '':
+            self.font_type = None
+            self.is_custom_font = False
 
         # Get font file if its custom
-        if is_custom_font:
+        elif is_custom_font:
             # Get font type file
             font_dir = 'font/'+font_type
 
@@ -51,17 +60,28 @@ class text_data:
             
             # Save dir of custom font
             self.font_type = font_dir
+            self.is_custom_font = True
 
     def render_text(self):
         font = pygame.font.Font(self.font_type, self.font_size)
         return font.render(self.text, True, self.colour)
+
+    def __str__(self):
+        return '''
+    text: {}
+    font_type: {}
+    is_custom_font: {}
+    font_size: {}
+    colour: {}
+    validation: {}
+        '''.format(self.text, self.font_type, self.is_custom_font, self.font_size, self.colour, self.validation)
 
 
 ###########################
 # Storages UI object data #
 ###########################
 class item:
-    def __init__(self, name:str = 'name', type:str = 'button', meta:dict = {}, images:dict = {}, frame:coord = coord(), hover_action:bool = None, runclass:bool = None, runclass_parameter = None):
+    def __init__(self, name:str = 'name', type:str = 'button', meta:dict = {}, images:dict = {}, frame:coord = coord(), hover_action:bool = None, runclass = None, runclass_parameter:bool = None):
         # Stores object data
         self.name = name
         self.type = type
@@ -82,8 +102,17 @@ class item:
             if self.type == 'textfield': self.runclass_parameter = True
             else: self.runclass_parameter = False
 
-    def __str__(self):
-        return 'meta={} images={} frame={}'.format(self.meta, self.images, self.frame)
-
     def in_box(self, mouse_pos):
         return self.frame.bx < mouse_pos[0] < self.frame.bx + self.frame.w and self.frame.by < mouse_pos[1] < self.frame.by + self.frame.h 
+
+    def __str__(self):
+        return '''
+name: {}
+type: {}
+meta:{} 
+images: {} 
+frame: {}
+hover_action: {}
+runclass: {}
+runclass_parameter: {}
+        '''.format(self.name, self.type, self.meta, list(self.images.keys()), self.frame, self.hover_action, self.runclass, self.runclass_parameter)
