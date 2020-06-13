@@ -3,6 +3,7 @@
 ######################################
 import pygame
 from pygame_ess import pygame_ess
+import time
 
 
 ##################
@@ -48,35 +49,60 @@ class textfield_event:
 
         textfield_event.update_textfield(textfield_object, True)
 
+        # Variables
+        key_pressed = []
+        time_pressed = 0
+        repeat_interval = 0.7
+
         while True:
             for event in pygame.event.get():
-
                 # if keyboard is pressed
                 if event.type == pygame.KEYDOWN:
 
-                    # remove character
-                    if event.key == pygame.K_BACKSPACE:
-                        textfield_object.meta.text = textfield_object.meta.text[:-1]
-                        textfield_event.update_textfield(textfield_object, True, True)
-                        textfield_event.update_textfield(textfield_object, True)
-
                     # Exit textfield if click return or escape
-                    elif event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
+                    if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
                         textfield_event.update_textfield(textfield_object, False)
                         return textfield_event
 
-                    # Add character
-                    else: 
-                        textfield_object.meta.text += event.unicode
-                        textfield_event.update_textfield(textfield_object, True, True)
-                        textfield_event.update_textfield(textfield_object, True)
+                    # Allow only unicode characters and backspace
+                    elif 32 <= event.key <= 127 or event.key == pygame.K_BACKSPACE:
+                        key_pressed.append(event)
+
+                # Key is released
+                elif event.type == pygame.KEYUP:
+                    # reset key variables
+                    # Variables
+                    for pressed in range(len(key_pressed)):
+                        if key_pressed[pressed].key == event.key:
+                            key_pressed.pop(pressed)
+                            time_pressed = 0
+                            repeat_interval = 1.2
+                            break
 
                 # Exit textfield if click out
-                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos()):
                         textfield_event.update_textfield(textfield_object, False)
                         return textfield_event
 
                 # Quit program
-                if event.type == pygame.QUIT: return 'quit'
+                elif event.type == pygame.QUIT: return 'quit'
+
+
+            # Apply keypress, key repeat based on repeat interval in seconds
+            if key_pressed != [] and time.time() - time_pressed >= repeat_interval:
+                # remove character
+                if key_pressed[-1].key == pygame.K_BACKSPACE:
+                    textfield_object.meta.text = textfield_object.meta.text[:-1]
+                    textfield_event.update_textfield(textfield_object, True, True)
+                    textfield_event.update_textfield(textfield_object, True)
+
+                # Add character
+                else: 
+                    textfield_object.meta.text += key_pressed[-1].unicode
+                    textfield_event.update_textfield(textfield_object, True, True)
+                    textfield_event.update_textfield(textfield_object, True)
+
+                time_pressed = time.time()
+                if repeat_interval > 0.03: repeat_interval /= 3
