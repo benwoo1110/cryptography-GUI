@@ -59,7 +59,7 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
-                                              325, 540, 
+                                              325, 542, 
                                               632, 62, 
                                               307, 533
                                               ),

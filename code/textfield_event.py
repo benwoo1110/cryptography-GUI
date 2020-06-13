@@ -49,10 +49,10 @@ class textfield_event:
 
         textfield_event.update_textfield(textfield_object, True)
 
-        # Variables
+        # Key repeat variables
         key_pressed = []
         time_pressed = 0
-        repeat_interval = 0.7
+        repeat_interval = 0.75
 
         while True:
             for event in pygame.event.get():
@@ -64,8 +64,8 @@ class textfield_event:
                         textfield_event.update_textfield(textfield_object, False)
                         return textfield_event
 
-                    # Allow only unicode characters and backspace
-                    elif 32 <= event.key <= 127 or event.key == pygame.K_BACKSPACE:
+                    # Allow only based on validation defined
+                    elif event.key in textfield_object.meta.validation.chars_allowed:
                         key_pressed.append(event)
 
                 # Key is released
@@ -92,17 +92,23 @@ class textfield_event:
 
             # Apply keypress, key repeat based on repeat interval in seconds
             if key_pressed != [] and time.time() - time_pressed >= repeat_interval:
+
+                new_text = textfield_object.meta.text
+
                 # remove character
-                if key_pressed[-1].key == pygame.K_BACKSPACE:
-                    textfield_object.meta.text = textfield_object.meta.text[:-1]
-                    textfield_event.update_textfield(textfield_object, True, True)
-                    textfield_event.update_textfield(textfield_object, True)
-
+                if key_pressed[-1].key == pygame.K_BACKSPACE: new_text = textfield_object.meta.text[:-1]
+                    
                 # Add character
-                else: 
-                    textfield_object.meta.text += key_pressed[-1].unicode
+                else: new_text += key_pressed[-1].unicode
+
+                # Validate the input
+                if textfield_object.meta.validation.validate(new_text):
+                    # Stores the new_text
+                    textfield_object.meta.text = new_text
+                    # Update textfield
                     textfield_event.update_textfield(textfield_object, True, True)
                     textfield_event.update_textfield(textfield_object, True)
 
+                # Setup for next key repeat
                 time_pressed = time.time()
-                if repeat_interval > 0.03: repeat_interval /= 3
+                if repeat_interval > 0.025: repeat_interval /= 4

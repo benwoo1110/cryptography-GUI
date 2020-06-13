@@ -166,7 +166,7 @@ class polyalphabetic_substitution_cipher:
 
         # Load screen
         pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
-        polyalphabetic_substitution_cipher.algorithm()
+        polyalphabetic_substitution_cipher.encrypt()
 
         while True:
             # Check for selection
