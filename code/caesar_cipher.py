@@ -167,8 +167,11 @@ class caesar_cipher:
             # Check for selection
             selection_result = pygame_ess.selection_event(caesar_cipher_objects)
 
+            # Quit program
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+
             # Load back current screen
-            if selection_result['action_result'] == True: pygame_ess.load_screen(caesar_cipher_objects)
+            elif selection_result['action_result'] == True: pygame_ess.load_screen(caesar_cipher_objects)
             
             # Button press
             elif selection_result['object_type'] == 'button':
@@ -179,9 +182,6 @@ class caesar_cipher:
             elif selection_result['object_type'] == 'textfield':
                 # Update ciphertext
                 caesar_cipher.encrypt()
-
-            # Quit program
-            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############
