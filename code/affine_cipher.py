@@ -5,7 +5,7 @@ import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
-from input_validation import input_validation
+from input_validation import validate
 
 
 ##################
@@ -57,7 +57,7 @@ affine_cipher_objects['a'] = item(name='a',
                                     font_type='Monaco.dfont',
                                     font_size=34,
                                     colour=pygame_ess.colour.black,
-                                    validation=input_validation.digits()
+                                    validation=validate.digits()
                                     ),
                                 images=pygame_ess.load_images([page_name, 'a']),
                                 frame=coord(
@@ -74,7 +74,7 @@ affine_cipher_objects['b'] = item(name='b',
                                     font_type='Monaco.dfont',
                                     font_size=34,
                                     colour=pygame_ess.colour.black,
-                                    validation=input_validation.digits()
+                                    validation=validate.digits()
                                     ),
                                 images=pygame_ess.load_images([page_name, 'b']),
                                 frame=coord(

@@ -3,7 +3,7 @@
 ######################################
 import pygame
 import os
-from input_validation import input_validation
+from input_validation import validate
 
 
 #######################################
@@ -39,7 +39,7 @@ class coord:
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, font_size:int = 36, colour:set = (0, 0, 0), validation:input_validation = input_validation.text()):
+    def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, font_size:int = 36, colour:set = (0, 0, 0), validation:validate = validate.text()):
         self.text = text
         self.font_size = font_size
         self.colour = colour

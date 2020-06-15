@@ -101,8 +101,8 @@ class textfield_event:
                 # Add character
                 else: new_text += key_pressed[-1].unicode
 
-                # Validate the input
-                if textfield_object.meta.validation.validate(new_text):
+                # Do not exceed max length
+                if len(new_text) <= textfield_object.meta.validation.max_length:
                     # Stores the new_text
                     textfield_object.meta.text = new_text
                     # Update textfield

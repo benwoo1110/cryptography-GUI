@@ -1,4 +1,4 @@
-class input_validation:
+class validate:
 
     class text:
         def __init__(self, max_length:int = 30, chars_allowed:list = None, use_ascii:bool = True):
@@ -12,20 +12,24 @@ class input_validation:
                 self.chars_allowed = list(range(32,65)) + list(range(91,127)) + [8]
 
 
-        def validate(self, text):
+        def check(self, text):
             # Check if text exceed max length
             if len(text) > self.max_length: return False
 
             # Check if each char in chars_allowed
             for char in text.lower():
-                if ord(char) not in self.chars_allowed: return False
+                if self.use_ascii:
+                    if ord(char) not in self.chars_allowed: return False
+                else:
+                    if char not in self.chars_allowed: return False
                 
             # If check is all satisfied
             return True
 
 
     class digits:
-        def __init__(self, chars_allowed:list = None, min_num:float = 0, max_num:float = 999999,  use_ascii:bool = True, is_float:bool = False):
+        def __init__(self, max_length:int = 6, chars_allowed:list = None, min_num:float = 0, max_num:float = 999999,  use_ascii:bool = True, is_float:bool = False):
+            self.max_length = max_length
             self.chars_allowed = chars_allowed
             self.min_num = min_num
             self.max_num = max_num
@@ -38,12 +42,16 @@ class input_validation:
                 self.chars_allowed = list(range(48,58)) + [8]
                 # Add . if number is float
                 if is_float: self.chars_allowed.append(46)
-
+                # Add - if min_num can be negative
+                if min_num < 0: self.chars_allowed.append(45)
 
         def num_range(self):
             return range(self.min_num, self.max_num+1)
 
-        def validate(self, number):
+        def check(self, number):
+            # Check if doesnt exceed max_length
+            if len(number) > self.max_length: return False
+
             # Check if its a float
             if self.is_float:
                 try: check_number = int(number)
