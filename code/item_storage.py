@@ -132,7 +132,7 @@ class surface:
         window = pygame.surface.Surface((frame.w, frame.h))
 
         # Fill surface with default colour
-        window.fill(pygame_ess.colour.gray)
+        window.fill((43, 43, 43))
 
         # Load objects to window
         for window_object in window_objects.values():
