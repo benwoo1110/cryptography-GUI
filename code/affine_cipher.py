@@ -101,6 +101,13 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
+###################
+# Generate window #
+###################
+affine_cipher_window = surface(affine_cipher_objects)
+print(affine_cipher_window.frame.by)
+
+
 ######################
 # Affine Cipher Page #
 ######################
@@ -136,7 +143,7 @@ class affine_cipher:
         affine_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield(affine_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(affine_cipher_window, affine_cipher_objects['ciphertext'], False)
 
         return ciphertext
 
@@ -144,19 +151,19 @@ class affine_cipher:
         '''Display Affine Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(affine_cipher_objects)
         affine_cipher.encrypt()
+        pygame_ess.load_screen(affine_cipher_window)
+        print('load affine_cipher_window')
+        print(affine_cipher_window.frame.by)
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(affine_cipher_objects)
+            selection_result = pygame_ess.selection_event(affine_cipher_window, affine_cipher_objects)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(affine_cipher_window): 
+                return 'quit'
 
-            # Load back current screen
-            elif selection_result['action_result'] == True: pygame_ess.load_screen(affine_cipher_objects)
-            
             # Button press
             elif selection_result['object_type'] == 'button':
                 # Go back to previous page
@@ -166,9 +173,6 @@ class affine_cipher:
             elif selection_result['object_type'] == 'textfield':
                 # Update ciphertext
                 affine_cipher.encrypt()
-
-            # Quit program
-            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############

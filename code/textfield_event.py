@@ -10,11 +10,7 @@ import time
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 #################################################
@@ -23,31 +19,33 @@ window = pygame.surface.Surface((window_size))
 class textfield_event:
     '''Handles textfield objects and keyboard input'''
 
-    def update_textfield(textfield_object, selected=True, backspace=False):
+    def update_textfield(window, textfield_object, selected=True, backspace=False):
         '''Update the text displayed on screen'''
+        
+        Window = window.Window
 
         # textfield is selected
         if selected: 
-            screen.blit(textfield_object.images['textfield_selected'], (textfield_object.frame.image_coord()))
+            Window.blit(textfield_object.images['textfield_selected'], (textfield_object.frame.image_coord()))
             if not backspace: textfield_object.meta.text += '_'
         
         # textfield not selected
-        else: screen.blit(textfield_object.images['textfield'], (textfield_object.frame.image_coord()))
+        else: Window.blit(textfield_object.images['textfield'], (textfield_object.frame.image_coord()))
 
         # Render the text
-        screen.blit(textfield_object.meta.render_text(), textfield_object.frame.box_coord())
+        Window.blit(textfield_object.meta.render_text(), textfield_object.frame.box_coord())
 
         # Remove the '_'
         if selected and not backspace: textfield_object.meta.text = textfield_object.meta.text[:-1]
 
         # Output to screen
-        pygame_ess.update()
+        pygame_ess.load_screen(window)
 
 
-    def run(textfield_object):
+    def run(window, textfield_object):
         '''keyboard input'''
 
-        textfield_event.update_textfield(textfield_object, True)
+        textfield_event.update_textfield(window, textfield_object, True)
 
         # Key repeat variables
         key_pressed = []
@@ -61,8 +59,8 @@ class textfield_event:
 
                     # Exit textfield if click return or escape
                     if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
-                        textfield_event.update_textfield(textfield_object, False)
-                        return textfield_event
+                        textfield_event.update_textfield(window, textfield_object, False)
+                        return textfield_object.meta.text
 
                     # Allow only based on validation defined
                     elif event.key in textfield_object.meta.validation.chars_allowed:
@@ -83,12 +81,14 @@ class textfield_event:
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos()):
-                        textfield_event.update_textfield(textfield_object, False)
-                        return textfield_event
+                        textfield_event.update_textfield(window, textfield_object, False)
+                        return textfield_object.meta.text
 
                 # Quit program
                 elif event.type == pygame.QUIT: return 'quit'
 
+                # check for Scroll
+                pygame_ess.scroll_event(window, event)
 
             # Apply keypress, key repeat based on repeat interval in seconds
             if key_pressed != [] and time.time() - time_pressed >= repeat_interval:
@@ -106,8 +106,8 @@ class textfield_event:
                     # Stores the new_text
                     textfield_object.meta.text = new_text
                     # Update textfield
-                    textfield_event.update_textfield(textfield_object, True, True)
-                    textfield_event.update_textfield(textfield_object, True)
+                    textfield_event.update_textfield(window, textfield_object, True, True)
+                    textfield_event.update_textfield(window, textfield_object, True)
 
                 # Setup for next key repeat
                 time_pressed = time.time()

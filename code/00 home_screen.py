@@ -15,11 +15,7 @@ from polyalphabetic_substitution_cipher import polyalphabetic_substitution_ciphe
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 pygame.display.set_caption("Cryptography")
 
 
@@ -55,6 +51,12 @@ for cipher_type in cipher_types.keys():
                                              runclass=cipher_types[cipher_type])
 
 
+###################
+# Generate window #
+###################
+cryptography_window = surface(cryptography_objects, frame=coord(0, 0, 1024, 1000))
+
+
 #############
 # Home Page #
 #############
@@ -65,17 +67,15 @@ class cryptography:
         '''Display cryptography home page'''
 
         # Load the screen
-        pygame_ess.load_screen(cryptography_objects)
+        pygame_ess.load_screen(cryptography_window)
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(cryptography_objects)
-
-            # Load back current screen
-            if selection_result['action_result'] == True: pygame_ess.load_screen(cryptography_objects)
+            selection_result = pygame_ess.selection_event(cryptography_window, cryptography_objects)
 
             # Quit program
-            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(cryptography_window): 
+                return 'quit'
 
 
 #############

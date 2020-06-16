@@ -5,6 +5,7 @@ import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
+from input_validation import validate
 
 
 ##################
@@ -55,7 +56,8 @@ caesar_cipher_objects['key'] = item(name='key',
                                               text='1',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.digits()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
@@ -114,6 +116,12 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
+###################
+# Generate window #
+###################
+caesar_cipher_window = surface(caesar_cipher_objects)
+
+
 ######################
 # Caesar Cipher Page #
 ######################
@@ -151,8 +159,8 @@ class caesar_cipher:
         caesar_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Print data to screen
-        textfield_event.update_textfield(caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(caesar_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['replaced'], False)
+        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['ciphertext'], False)
 
         return ciphertext
     
@@ -160,19 +168,17 @@ class caesar_cipher:
         '''Display Caesar Cipher Page'''
         
         # Load the screen
-        pygame_ess.load_screen( caesar_cipher_objects)
+        pygame_ess.load_screen(caesar_cipher_window)
         caesar_cipher.encrypt()
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(caesar_cipher_objects)
+            selection_result = pygame_ess.selection_event(caesar_cipher_window, caesar_cipher_objects)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(caesar_cipher_window): 
+                return 'quit'
 
-            # Load back current screen
-            elif selection_result['action_result'] == True: pygame_ess.load_screen(caesar_cipher_objects)
-            
             # Button press
             elif selection_result['object_type'] == 'button':
                 # Go back to previous page

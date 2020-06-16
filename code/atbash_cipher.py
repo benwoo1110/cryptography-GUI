@@ -15,7 +15,6 @@ pygame.init()
 # Set up the drawing window
 window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 #########################
@@ -66,6 +65,12 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           runclass='')
 
 
+###################
+# Generate window #
+###################
+atbash_cipher_window = surface(atbash_cipher_objects)
+
+
 ######################
 # Atbash Cipher Page #
 ######################
@@ -94,7 +99,7 @@ class atbash_cipher:
 
         # Output to screen
         atbash_cipher_objects['ciphertext'].meta.text = ciphertext
-        textfield_event.update_textfield(atbash_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(atbash_cipher_window, atbash_cipher_objects['ciphertext'], False)
 
         return ciphertext
 
@@ -102,19 +107,16 @@ class atbash_cipher:
         '''Display Atbash Cipher Page'''
 
         # Load the screen
-        pygame_ess.load_screen(atbash_cipher_objects)
         atbash_cipher.encrypt()
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(atbash_cipher_objects)
+            selection_result = pygame_ess.selection_event(atbash_cipher_window, atbash_cipher_objects)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(atbash_cipher_window): 
+                return 'quit'
 
-            # Load back current screen
-            elif selection_result['action_result'] == True: pygame_ess.load_screen(atbash_cipher_objects)
-            
             # Button press
             elif selection_result['object_type'] == 'button':
                 # Go back to previous page
@@ -124,9 +126,6 @@ class atbash_cipher:
             elif selection_result['object_type'] == 'textfield':
                 # Update ciphertext
                 atbash_cipher.encrypt()
-
-            # Quit program
-            elif selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
 
 
 #############

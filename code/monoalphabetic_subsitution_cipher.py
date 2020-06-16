@@ -111,6 +111,12 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                           runclass='')
 
 
+###################
+# Generate window #
+###################
+monoalphabetic_subsitution_cipher_window = surface(monoalphabetic_subsitution_cipher_objects)
+
+
 ##########################################
 # Monoalphabetic Subsitution Cipher Page #
 ##########################################
@@ -126,7 +132,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
         # Update key text        
-        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_objects['key'], selected=False)
+        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
         
         # Update the ciphertext
         monoalphabetic_subsitution_cipher.encrypt()
@@ -152,24 +158,22 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield( monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
+        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
     
     def run():
         '''Display Monoalphabetic Subsitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(monoalphabetic_subsitution_cipher_objects)
+        pygame_ess.load_screen(monoalphabetic_subsitution_cipher_window)
         monoalphabetic_subsitution_cipher.shuffle()
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_objects)
+            selection_result = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
-            
-            # Load back current screen
-            elif selection_result['action_result'] == True: pygame_ess.load_screen(monoalphabetic_subsitution_cipher_objects)
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(monoalphabetic_subsitution_cipher_window): 
+                return 'quit'
             
             # Button press
             elif selection_result['object_type'] == 'button':

@@ -115,6 +115,12 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                           runclass='')
 
 
+###################
+# Generate window #
+###################
+polyalphabetic_substitution_cipher_window = surface(polyalphabetic_substitution_cipher_objects)
+
+
 ###########################################
 # Polyalphabetic Substitution Cipher Page #
 ###########################################
@@ -157,7 +163,7 @@ class polyalphabetic_substitution_cipher:
 
         # Output to screen
         for text in ['text', 'key', 'ciphertext']:
-            textfield_event.update_textfield(polyalphabetic_substitution_cipher_objects[text], False)
+            textfield_event.update_textfield(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects[text], False)
 
         return ciphertext
 
@@ -165,18 +171,16 @@ class polyalphabetic_substitution_cipher:
         '''Polyalphabetic Substitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
+        pygame_ess.load_screen(polyalphabetic_substitution_cipher_window)
         polyalphabetic_substitution_cipher.encrypt()
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(polyalphabetic_substitution_cipher_objects)
+            selection_result = pygame_ess.selection_event(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(): return 'quit'
-            
-            # Load back current screen
-            elif selection_result['action_result'] == True: pygame_ess.load_screen(polyalphabetic_substitution_cipher_objects)
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(polyalphabetic_substitution_cipher_window): 
+                return 'quit'
             
             # Button press
             elif selection_result['object_type'] == 'button':

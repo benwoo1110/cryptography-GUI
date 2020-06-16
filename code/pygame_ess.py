@@ -12,11 +12,7 @@ import traceback
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 ########################
@@ -25,16 +21,25 @@ window = pygame.surface.Surface((window_size))
 class pygame_ess:
     '''Essentials functions and variables for pygame'''
 
-    # Shared / common variables
+
+    #############################
+    # Shared / common variables #
+    #############################
     alphabet = 'ABCDDEFHIJKLMNOPQRSTUVWXYZ'
 
+    # Common defined colours
     class colour:
         '''Colour types in RGB form'''
         black = (0, 0, 0)
         white = (255, 255, 255)
         red = (255, 0, 0)
+        gray = (43, 43, 43)
     
-    def load_images(image_page:list, file_type:str = '.png'):
+
+    ###############
+    # Load events #
+    ###############
+    def load_images(image_page:list, file_type:str = '.png', is_alpha:bool = False):
         # Define variables
         images = dict()
         image_dir = 'images/{}/'.format('/'.join(image_page))
@@ -48,76 +53,91 @@ class pygame_ess:
         # Load them into pygame
         for image in image_dir_list:
             image_name = image.split('/')[-1].split('\\')[-1].split('.')[0]
-            images[image_name] = pygame.image.load(image).convert()
+            if is_alpha: images[image_name] = pygame.image.load(image).convert_alpha()
+            else: images[image_name] = pygame.image.load(image).convert()
 
         return images
 
-    def load_essential_objects(objects:dict(), page_name:str, shares:list = [], background:bool = True):
+    def load_essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True):
+        # Load background
         if background:
-            objects['background'] = item(name='cryptography background', 
-                                                type='background', 
-                                                images=pygame_ess.load_images([page_name]))
+            objects['background'] = item(name=page_name+' background', 
+                                        type='background', 
+                                        images=pygame_ess.load_images([page_name]),
+                                        frame=coord(
+                                                0, 0,
+                                                1024, 768,
+                                                0, 0
+                                                )
+                                        )
 
+        # Load common shred objects needed
         for share in shares:
             try: objects[share] = shared_objects[share]
             except: print('Object {} not founded.'.format(share))
 
         return objects
 
-    def load_screen(screen_objects):
-        # Load all items
-        for screen_object in screen_objects.values():
-            # Load image of item
-            screen.blit(screen_object.images[screen_object.type], screen_object.frame.image_coord())
+    def load_screen(window:surface):
+        # Ouput window to screen
+        screen.blit(window.Window, (window.frame.bx, window.frame.by))
 
-            # Load text for textfield objects
-            if screen_object.type == 'textfield':
-                screen.blit(screen_object.meta.render_text(), screen_object.frame.box_coord())
-
-        # Output to screen
+        # Draw to screen
         pygame_ess.update()
 
-    def selection_event(selection_objects) -> dict:
+
+    #####################
+    # Interaction event #
+    #####################
+    def selection_event(window, selection_objects:dict) -> dict:
         selection_result = {'object_type':'', 'object_name':'', 'action_result':''}
+        Window = window.Window
 
         for selection_object in selection_objects.values():
         
             # Skip selection check if runclass is empty
-            if not ( type(selection_object.runclass) == str and selection_object.runclass.strip() == '' ): 
+            if selection_object.runclass != None: 
 
                 # Check if mouse in selection object box
                 mouse_hover_over_object  = False
-                while selection_object.in_box(pygame.mouse.get_pos()):
-
+                while selection_object.in_box(pygame.mouse.get_pos(), window.frame.by):
                     # Change to hover type
                     if selection_object.hover_action and not mouse_hover_over_object:
-                        screen.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
+                        Window.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
                         mouse_hover_over_object = True
-                        pygame_ess.update()
+                        pygame_ess.load_screen(window)
 
                     # Run click event
-                    click_result = pygame_ess.click_event(selection_object) 
+                    click_result = pygame_ess.click_event(window, selection_object) 
 
                     # If clicked on object
                     if click_result != False: 
+                        # Remove mouse hover
+                        if mouse_hover_over_object:
+                            Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
+                        
+                        # Load back previous screen
+                        if click_result == True: 
+                            pygame_ess.load_screen(window)
+
                         # Stores click_result
                         selection_result['object_type'] = selection_object.type
                         selection_result['object_name'] = selection_object.name
                         selection_result['action_result'] = click_result
+
                         # Return data of click result
                         print(selection_result)
                         return selection_result
 
                 # Moved out of hitbox
                 if mouse_hover_over_object:
-                    screen.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
-                    selection_object.hover = False
-                    pygame_ess.update()
+                    Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
+                    pygame_ess.load_screen(window)
 
         # No selections/clicks were made
         return selection_result
 
-    def click_event(selection_object):
+    def click_event(window, selection_object):
         for event in pygame.event.get():                
             # Check for left click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -129,7 +149,7 @@ class pygame_ess:
                 # Load new screen
                 try: 
                     # Use selection_object as parameter
-                    if selection_object.runclass_parameter == True: return selection_object.runclass(selection_object)
+                    if selection_object.runclass_parameter == True: return selection_object.runclass(window, selection_object)
                     # No parameter needed
                     elif selection_object.runclass_parameter == False: return selection_object.runclass()
                     # Use custom parameter
@@ -141,17 +161,36 @@ class pygame_ess:
                     traceback.print_exc()
                     return True
 
-        # User did not click
-        return False   
+            pygame_ess.scroll_event(window, event)
 
+        # User did not click
+        return False  
+
+    def scroll_event(window, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Scroll up
+            if event.button == 4:
+                window.frame.by = min(window.frame.by + 35, 0)
+                pygame_ess.load_screen(window)
+
+            # Scroll down
+            elif event.button == 5:
+                window.frame.by = max(window.frame.by - 35, min(768 - window.frame.h, 0))
+                pygame_ess.load_screen(window)
+
+
+    ########################
+    # Other core functions #
+    ########################
     def update(tick:int = 60):
         pygame.display.flip()
         pygame.display.update()
         pygame.time.Clock().tick(tick)
 
-    def buffer() -> bool:
+    def buffer(window) -> bool:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return True
+            pygame_ess.scroll_event(window, event)
 
     def quit():
         print('Exiting program...')
