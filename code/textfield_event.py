@@ -42,7 +42,7 @@ class textfield_event:
         pygame_ess.load_screen(window)
 
 
-    def run(window, textfield_object):
+    def run(window, textfield_object) -> str:
         '''keyboard input'''
 
         textfield_event.update_textfield(window, textfield_object, True)

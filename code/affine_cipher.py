@@ -12,18 +12,14 @@ from input_validation import validate
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 #########################
 # Variables declaration #
 #########################
-page_name = 'affine_cipher'
-affine_cipher_objects = dict()
+page_name:str = 'affine_cipher'
+affine_cipher_objects:dict = dict()
 
 
 ##############################
@@ -104,8 +100,7 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-affine_cipher_window = surface(affine_cipher_objects)
-print(affine_cipher_window.frame.by)
+affine_cipher_window:surface = surface(affine_cipher_objects)
 
 
 ######################
@@ -114,14 +109,14 @@ print(affine_cipher_window.frame.by)
 class affine_cipher:
     '''Affine Cipher Page'''
 
-    def encrypt():
+    def encrypt() -> str:
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
         try:
-            plaintext = str(affine_cipher_objects['plaintext'].meta.text)
-            a = int(affine_cipher_objects['a'].meta.text)
-            b = int(affine_cipher_objects['b'].meta.text)
+            plaintext:str = str(affine_cipher_objects['plaintext'].meta.text)
+            a:int = int(affine_cipher_objects['a'].meta.text)
+            b:int = int(affine_cipher_objects['b'].meta.text)
         except:
             print('type error.')
             return
@@ -130,10 +125,10 @@ class affine_cipher:
         alphabet = pygame_ess.alphabet
 
         # Calculate ciphertext
-        ciphertext = ''
+        ciphertext:str = ''
         for char in plaintext:
             if char.isalpha():
-                cipherchar = alphabet[ (a * alphabet.find(char.upper()) + b) % 26 ]
+                cipherchar:str = alphabet[ (a * alphabet.find(char.upper()) + b) % 26 ]
                 if char.islower(): cipherchar = cipherchar.lower()
                 ciphertext += cipherchar
 
@@ -153,12 +148,10 @@ class affine_cipher:
         # Load screen
         affine_cipher.encrypt()
         pygame_ess.load_screen(affine_cipher_window)
-        print('load affine_cipher_window')
-        print(affine_cipher_window.frame.by)
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(affine_cipher_window, affine_cipher_objects)
+            selection_result:dict = pygame_ess.selection_event(affine_cipher_window, affine_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(affine_cipher_window): 

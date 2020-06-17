@@ -16,22 +16,22 @@ from polyalphabetic_substitution_cipher import polyalphabetic_substitution_ciphe
 ##################
 pygame.init()
 screen = pygame.display.set_mode((1024, 768))
-pygame.display.set_caption("Cryptography")
+pygame.display.set_caption("Cryptography GUI")
 
 
 ########################
 # Variables declaration #
 ########################
-page_name = 'cryptography'
+page_name:str = 'cryptography'
 
-cipher_types = {'atbash_cipher':atbash_cipher.run,
+cipher_types:dict = {'atbash_cipher':atbash_cipher.run,
                 'affine_cipher':affine_cipher.run,
                 'caesar_cipher':caesar_cipher.run, 
                 'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher.run, 
                 'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher.run
                 }
 
-cryptography_objects = dict()
+cryptography_objects:dict = dict()
 
 
 ############################
@@ -54,7 +54,7 @@ for cipher_type in cipher_types.keys():
 ###################
 # Generate window #
 ###################
-cryptography_window = surface(cryptography_objects, frame=coord(0, 0, 1024, 1000))
+cryptography_window:surface = surface(cryptography_objects, frame=coord(0, 0, 1024, 1000))
 
 
 #############
@@ -71,7 +71,7 @@ class cryptography:
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(cryptography_window, cryptography_objects)
+            selection_result:dict = pygame_ess.selection_event(cryptography_window, cryptography_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(cryptography_window): 

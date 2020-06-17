@@ -11,17 +11,14 @@ from textfield_event import textfield_event
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
-page_name = 'atbash_cipher'
-atbash_cipher_objects = dict()
+page_name:str = 'atbash_cipher'
+atbash_cipher_objects:dict = dict()
 
 
 ##############################
@@ -68,7 +65,7 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-atbash_cipher_window = surface(atbash_cipher_objects)
+atbash_cipher_window:surface = surface(atbash_cipher_objects)
 
 
 ######################
@@ -77,21 +74,21 @@ atbash_cipher_window = surface(atbash_cipher_objects)
 class atbash_cipher:
     '''Atbash Cipher Page'''
 
-    def encrypt():
+    def encrypt() -> str:
         ''' Encrypt plaintext'''
 
         # Get plaintext
-        plaintext = atbash_cipher_objects['plaintext'].meta.text
+        plaintext:str = atbash_cipher_objects['plaintext'].meta.text
 
         # Variables
         alphabet = pygame_ess.alphabet
         replace = alphabet[::-1]
 
         # Calculate ciphertext
-        ciphertext = ''
+        ciphertext:str = ''
         for char in plaintext:
             if char.isalpha():
-                cipherchar = replace[alphabet.find(char.upper())]
+                cipherchar:str = replace[alphabet.find(char.upper())]
                 if char.islower(): cipherchar = cipherchar.lower()
                 ciphertext += cipherchar
 
@@ -111,7 +108,7 @@ class atbash_cipher:
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(atbash_cipher_window, atbash_cipher_objects)
+            selection_result:dict = pygame_ess.selection_event(atbash_cipher_window, atbash_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(atbash_cipher_window): 

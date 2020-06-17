@@ -11,18 +11,18 @@ from input_validation import validate
 #######################################
 class coord:
     def __init__(self, bx:int = 0, by:int = 0, w:int = 0, h:int = 0, ix:int = 0, iy:int = 0):
-        self.bx = bx
-        self.by = by
-        self.w = w
-        self.h = h
-        self.ix = ix
-        self.iy = iy
+        self.bx:int = bx
+        self.by:int = by
+        self.w:int = w
+        self.h:int = h
+        self.ix:int = ix
+        self.iy:int = iy
 
-    def box_size(self): return (self.w, self.h)
+    def box_size(self) -> tuple: return (self.w, self.h)
 
-    def box_coord(self): return (self.bx, self.by)
+    def box_coord(self) -> tuple: return (self.bx, self.by)
     
-    def image_coord(self): return (self.ix, self.iy)
+    def image_coord(self) -> tuple: return (self.ix, self.iy)
 
     def __str__(self):
         return '''
@@ -38,10 +38,10 @@ class coord:
 class text_data:
     def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, 
     font_size:int = 36, colour:set = (0, 0, 0), validation:validate = validate.text()):
-        self.text = text
-        self.font_size = font_size
-        self.colour = colour
-        self.validation = validation
+        self.text:str = text
+        self.font_size:int = font_size
+        self.colour:tuple = colour
+        self.validation:validate = validation
 
         # Check if custom font is defined
         if font_type == '':
@@ -51,7 +51,7 @@ class text_data:
         # Get font file if its custom
         elif is_custom_font:
             # Get font type file
-            font_dir = 'font/'+font_type
+            font_dir:str = 'font/'+font_type
 
             # If in code directory and not root, go back a step
             if os.path.basename(os.getcwd()) == 'code': font_dir = '../' + font_dir
@@ -79,17 +79,17 @@ class text_data:
 # Storages UI object data #
 ###########################
 class item:
-    def __init__(self, name:str = 'name', type:str = 'button', meta:dict = {}, images:dict = {}, 
-    frame:coord = coord(), hover_action:bool = None, runclass = None, runclass_parameter:bool = None):
+    def __init__(self, name:str = 'name', type:str = 'button', meta:any = None, images:dict = {}, 
+    frame:coord = coord(), hover_action:bool = None, runclass:any = None, runclass_parameter:bool = None):
         # Stores object data
-        self.name = name
-        self.type = type
-        self.meta = meta
-        self.images = images
-        self.frame = frame
-        self.hover_action = hover_action
-        self.runclass = runclass
-        self.runclass_parameter = runclass_parameter
+        self.name:str = name
+        self.type:str = type
+        self.meta:any = meta
+        self.images:dict = images
+        self.frame:coord = frame
+        self.hover_action:bool = hover_action
+        self.runclass:any = runclass
+        self.runclass_parameter:bool = runclass_parameter
 
         # Set to default hover_action if not defined
         if hover_action == None:
@@ -143,5 +143,5 @@ class surface:
             if window_object.type == 'textfield':
                 window.blit(window_object.meta.render_text(), window_object.frame.box_coord())
 
-        self.Window = window
-        self.frame = frame
+        self.Window:pygame.surface.Surface = window
+        self.frame:coord = frame

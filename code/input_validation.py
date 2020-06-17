@@ -2,9 +2,9 @@ class validate:
 
     class text:
         def __init__(self, max_length:int = 30, chars_allowed:list = None, use_ascii:bool = True):
-            self.max_length = max_length
-            self.chars_allowed = chars_allowed
-            self.use_ascii = use_ascii
+            self.max_length:int = max_length
+            self.chars_allowed:list = chars_allowed
+            self.use_ascii:bool = use_ascii
 
             # Use default text
             if chars_allowed == None:
@@ -12,7 +12,7 @@ class validate:
                 self.chars_allowed = list(range(32,65)) + list(range(91,127)) + [8]
 
 
-        def check(self, text):
+        def check(self, text:str) -> bool:
             # Check if text exceed max length
             if len(text) > self.max_length: return False
 
@@ -29,12 +29,12 @@ class validate:
 
     class digits:
         def __init__(self, max_length:int = 6, chars_allowed:list = None, min_num:float = 0, max_num:float = 999999,  use_ascii:bool = True, is_float:bool = False):
-            self.max_length = max_length
-            self.chars_allowed = chars_allowed
-            self.min_num = min_num
-            self.max_num = max_num
-            self.use_ascii = use_ascii
-            self.is_float = is_float
+            self.max_length:int = max_length
+            self.chars_allowed:list = chars_allowed
+            self.min_num:float = min_num
+            self.max_num:float = max_num
+            self.use_ascii:bool = use_ascii
+            self.is_float:bool = is_float
 
             # Use default numbers
             if chars_allowed == None:
@@ -45,10 +45,10 @@ class validate:
                 # Add - if min_num can be negative
                 if min_num < 0: self.chars_allowed.append(45)
 
-        def num_range(self):
+        def num_range(self) -> range:
             return range(self.min_num, self.max_num+1)
 
-        def check(self, number):
+        def check(self, number:str) -> bool:
             # Check if doesnt exceed max_length
             if len(number) > self.max_length: return False
 

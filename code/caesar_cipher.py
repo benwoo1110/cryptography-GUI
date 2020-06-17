@@ -12,18 +12,14 @@ from input_validation import validate
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 #########################
 # Variables declaration #
 #########################
-page_name = 'caesar_cipher'
-caesar_cipher_objects = dict()
+page_name:str = 'caesar_cipher'
+caesar_cipher_objects:dict = dict()
 
 
 ##############################
@@ -119,7 +115,7 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-caesar_cipher_window = surface(caesar_cipher_objects)
+caesar_cipher_window:surface = surface(caesar_cipher_objects)
 
 
 ######################
@@ -128,13 +124,13 @@ caesar_cipher_window = surface(caesar_cipher_objects)
 class caesar_cipher:
     '''Caesar Cipher Page'''
 
-    def encrypt():
+    def encrypt() -> str:
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
         try: 
-            plaintext = str(caesar_cipher_objects['plaintext'].meta.text)
-            key = int(caesar_cipher_objects['key'].meta.text)
+            plaintext:str = str(caesar_cipher_objects['plaintext'].meta.text)
+            key:int = int(caesar_cipher_objects['key'].meta.text)
         except:
             print('type error')
             return
@@ -144,12 +140,12 @@ class caesar_cipher:
         
         caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'
        
-        ciphertext = ''
+        ciphertext:str = ''
 
         # Convert to ciphertext
         for char in plaintext:
             if char.isalpha():
-                cipherchar = replaced[alphablet.index(char.upper())]
+                cipherchar:str = replaced[alphablet.index(char.upper())]
                 if not char.isupper(): cipherchar = cipherchar.lower()
                 ciphertext += cipherchar
 
@@ -173,7 +169,7 @@ class caesar_cipher:
          
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(caesar_cipher_window, caesar_cipher_objects)
+            selection_result:dict = pygame_ess.selection_event(caesar_cipher_window, caesar_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(caesar_cipher_window): 

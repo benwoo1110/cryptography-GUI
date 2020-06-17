@@ -11,19 +11,15 @@ from textfield_event import textfield_event
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
 
 
 #########################
 # Variables declaration #
 #########################
-page_name = 'polyalphabetic_substitution_cipher'
-button_types = {'back':'back', 'info':''}
-polyalphabetic_substitution_cipher_objects = dict()
+page_name:str = 'polyalphabetic_substitution_cipher'
+button_types:dict = {'back':'back', 'info':''}
+polyalphabetic_substitution_cipher_objects:dict = dict()
 
 
 ##############################
@@ -118,7 +114,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
 ###################
 # Generate window #
 ###################
-polyalphabetic_substitution_cipher_window = surface(polyalphabetic_substitution_cipher_objects)
+polyalphabetic_substitution_cipher_window:surface = surface(polyalphabetic_substitution_cipher_objects)
 
 
 ###########################################
@@ -127,32 +123,32 @@ polyalphabetic_substitution_cipher_window = surface(polyalphabetic_substitution_
 class polyalphabetic_substitution_cipher:
     '''Polyalphabetic Substitution Cipher Page'''
 
-    def encrypt():
+    def encrypt() -> str:
         ''' Encrypt plaintext'''
 
         # Get keyword and plaintext
-        keyword = polyalphabetic_substitution_cipher_objects['keyword'].meta.text
-        plaintext = polyalphabetic_substitution_cipher_objects['plaintext'].meta.text
+        keyword:str = polyalphabetic_substitution_cipher_objects['keyword'].meta.text
+        plaintext:str = polyalphabetic_substitution_cipher_objects['plaintext'].meta.text
 
         # Variables
-        alphabet = alphabet = pygame_ess.alphabet
+        alphabet:str = pygame_ess.alphabet
         
         # Update text
         polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
 
         # Generate key
-        plaintext_length = len(plaintext)
-        keyword_length = len(keyword)
-        key = keyword.upper() * (plaintext_length//keyword_length) + keyword.upper()[:plaintext_length%keyword_length]
+        plaintext_length:int = len(plaintext)
+        keyword_length:int = len(keyword)
+        key:str = keyword.upper() * (plaintext_length//keyword_length) + keyword.upper()[:plaintext_length%keyword_length]
 
         # Stores key
         polyalphabetic_substitution_cipher_objects['key'].meta.text = key
 
         # Calculate ciphertext
-        ciphertext = ''
+        ciphertext:str = ''
         for char in range(plaintext_length):
             if plaintext[char].isalpha():
-                cipherchar = alphabet[ ( alphabet.find(plaintext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
+                cipherchar:str = alphabet[ ( alphabet.find(plaintext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
                 if plaintext[char].islower(): cipherchar = cipherchar.lower()
                 ciphertext += cipherchar
 
@@ -176,7 +172,7 @@ class polyalphabetic_substitution_cipher:
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
+            selection_result:dict = pygame_ess.selection_event(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(polyalphabetic_substitution_cipher_window): 

@@ -12,19 +12,14 @@ import random
 # Initialization #
 ##################
 pygame.init()
-
-# Set up the drawing window
-window_size = (1024, 768)
 screen = pygame.display.set_mode((1024, 768))
-window = pygame.surface.Surface((window_size))
-
 
 #########################
 # Variables declaration #
 #########################
-page_name = 'monoalphabetic_subsitution_cipher'
-button_types = {'back':'back', 'info':''}
-monoalphabetic_subsitution_cipher_objects = dict()
+page_name:str = 'monoalphabetic_subsitution_cipher'
+button_types:dict = {'back':'back', 'info':''}
+monoalphabetic_subsitution_cipher_objects:dict = dict()
 
 
 ##############################
@@ -114,7 +109,7 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
 ###################
 # Generate window #
 ###################
-monoalphabetic_subsitution_cipher_window = surface(monoalphabetic_subsitution_cipher_objects)
+monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects)
 
 
 ##########################################
@@ -127,7 +122,7 @@ class monoalphabetic_subsitution_cipher:
         ''' Encrypt plaintext'''
 
         # Shuffle the key
-        shuffled_alphabet = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        shuffled_alphabet:list = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
         random.shuffle(shuffled_alphabet)
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
@@ -137,17 +132,17 @@ class monoalphabetic_subsitution_cipher:
         # Update the ciphertext
         monoalphabetic_subsitution_cipher.encrypt()
 
-    def encrypt():
+    def encrypt() -> str:
         # Get plaintext and key
         plaintext = monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
 
         # Calculate ciphertext
-        ciphertext = ''
+        ciphertext:str = ''
         for char in plaintext:
             if char.isalpha():
-                cipherchar = key[alphabet.index(char.upper())]
+                cipherchar:str = key[alphabet.index(char.upper())]
                 if char.islower(): cipherchar = cipherchar.lower()
 
                 ciphertext += cipherchar
@@ -169,7 +164,7 @@ class monoalphabetic_subsitution_cipher:
 
         while True:
             # Check for selection
-            selection_result = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
+            selection_result:dict = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(monoalphabetic_subsitution_cipher_window): 

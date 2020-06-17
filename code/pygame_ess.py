@@ -39,7 +39,7 @@ class pygame_ess:
     ###############
     # Load events #
     ###############
-    def load_images(image_page:list, file_type:str = '.png', is_alpha:bool = False):
+    def load_images(image_page:list, file_type:str = '.png', is_alpha:bool = False) -> bool:
         # Define variables
         images = dict()
         image_dir = 'images/{}/'.format('/'.join(image_page))
@@ -58,7 +58,7 @@ class pygame_ess:
 
         return images
 
-    def load_essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True):
+    def load_essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True) -> dict:
         # Load background
         if background:
             objects['background'] = item(name=page_name+' background', 
@@ -137,7 +137,7 @@ class pygame_ess:
         # No selections/clicks were made
         return selection_result
 
-    def click_event(window, selection_object):
+    def click_event(window, selection_object) -> any:
         for event in pygame.event.get():                
             # Check for left click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -200,7 +200,7 @@ class pygame_ess:
 #######################
 # Load shared objects #
 #######################
-shared_objects = dict()
+shared_objects:dict = dict()
 
 shared_objects['back'] = item(name='back',
                               type='button',
