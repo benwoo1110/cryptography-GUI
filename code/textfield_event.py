@@ -3,6 +3,7 @@
 ######################################
 import pygame
 from pygame_ess import pygame_ess
+from invalid_input import invalid_input
 import time
 
 
@@ -60,6 +61,7 @@ class textfield_event:
                     # Exit textfield if click return or escape
                     if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
                         textfield_event.update_textfield(window, textfield_object, False)
+                        '''invalid_input.run()'''
                         return textfield_object.meta.text
 
                     # Allow only based on validation defined

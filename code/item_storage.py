@@ -121,7 +121,7 @@ runclass_parameter: {}
 # Store suface of window #
 ##########################
 class surface:
-    def __init__(self, window_objects:dict, frame:coord = coord(bx=0, by=0, w=1024, h=None)):
+    def __init__(self, window_objects:dict, frame:coord = coord(bx=0, by=0, w=1024, h=None), background_fill:tuple = None, is_alpha:bool = False):
         # get the height of window if not defined
         if frame.h == None:
             frame.h = 0
@@ -129,10 +129,15 @@ class surface:
                 frame.h =  max(frame.h, window_object.frame.iy+window_object.frame.h)
 
         # Create window
-        window = pygame.surface.Surface((frame.w, frame.h))
+        if is_alpha: window = pygame.surface.Surface((frame.w, frame.h), pygame.SRCALPHA)
+        else:  window = pygame.surface.Surface((frame.w, frame.h))
 
         # Fill surface with default colour
-        window.fill((43, 43, 43))
+        if background_fill == None:
+            # Fill if surface doesnt need tranparency
+            if not is_alpha: window.fill((43, 43, 43))
+        # Fill with colour with user defined
+        else: window.fill(background_fill)
 
         # Load objects to window
         for window_object in window_objects.values():
@@ -143,5 +148,8 @@ class surface:
             if window_object.type == 'textfield':
                 window.blit(window_object.meta.render_text(), window_object.frame.box_coord())
 
-        self.Window:pygame.surface.Surface = window
+        # Save to class
+        self.Window:pygame.surface.Surface = window.convert_alpha()
         self.frame:coord = frame
+        self.background_fill:tuple = background_fill
+        self.is_alpha:bool = is_alpha

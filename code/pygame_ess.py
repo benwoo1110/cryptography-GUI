@@ -58,12 +58,12 @@ class pygame_ess:
 
         return images
 
-    def load_essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True) -> dict:
+    def load_essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True, is_alpha:bool = False) -> dict:
         # Load background
         if background:
             objects['background'] = item(name=page_name+' background', 
                                         type='background', 
-                                        images=pygame_ess.load_images([page_name]),
+                                        images=pygame_ess.load_images([page_name], is_alpha=is_alpha),
                                         frame=coord(
                                                 0, 0,
                                                 1024, 768,
