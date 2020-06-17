@@ -163,6 +163,46 @@ class polyalphabetic_substitution_cipher:
 
         return ciphertext
 
+    def decrypt() -> str:
+        ''' Decrypt ciphertext'''
+
+        # Get keyword and plaintext
+        keyword:str = polyalphabetic_substitution_cipher_objects['keyword'].meta.text
+        ciphertext:str = polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text
+
+        # Variables
+        alphabet:str = pygame_ess.alphabet
+
+        # Generate key
+        ciphertext_length:int = len(ciphertext)
+        keyword_length:int = len(keyword)
+        key:str = keyword.upper() * (plaintext_length//keyword_length) + keyword.upper()[:plaintext_length%keyword_length]
+
+        # Stores key
+        polyalphabetic_substitution_cipher_objects['key'].meta.text = key
+
+        # Calculate ciphertext
+        plaintext:str = ''
+        for char in range(ciphertext_length):
+            if ciphertext[char].isalpha():
+                plainchar:str = alphabet[ ( alphabet.find(ciphertext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
+                if plaintext[char].islower(): plainchar = plainchar.lower()
+                ciphertext += plainchar
+
+            else: ciphertext += plaintext[char]
+
+        # Stores ciphertext
+        polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text = ciphertext
+
+        # Update text
+        polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
+
+        # Output to screen
+        for text in ['text', 'key', 'ciphertext']:
+            textfield_event.update_textfield(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects[text], False)
+
+        return plaintext
+
     def run():
         '''Polyalphabetic Substitution Cipher Page'''
 

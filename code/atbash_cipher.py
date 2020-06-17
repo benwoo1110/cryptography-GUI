@@ -100,11 +100,37 @@ class atbash_cipher:
 
         return ciphertext
 
+    def decrypt() -> str:
+        ''' Decrypt ciphertext'''
+
+        # Get plaintext
+        ciphertext:str = atbash_cipher_objects['ciphertext'].meta.text
+
+        # Variables
+        alphabet = pygame_ess.alphabet
+        replace = alphabet[::-1]
+
+        # Calculate ciphertext
+        plaintext:str = ''
+        for char in ciphertext:
+            if char.isalpha():
+                plainchar:str = alphabet[replace.find(char.upper())]
+                if char.islower(): plainchar = plainchar.lower()
+                plaintext += plainchar
+
+            else: plaintext += char
+
+        # Output to screen
+        atbash_cipher_objects['plaintext'].meta.text = plaintext
+        textfield_event.update_textfield(atbash_cipher_window, atbash_cipher_objects['plaintext'], False)
+
+        return plaintext
+
     def run():
         '''Display Atbash Cipher Page'''
 
         # Load the screen
-        atbash_cipher.encrypt()
+        atbash_cipher.decrypt()
          
         while True:
             # Check for selection

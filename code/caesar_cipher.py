@@ -80,36 +80,36 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                           runclass='')
 
 caesar_cipher_objects['replaced'] = item(name='replaced',
-                                          type='textfield',
-                                          meta=text_data(
-                                              text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
-                                              font_type='Monaco.dfont',
-                                              font_size=34,
-                                              colour=pygame_ess.colour.white
-                                              ),
-                                          images=pygame_ess.load_images([page_name, 'replaced']),
-                                          frame=coord(
-                                              311, 464, 
-                                              649, 47, 
-                                              311, 464
-                                              ),
-                                          runclass='')
+                                         type='textfield',
+                                         meta=text_data(
+                                                text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
+                                                font_type='Monaco.dfont',
+                                                font_size=34,
+                                                colour=pygame_ess.colour.white
+                                                ),
+                                         images=pygame_ess.load_images([page_name, 'replaced']),
+                                         frame=coord(
+                                                311, 464, 
+                                                649, 47, 
+                                                311, 464
+                                                ),
+                                         runclass='')
 
 caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
-                                          type='textfield',
-                                          meta=text_data(
-                                              text='ciphertext',
-                                              font_type='Monaco.dfont',
-                                              font_size=34,
-                                              colour=pygame_ess.colour.black
-                                              ),
-                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
-                                          frame=coord(
-                                              325, 574, 
-                                              632, 62, 
-                                              307, 564
-                                              ),
-                                          runclass='')
+                                           type='textfield',
+                                           meta=text_data(
+                                                text='ciphertext',
+                                                font_type='Monaco.dfont',
+                                                font_size=34,
+                                                colour=pygame_ess.colour.black
+                                                ),
+                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                           frame=coord(
+                                                325, 574, 
+                                                632, 62, 
+                                                307, 564
+                                                ),
+                                           runclass='')
 
 
 ###################
@@ -159,13 +159,49 @@ class caesar_cipher:
         textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['ciphertext'], False)
 
         return ciphertext
+
+    def decrypt() -> str:
+        ''' Decrypt ciphertext'''
+
+        # Get ciphertext and keys
+        try: 
+            ciphertext:str = str(caesar_cipher_objects['ciphertext'].meta.text)
+            key:int = int(caesar_cipher_objects['key'].meta.text)
+        except:
+            print('type error')
+            return
+
+        alphablet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        replaced = alphablet[key%26:] + alphablet[:key%26]
+        
+        caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'
+       
+        plaintext:str = ''
+
+        # Convert to ciphertext
+        for char in ciphertext:
+            if char.isalpha():
+                plainchar:str = alphablet[replaced.index(char.upper())]
+                if not char.isupper(): plainchar = plainchar.lower()
+                plaintext += plainchar
+
+            else: ciphertext += char
+
+        # Save it to data
+        caesar_cipher_objects['plaintext'].meta.text = plaintext
+
+        # Print data to screen
+        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['replaced'], False)
+        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['plaintext'], False)
+
+        return plaintext
     
     def run():
         '''Display Caesar Cipher Page'''
         
         # Load the screen
         pygame_ess.load_screen(caesar_cipher_window)
-        caesar_cipher.encrypt()
+        caesar_cipher.decrypt()
          
         while True:
             # Check for selection

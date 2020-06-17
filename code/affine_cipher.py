@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((1024, 768))
 # Variables declaration #
 #########################
 page_name:str = 'affine_cipher'
-affine_cipher_objects:dict = dict()
+affine_cipher_objects: dict = dict()
 
 
 ##############################
@@ -53,7 +53,7 @@ affine_cipher_objects['a'] = item(name='a',
                                     font_type='Monaco.dfont',
                                     font_size=34,
                                     colour=pygame_ess.colour.black,
-                                    validation=validate.digits()
+                                    validation=validate.digits(min_num=1, max_num=26)
                                     ),
                                 images=pygame_ess.load_images([page_name, 'a']),
                                 frame=coord(
@@ -70,7 +70,7 @@ affine_cipher_objects['b'] = item(name='b',
                                     font_type='Monaco.dfont',
                                     font_size=34,
                                     colour=pygame_ess.colour.black,
-                                    validation=validate.digits()
+                                    validation=validate.digits(min_num=1, max_num=26)
                                     ),
                                 images=pygame_ess.load_images([page_name, 'b']),
                                 frame=coord(
@@ -142,11 +142,59 @@ class affine_cipher:
 
         return ciphertext
 
+    def decrypt() -> str:
+        ''' Decrypt cyphertext'''
+
+        # Get cyphertext and keys
+        try:
+            cyphertext:str = str(affine_cipher_objects['plaintext'].meta.text)
+            a:int = int(affine_cipher_objects['a'].meta.text)
+            b:int = int(affine_cipher_objects['b'].meta.text)
+        except:
+            print('type error.')
+            return
+
+        # Variables
+        alphabet = pygame_ess.alphabet
+
+        # Calculate inverse A mod 26
+        did_inverse_a = False
+        for i in range(26):
+            if (a * i) % 26 == 1: 
+                did_inverse_a = True
+                a = (a * i)
+                break
+
+        # If failed to convert    
+        if not did_inverse_a: 
+            print('Failed to calculate inverse A mod 26.')
+            return
+
+        # Calculate plaintext
+        plaintext:str = ''
+        for char in cyphertext:
+            if char.isalpha():
+                plainchar:str = alphabet[ (a * (alphabet.find(char.upper()) - b)) % 26 ]
+                if char.islower(): plainchar = plainchar.lower()
+                plaintext += plainchar
+
+            else: plaintext += char
+            
+
+        # Save back to plaintext object
+        affine_cipher_objects['plaintext'].meta.text = plaintext
+
+        # Update screen
+        textfield_event.update_textfield(affine_cipher_window, affine_cipher_objects['plaintext'], False)
+
+        return plaintext
+
+
     def run():
         '''Display Affine Cipher Page'''
 
         # Load screen
-        affine_cipher.encrypt()
+        affine_cipher.decrypt()
         pygame_ess.load_screen(affine_cipher_window)
 
         while True:

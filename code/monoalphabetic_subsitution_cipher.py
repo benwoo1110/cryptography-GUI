@@ -118,8 +118,8 @@ monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsit
 class monoalphabetic_subsitution_cipher:
     '''Monoalphabetic Subsitution Cipher Page'''
 
-    def shuffle():
-        ''' Encrypt plaintext'''
+    def shuffle() -> str:
+        ''' Shuffle key'''
 
         # Shuffle the key
         shuffled_alphabet:list = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -130,9 +130,13 @@ class monoalphabetic_subsitution_cipher:
         textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
         
         # Update the ciphertext
-        monoalphabetic_subsitution_cipher.encrypt()
+        monoalphabetic_subsitution_cipher.decrypt()
+
+        return shuffled_alphabet
 
     def encrypt() -> str:
+        ''' Encrypt plaintext'''
+
         # Get plaintext and key
         plaintext = monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text
         alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -154,12 +158,39 @@ class monoalphabetic_subsitution_cipher:
 
         # Update screen
         textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
+
+        return ciphertext
+
+    def decrypt() -> str:
+        ''' Decrypt ciphertext'''
+        # Get ciphertext and key
+        ciphertext = monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text
+        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
+
+        # Calculate plaintext
+        plaintext:str = ''
+        for char in ciphertext:
+            if char.isalpha():
+                plainchar:str = alphabet[key.index(char.upper())]
+                if char.islower(): plainchar = plainchar.lower()
+
+                plaintext += plainchar
+                
+            else: plaintext += char
+
+        # Stores ciphertext
+        monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text = plaintext
+
+        # Update screen
+        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['plaintext'], False)
     
+        return plaintext
+
     def run():
         '''Display Monoalphabetic Subsitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(monoalphabetic_subsitution_cipher_window)
         monoalphabetic_subsitution_cipher.shuffle()
 
         while True:

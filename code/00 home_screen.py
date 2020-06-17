@@ -23,13 +23,12 @@ pygame.display.set_caption("Cryptography GUI")
 # Variables declaration #
 ########################
 page_name:str = 'cryptography'
-
 cipher_types:dict = {'atbash_cipher':atbash_cipher.run,
-                'affine_cipher':affine_cipher.run,
-                'caesar_cipher':caesar_cipher.run, 
-                'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher.run, 
-                'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher.run
-                }
+                     'affine_cipher':affine_cipher.run,
+                     'caesar_cipher':caesar_cipher.run, 
+                     'monoalphabetic_subsitution_cipher':monoalphabetic_subsitution_cipher.run, 
+                     'polyalphabetic_substitution_cipher':polyalphabetic_substitution_cipher.run
+                    }
 
 cryptography_objects:dict = dict()
 
@@ -42,7 +41,7 @@ cryptography_objects:dict = dict()
 pygame_ess.load_essential_objects(cryptography_objects, page_name)
 
 # cipher types view list
-for cipher_type in cipher_types.keys():
+for cipher_type in cipher_types:
     cipher_type_y_coord = 112 + list(cipher_types.keys()).index(cipher_type) * 106
     cryptography_objects[cipher_type] = item(name=cipher_type,
                                              type='button',
