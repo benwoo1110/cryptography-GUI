@@ -10,4 +10,5 @@ __pycache__/
 .vscode
 
 # Ignore logs
+logs/*
 .log
