@@ -117,22 +117,23 @@ class affine_cipher:
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
-        try:
-            plaintext:str = str(affine_cipher_objects['plaintext'].meta.text)
-            a:int = int(affine_cipher_objects['a'].meta.text)
-            b:int = int(affine_cipher_objects['b'].meta.text)
-        except:
-            print('type error.')
-            return
+        plaintext:str = affine_cipher_objects['plaintext'].meta.text
+        a:int = int(affine_cipher_objects['a'].meta.text)
+        b:int = int(affine_cipher_objects['b'].meta.text)
 
         # Variables
         alphabet = pygame_ess.alphabet
+
+        # Encode from A-Z
+        replaced = ''
+        for char_index in range(26):
+            replaced += alphabet[ (a * char_index + b) % 26 ]
 
         # Calculate ciphertext
         ciphertext:str = ''
         for char in plaintext:
             if char.isalpha():
-                cipherchar:str = alphabet[ (a * alphabet.find(char.upper()) + b) % 26 ]
+                cipherchar:str = replaced[alphabet.find(char.upper())]
                 if char.islower(): cipherchar = cipherchar.lower()
                 ciphertext += cipherchar
 
@@ -147,38 +148,26 @@ class affine_cipher:
         return ciphertext
 
     def decrypt() -> str:
-        ''' Decrypt cyphertext'''
+        ''' Decrypt ciphertext'''
 
-        # Get cyphertext and keys
-        try:
-            cyphertext:str = str(affine_cipher_objects['plaintext'].meta.text)
-            a:int = int(affine_cipher_objects['a'].meta.text)
-            b:int = int(affine_cipher_objects['b'].meta.text)
-        except:
-            print('type error.')
-            return
+        # Get ciphertext and keys
+        ciphertext:str = str(affine_cipher_objects['ciphertext'].meta.text)
+        a:int = int(affine_cipher_objects['a'].meta.text)
+        b:int = int(affine_cipher_objects['b'].meta.text)
 
         # Variables
         alphabet = pygame_ess.alphabet
 
-        # Calculate inverse A mod 26
-        did_inverse_a = False
-        for i in range(26):
-            if (a * i) % 26 == 1: 
-                did_inverse_a = True
-                a = (a * i)
-                break
-
-        # If failed to convert    
-        if not did_inverse_a: 
-            print('Failed to calculate inverse A mod 26.')
-            return
+        # Decode from A-Z
+        replaced = ''
+        for char_index in range(26):
+            replaced += alphabet[ (a * char_index + b) % 26 ]
 
         # Calculate plaintext
         plaintext:str = ''
-        for char in cyphertext:
+        for char in ciphertext:
             if char.isalpha():
-                plainchar:str = alphabet[ (a * (alphabet.find(char.upper()) - b)) % 26 ]
+                plainchar:str = alphabet[replaced.find(char.upper())]
                 if char.islower(): plainchar = plainchar.lower()
                 plaintext += plainchar
 

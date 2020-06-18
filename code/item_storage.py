@@ -71,7 +71,7 @@ class text_data:
 # Storages UI object data #
 ###########################
 class item:
-    def __init__(self, name:str = 'name', type:str = 'button', meta:any = None, images:dict = {}, 
+    def __init__(self, name:str = 'name', type:str = 'object', meta:any = None, images:dict = {}, 
     frame:coord = coord(), hover_action:bool = None, runclass:any = None, runclass_parameter:bool = None):
         # Stores object data
         self.name:str = name
@@ -101,12 +101,11 @@ class item:
 
     def __str__(self):
         return '''
-name: {}, type: {}
+name:{}, type:{}, hover_action:{}
 meta: {} 
-images: {} 
+images: {}
 frame: {}
-hover_action: {}
-runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.meta, list(self.images.keys()), self.frame, self.hover_action, self.runclass, self.runclass_parameter)
+runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.hover_action, self.meta, self.images, self.frame, self.runclass, self.runclass_parameter)
 
 
 ##########################

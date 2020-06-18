@@ -133,14 +133,10 @@ class caesar_cipher:
         ''' Encrypt plaintext'''
 
         # Get plaintext and keys
-        try: 
-            plaintext:str = str(caesar_cipher_objects['plaintext'].meta.text)
-            key:int = int(caesar_cipher_objects['key'].meta.text)
-        except:
-            print('type error')
-            return
+        plaintext:str = str(caesar_cipher_objects['plaintext'].meta.text)
+        key:int = int(caesar_cipher_objects['key'].meta.text)
 
-        alphablet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        alphablet = pygame_ess.alphabet
         replaced = alphablet[key%26:] + alphablet[:key%26]
         
         caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'

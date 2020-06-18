@@ -126,7 +126,7 @@ class monoalphabetic_subsitution_cipher:
         ''' Shuffle key'''
 
         # Shuffle the key
-        shuffled_alphabet:list = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+        shuffled_alphabet:list = list(pygame_ess.alphabet)
         random.shuffle(shuffled_alphabet)
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
@@ -143,7 +143,7 @@ class monoalphabetic_subsitution_cipher:
 
         # Get plaintext and key
         plaintext = monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text
-        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        alphabet = pygame_ess.alphabet
         key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
 
         # Calculate ciphertext
@@ -169,7 +169,7 @@ class monoalphabetic_subsitution_cipher:
         ''' Decrypt ciphertext'''
         # Get ciphertext and key
         ciphertext = monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text
-        alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        alphabet = pygame_ess.alphabet
         key = monoalphabetic_subsitution_cipher_objects['key'].meta.text[1:-1]
 
         # Calculate plaintext

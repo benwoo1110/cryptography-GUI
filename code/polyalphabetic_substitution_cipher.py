@@ -94,8 +94,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                               325, 437, 
                                               632, 62, 
                                               307, 437
-                                              ),
-                                          runclass='')
+                                              ),)
 
 polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='textfield',
@@ -110,8 +109,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                               325, 572, 
                                               632, 62, 
                                               307, 564
-                                              ),
-                                          runclass='')
+                                              ),)
 
 
 ###################
@@ -180,8 +178,8 @@ class polyalphabetic_substitution_cipher:
         # Generate key
         ciphertext_length:int = len(ciphertext)
         keyword_length:int = len(keyword)
-        key:str = keyword.upper() * (plaintext_length//keyword_length) + keyword.upper()[:plaintext_length%keyword_length]
-
+        key:str = keyword.upper() * (ciphertext_length//keyword_length) + keyword.upper()[:ciphertext_length%keyword_length]
+        print(key)
         # Stores key
         polyalphabetic_substitution_cipher_objects['key'].meta.text = key
 
@@ -189,20 +187,25 @@ class polyalphabetic_substitution_cipher:
         plaintext:str = ''
         for char in range(ciphertext_length):
             if ciphertext[char].isalpha():
-                plainchar:str = alphabet[ ( alphabet.find(ciphertext[char].upper()) + alphabet.find(key[char].upper()) ) % 26 ]
-                if plaintext[char].islower(): plainchar = plainchar.lower()
-                ciphertext += plainchar
+                if alphabet.find(ciphertext[char].upper()) >= alphabet.find(key[char]): plainchar:str = alphabet[alphabet.find(ciphertext[char].upper()) - alphabet.find(key[char])]
+                else: 
+                    print(ciphertext[char].upper(), key[char], char)
+                    plainchar:str = alphabet[alphabet.find(ciphertext[char].upper()) + 26 - alphabet.find(key[char])]
 
-            else: ciphertext += plaintext[char]
+                if ciphertext[char].islower(): plainchar = plainchar.lower()
+                plaintext += plainchar
+            
+            else: plaintext += plaintext[char]
 
         # Stores ciphertext
-        polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text = ciphertext
+        polyalphabetic_substitution_cipher_objects['plaintext'].meta.text = plaintext
 
         # Update text
         polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
+        print(polyalphabetic_substitution_cipher_objects['text'].meta.text)
 
         # Output to screen
-        for text in ['text', 'key', 'ciphertext']:
+        for text in ['text', 'key', 'plaintext']:
             textfield_event.update_textfield(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects[text], False)
 
         return plaintext
@@ -211,7 +214,7 @@ class polyalphabetic_substitution_cipher:
         '''Polyalphabetic Substitution Cipher Page'''
 
         # Load screen
-        polyalphabetic_substitution_cipher.encrypt()
+        polyalphabetic_substitution_cipher.decrypt()
         logging.info('Loaded polyalphabetic subsitution window.')
 
         while True:
