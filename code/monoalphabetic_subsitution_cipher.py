@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
@@ -11,12 +12,13 @@ import random
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading monoalphabetic subsitution cipher...')
 screen = pygame.display.set_mode((1024, 768))
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising monoalphabetic subsitution cipher variables...')
 page_name:str = 'monoalphabetic_subsitution_cipher'
 button_types:dict = {'back':'back', 'info':''}
 monoalphabetic_subsitution_cipher_objects:dict = dict()
@@ -25,6 +27,7 @@ monoalphabetic_subsitution_cipher_objects:dict = dict()
 ##############################
 # Load affine cipher objects #
 ##############################
+logging.debug('Initialising monoalphabetic subsitution cipher objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
@@ -109,7 +112,8 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
 ###################
 # Generate window #
 ###################
-monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects)
+logging.debug('Initialising monoalphabetic subsitution cipher window...')
+monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects, name=page_name)
 
 
 ##########################################
@@ -192,6 +196,7 @@ class monoalphabetic_subsitution_cipher:
 
         # Load screen
         monoalphabetic_subsitution_cipher.shuffle()
+        logging.info('Loaded monoalphabetic subsitution cipher window.')
 
         while True:
             # Check for selection
@@ -218,6 +223,7 @@ class monoalphabetic_subsitution_cipher:
 # Main loop #
 #############
 if __name__ == "__main__":
+    pygame.init()
     # Run home screen
     monoalphabetic_subsitution_cipher.run()
 

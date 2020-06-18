@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from pygame_ess import pygame_ess
 from item_storage import *
 from atbash_cipher import atbash_cipher
@@ -14,14 +15,14 @@ from polyalphabetic_substitution_cipher import polyalphabetic_substitution_ciphe
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading home screen...')
 screen = pygame.display.set_mode((1024, 768))
-pygame.display.set_caption("Cryptography GUI")
 
 
 ########################
 # Variables declaration #
 ########################
+logging.debug('Initialising home screen variables...')
 page_name:str = 'cryptography'
 cipher_types:dict = {'atbash_cipher':atbash_cipher.run,
                      'affine_cipher':affine_cipher.run,
@@ -36,6 +37,7 @@ cryptography_objects:dict = dict()
 ############################
 # Load home screen objects #
 ############################
+logging.debug('Initialising home screen objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(cryptography_objects, page_name)
@@ -53,7 +55,8 @@ for cipher_type in cipher_types:
 ###################
 # Generate window #
 ###################
-cryptography_window:surface = surface(cryptography_objects, frame=coord(0, 0, 1024, 1000))
+logging.debug('Initialising home screen window...')
+cryptography_window:surface = surface(cryptography_objects, name=page_name, frame=coord(0, 0, 1024, 1000))
 
 
 #############
@@ -67,6 +70,7 @@ class cryptography:
 
         # Load the screen
         pygame_ess.load_screen(cryptography_window)
+        logging.info('Loaded home screen window.')
 
         while True:
             # Check for selection
@@ -82,6 +86,7 @@ class cryptography:
 #############
 if __name__ == "__main__":
     # Run home screen
+    pygame.init()
     cryptography.run()
 
     # Done! Time to quit.

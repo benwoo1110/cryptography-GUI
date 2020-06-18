@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
@@ -10,13 +11,14 @@ from textfield_event import textfield_event
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading polyalphabetic subsitution cipher...')
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising polyalphabetic subsitution variables...')
 page_name:str = 'polyalphabetic_substitution_cipher'
 button_types:dict = {'back':'back', 'info':''}
 polyalphabetic_substitution_cipher_objects:dict = dict()
@@ -25,6 +27,7 @@ polyalphabetic_substitution_cipher_objects:dict = dict()
 ##############################
 # Load affine cipher objects #
 ##############################
+logging.debug('Initialising polyalphabetic subsitution objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
@@ -114,7 +117,8 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
 ###################
 # Generate window #
 ###################
-polyalphabetic_substitution_cipher_window:surface = surface(polyalphabetic_substitution_cipher_objects)
+logging.debug('Initialising polyalphabetic subsitution window...')
+polyalphabetic_substitution_cipher_window:surface = surface(polyalphabetic_substitution_cipher_objects, name=page_name)
 
 
 ###########################################
@@ -207,8 +211,8 @@ class polyalphabetic_substitution_cipher:
         '''Polyalphabetic Substitution Cipher Page'''
 
         # Load screen
-        pygame_ess.load_screen(polyalphabetic_substitution_cipher_window)
         polyalphabetic_substitution_cipher.encrypt()
+        logging.info('Loaded polyalphabetic subsitution window.')
 
         while True:
             # Check for selection

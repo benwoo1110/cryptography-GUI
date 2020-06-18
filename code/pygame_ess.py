@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 import glob
 from item_storage import *
 import os
@@ -11,7 +12,7 @@ import traceback
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading pygame essentials...')
 screen = pygame.display.set_mode((1024, 768))
 
 
@@ -90,7 +91,7 @@ class pygame_ess:
     # Interaction event #
     #####################
     def selection_event(window, selection_objects:dict) -> dict:
-        selection_result = {'object_type':'', 'object_name':'', 'action_result':''}
+        selection_result = {'object_name':'', 'object_type':'', 'action_result':''}
         Window = window.Window
 
         for selection_object in selection_objects.values():
@@ -106,6 +107,7 @@ class pygame_ess:
                         Window.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
                         mouse_hover_over_object = True
                         pygame_ess.load_screen(window)
+                        logging.debug('Hovered on '+selection_object.name+' button.')
 
                     # Run click event
                     click_result = pygame_ess.click_event(window, selection_object) 
@@ -121,12 +123,12 @@ class pygame_ess:
                             pygame_ess.load_screen(window)
 
                         # Stores click_result
-                        selection_result['object_type'] = selection_object.type
                         selection_result['object_name'] = selection_object.name
+                        selection_result['object_type'] = selection_object.type
                         selection_result['action_result'] = click_result
 
                         # Return data of click result
-                        print(selection_result)
+                        logging.info('[{}] object_name:{}, object_type:{}, action_result:{}'.format(window.name, selection_result['object_type'], selection_result['object_name'], selection_result['action_result']))
                         return selection_result
 
                 # Moved out of hitbox
@@ -141,7 +143,7 @@ class pygame_ess:
         for event in pygame.event.get():                
             # Check for left click
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                print("clicked", selection_object.type, selection_object.name)
+                logging.info('clicked on '+selection_object.name+' '+selection_object.type)
 
                 # When there is no function to run
                 if type(selection_object.runclass) == str: return selection_object.runclass
@@ -200,6 +202,7 @@ class pygame_ess:
 #######################
 # Load shared objects #
 #######################
+logging.debug('Initialising shared objects...')
 shared_objects:dict = dict()
 
 shared_objects['back'] = item(name='back',

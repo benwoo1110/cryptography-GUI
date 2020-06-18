@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 
@@ -9,13 +10,14 @@ from pygame_ess import pygame_ess
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading invalid input...')
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising invalid input variables...')
 page_name:str = 'invalid_input'
 invalid_input_objects:dict = dict()
 
@@ -23,6 +25,7 @@ invalid_input_objects:dict = dict()
 ##############################
 # Load affine cipher objects #
 ##############################
+logging.debug('Initialising invalid input objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(invalid_input_objects, page_name, is_alpha=True)
@@ -51,7 +54,8 @@ invalid_input_objects['ok'] = item(name='ok!',
 ###################
 # Generate window #
 ###################
-invalid_input_window:surface = surface(invalid_input_objects, is_alpha = True)
+logging.info('Initialising invalid input window...')
+invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is_alpha = True)
 
 
 #######################
@@ -65,6 +69,7 @@ class invalid_input:
 
         # Load the screen
         pygame_ess.load_screen(invalid_input_window)
+        logging.info('Loaded invalid input window.')
 
         while True:
             # Check for selection
@@ -82,6 +87,7 @@ class invalid_input:
 # Main loop #
 #############
 if __name__ == "__main__":
+    pygame.init()
     # Run home screen
     invalid_input.run()
 

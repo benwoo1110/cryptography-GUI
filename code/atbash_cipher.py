@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
@@ -10,13 +11,14 @@ from textfield_event import textfield_event
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading atbash cipher...')
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising atbash cipher variables...')
 page_name:str = 'atbash_cipher'
 atbash_cipher_objects:dict = dict()
 
@@ -24,6 +26,7 @@ atbash_cipher_objects:dict = dict()
 ##############################
 # Load affine cipher objects #
 ##############################
+logging.debug('Initialising atbash cipher objects...')
 
 # background image
 pygame_ess.load_essential_objects(atbash_cipher_objects, page_name, ['back', 'info'])
@@ -65,7 +68,8 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-atbash_cipher_window:surface = surface(atbash_cipher_objects)
+logging.debug('Initialising atbash cipher window...')
+atbash_cipher_window:surface = surface(atbash_cipher_objects, name=page_name)
 
 
 ######################
@@ -131,6 +135,7 @@ class atbash_cipher:
 
         # Load the screen
         atbash_cipher.decrypt()
+        logging.info('Loaded atbash cipher window.')
          
         while True:
             # Check for selection
@@ -155,6 +160,7 @@ class atbash_cipher:
 # Main loop #
 #############
 if __name__ == "__main__":
+    pygame.init()
     # Run home screen
     atbash_cipher.run()
 

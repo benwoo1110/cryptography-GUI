@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from pygame_ess import pygame_ess
 from invalid_input import invalid_input
 import time
@@ -10,7 +11,6 @@ import time
 ##################
 # Initialization #
 ##################
-pygame.init()
 screen = pygame.display.set_mode((1024, 768))
 
 
@@ -47,6 +47,7 @@ class textfield_event:
         '''keyboard input'''
 
         textfield_event.update_textfield(window, textfield_object, True)
+        logging.info('Loaded '+textfield_object.name+' textfield.')
 
         # Key repeat variables
         key_pressed = []
@@ -62,6 +63,7 @@ class textfield_event:
                     if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
                         textfield_event.update_textfield(window, textfield_object, False)
                         '''invalid_input.run()'''
+                        logging.info('Exited '+textfield_object.name+' textfield.')
                         return textfield_object.meta.text
 
                     # Allow only based on validation defined
@@ -84,6 +86,7 @@ class textfield_event:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos()):
                         textfield_event.update_textfield(window, textfield_object, False)
+                        logging.info('Exited '+textfield_object.name+' textfield.')
                         return textfield_object.meta.text
 
                 # Quit program

@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
@@ -11,13 +12,14 @@ from input_validation import validate
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading affine cipher...')
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising affine cipher variables...')
 page_name:str = 'affine_cipher'
 affine_cipher_objects: dict = dict()
 
@@ -25,6 +27,7 @@ affine_cipher_objects: dict = dict()
 ##############################
 # Load Affine Cipher objects #
 ##############################
+logging.debug('Initialising affine cipher objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(affine_cipher_objects, page_name, ['back', 'info'])
@@ -100,7 +103,8 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-affine_cipher_window:surface = surface(affine_cipher_objects)
+logging.debug('Initialising affine cipher window...')
+affine_cipher_window:surface = surface(affine_cipher_objects, name=page_name)
 
 
 ######################
@@ -195,7 +199,7 @@ class affine_cipher:
 
         # Load screen
         affine_cipher.decrypt()
-        pygame_ess.load_screen(affine_cipher_window)
+        logging.info('Loaded affine cipher window.')
 
         while True:
             # Check for selection
@@ -221,6 +225,7 @@ class affine_cipher:
 #############
 if __name__ == "__main__":
     # Run home screen
+    pygame.init()
     affine_cipher.run()
 
     # Done! Time to quit.

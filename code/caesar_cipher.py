@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import pygame
+import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
@@ -11,13 +12,15 @@ from input_validation import validate
 ##################
 # Initialization #
 ##################
-pygame.init()
+logging.info('Loading caesar cipher...')
 screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
+logging.debug('Initialising caesar cipher variables...')
+
 page_name:str = 'caesar_cipher'
 caesar_cipher_objects:dict = dict()
 
@@ -25,6 +28,7 @@ caesar_cipher_objects:dict = dict()
 ##############################
 # Load affine cipher objects #
 ##############################
+logging.debug('Initialising caesar cipher objects...')
 
 # Load essentials images
 pygame_ess.load_essential_objects(caesar_cipher_objects, page_name, ['back', 'info'])
@@ -115,7 +119,8 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
 ###################
 # Generate window #
 ###################
-caesar_cipher_window:surface = surface(caesar_cipher_objects)
+logging.debug('Initialising caesar cipher window...')
+caesar_cipher_window:surface = surface(caesar_cipher_objects, name=page_name)
 
 
 ######################
@@ -200,8 +205,8 @@ class caesar_cipher:
         '''Display Caesar Cipher Page'''
         
         # Load the screen
-        pygame_ess.load_screen(caesar_cipher_window)
         caesar_cipher.decrypt()
+        logging.info('Loaded caesar cipher window...')
          
         while True:
             # Check for selection
@@ -226,6 +231,7 @@ class caesar_cipher:
 # Main loop #
 #############
 if __name__ == "__main__":
+    pygame.init()
     # Run home screen
     caesar_cipher.run()
 
