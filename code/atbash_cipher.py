@@ -1,8 +1,8 @@
 ######################################
 # Import and initialize the librarys #
 ######################################
-import pygame
 import logging
+import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
