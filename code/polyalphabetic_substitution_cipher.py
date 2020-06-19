@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from mode import Mode
 from textfield_event import textfield_event
 
 
@@ -20,8 +21,8 @@ screen = pygame.display.set_mode((1024, 768))
 #########################
 logging.debug('Initialising polyalphabetic subsitution variables...')
 page_name:str = 'polyalphabetic_substitution_cipher'
-button_types:dict = {'back':'back', 'info':''}
 polyalphabetic_substitution_cipher_objects:dict = dict()
+mode = Mode()
 
 
 ##############################
@@ -45,8 +46,7 @@ polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
                                           frame=coord(
                                               325, 174, 
                                               632, 62, 
-                                              307, 165
-                                              ),
+                                              307, 165),
                                           runclass=textfield_event.run)
 
 polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
@@ -61,8 +61,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                           frame=coord(
                                               325, 255, 
                                               632, 62, 
-                                              307, 248
-                                              ),
+                                              307, 248),
                                           runclass=textfield_event.run)
 
 polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
@@ -77,9 +76,7 @@ polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                           frame=coord(
                                               325, 381, 
                                               632, 62, 
-                                              325, 381
-                                              ),
-                                          runclass='')
+                                              325, 381),)
 
 polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                           type='textfield',
@@ -93,8 +90,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                           frame=coord(
                                               325, 437, 
                                               632, 62, 
-                                              307, 437
-                                              ),)
+                                              307, 437),)
 
 polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='textfield',
@@ -108,8 +104,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                           frame=coord(
                                               325, 572, 
                                               632, 62, 
-                                              307, 564
-                                              ),)
+                                              307, 564),)
 
 
 ###################
@@ -213,13 +208,18 @@ class polyalphabetic_substitution_cipher:
     def run():
         '''Polyalphabetic Substitution Cipher Page'''
 
+        # Load mode button
+        mode.set_mode(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)     
         # Load screen
-        polyalphabetic_substitution_cipher.decrypt()
+        polyalphabetic_substitution_cipher.encrypt()
         logging.info('Loaded polyalphabetic subsitution window.')
 
         while True:
             # Check for selection
             selection_result:dict = pygame_ess.selection_event(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
+
+            # Check of mode button press
+            mode.run(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(polyalphabetic_substitution_cipher_window): 
@@ -232,8 +232,10 @@ class polyalphabetic_substitution_cipher:
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':
-                # Update ciphertext
-                polyalphabetic_substitution_cipher.encrypt()
+                # encrypt to ciphertext
+                if mode.current_mode == 'encrypt': polyalphabetic_substitution_cipher.encrypt()
+                # decrypt to plaintext
+                elif mode.current_mode == 'decrypt': polyalphabetic_substitution_cipher.decrypt()
 
 
 

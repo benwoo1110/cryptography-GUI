@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from mode import Mode
 from textfield_event import textfield_event
 import random
 
@@ -21,6 +22,7 @@ screen = pygame.display.set_mode((1024, 768))
 logging.debug('Initialising monoalphabetic subsitution cipher variables...')
 page_name:str = 'monoalphabetic_subsitution_cipher'
 monoalphabetic_subsitution_cipher_objects:dict = dict()
+mode = Mode()
 
 
 ##############################
@@ -38,8 +40,7 @@ monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
                                               frame=coord(
                                                   738, 459, 
                                                   199, 56, 
-                                                  738, 459
-                                                  ),
+                                                  738, 459),
                                               runclass='shuffle')
 
 # Textfield
@@ -53,10 +54,9 @@ monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
-                                              325, 172, 
+                                              325, 175, 
                                               632, 62, 
-                                              307, 165
-                                              ),
+                                              307, 165),
                                           runclass=textfield_event.run)
 
 monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
@@ -71,9 +71,7 @@ monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
                                           frame=coord(
                                               325, 314, 
                                               632, 62, 
-                                              325, 314
-                                              ),
-                                          runclass='')
+                                              325, 314),)
 
 monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                           type='textfield',
@@ -85,11 +83,9 @@ monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
-                                              325, 384, 
+                                              325, 385, 
                                               632, 62, 
-                                              307, 375
-                                              ),
-                                          runclass='')
+                                              307, 375),)
 
 monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           type='textfield',
@@ -101,18 +97,18 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(
-                                              325, 609, 
+                                              325, 611, 
                                               632, 62, 
-                                              307, 601
-                                              ),
-                                          runclass='')
+                                              307, 601),)
 
 
 ###################
 # Generate window #
 ###################
 logging.debug('Initialising monoalphabetic subsitution cipher window...')
-monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects, name=page_name)
+monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects, 
+                                                           name=page_name, 
+                                                           frame=coord(bx=0,by=0,w=1024,h=810))
 
 
 ##########################################
@@ -132,8 +128,10 @@ class monoalphabetic_subsitution_cipher:
         # Update key text        
         textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
         
-        # Update the ciphertext
-        monoalphabetic_subsitution_cipher.decrypt()
+        # encrypt to ciphertext
+        if mode.current_mode == 'encrypt': monoalphabetic_subsitution_cipher.encrypt()
+        # decrypt to plaintext
+        elif mode.current_mode == 'decrypt': monoalphabetic_subsitution_cipher.decrypt()
 
         return shuffled_alphabet
 
@@ -193,6 +191,8 @@ class monoalphabetic_subsitution_cipher:
     def run():
         '''Display Monoalphabetic Subsitution Cipher Page'''
 
+        # Load mode button
+        mode.set_mode(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
         # Load screen
         monoalphabetic_subsitution_cipher.shuffle()
         logging.info('Loaded monoalphabetic subsitution cipher window.')
@@ -200,6 +200,9 @@ class monoalphabetic_subsitution_cipher:
         while True:
             # Check for selection
             selection_result:dict = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
+
+            # Check of mode button press
+            mode.run(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(monoalphabetic_subsitution_cipher_window): 
@@ -214,8 +217,10 @@ class monoalphabetic_subsitution_cipher:
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':
-                # Update ciphertext
-                monoalphabetic_subsitution_cipher.encrypt()
+                # encrypt to ciphertext
+                if mode.current_mode == 'encrypt': monoalphabetic_subsitution_cipher.encrypt()
+                # decrypt to plaintext
+                elif mode.current_mode == 'decrypt': monoalphabetic_subsitution_cipher.decrypt()
 
 
 #############

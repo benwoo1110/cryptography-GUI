@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from mode import Mode
 from textfield_event import textfield_event
 
 
@@ -21,6 +22,7 @@ screen = pygame.display.set_mode((1024, 768))
 logging.debug('Initialising atbash cipher variables...')
 page_name:str = 'atbash_cipher'
 atbash_cipher_objects:dict = dict()
+mode = Mode()
 
 
 ##############################
@@ -60,9 +62,7 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           frame=coord(
                                               325, 542, 
                                               632, 62, 
-                                              307, 533
-                                              ),
-                                          runclass='')
+                                              307, 533),)
 
 
 ###################
@@ -133,13 +133,18 @@ class atbash_cipher:
     def run():
         '''Display Atbash Cipher Page'''
 
+        # Load mode button
+        mode.set_mode(atbash_cipher_window, atbash_cipher_objects)
         # Load the screen
-        atbash_cipher.decrypt()
+        atbash_cipher.encrypt()
         logging.info('Loaded atbash cipher window.')
          
         while True:
             # Check for selection
             selection_result:dict = pygame_ess.selection_event(atbash_cipher_window, atbash_cipher_objects)
+
+            # Check of mode button press
+            mode.run(atbash_cipher_window, atbash_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(atbash_cipher_window): 
@@ -152,8 +157,10 @@ class atbash_cipher:
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':
-                # Update ciphertext
-                atbash_cipher.encrypt()
+                # encrypt to ciphertext
+                if mode.current_mode == 'encrypt': atbash_cipher.encrypt()
+                # decrypt to plaintext
+                elif mode.current_mode == 'decrypt': atbash_cipher.decrypt()
 
 
 #############

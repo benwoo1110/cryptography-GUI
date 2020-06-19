@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 
@@ -22,6 +23,7 @@ screen = pygame.display.set_mode((1024, 768))
 logging.debug('Initialising affine cipher variables...')
 page_name:str = 'affine_cipher'
 affine_cipher_objects: dict = dict()
+mode = Mode()
 
 
 ##############################
@@ -95,9 +97,7 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                           frame=coord(
                                               325, 535, 
                                               632, 62, 
-                                              307, 526
-                                              ),
-                                          runclass='')
+                                              307, 526),)
 
 
 ###################
@@ -186,13 +186,18 @@ class affine_cipher:
     def run():
         '''Display Affine Cipher Page'''
 
+        # Load mode button
+        mode.set_mode(affine_cipher_window, affine_cipher_objects)
         # Load screen
-        affine_cipher.decrypt()
+        affine_cipher.encrypt()
         logging.info('Loaded affine cipher window.')
 
         while True:
             # Check for selection
             selection_result:dict = pygame_ess.selection_event(affine_cipher_window, affine_cipher_objects)
+
+            # Check of mode button press
+            mode.run(affine_cipher_window, affine_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(affine_cipher_window): 
@@ -205,8 +210,10 @@ class affine_cipher:
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':
-                # Update ciphertext
-                affine_cipher.encrypt()
+                # encrypt to ciphertext
+                if mode.current_mode == 'encrypt': affine_cipher.encrypt()
+                # decrypt to plaintext
+                elif mode.current_mode == 'decrypt': affine_cipher.decrypt()
 
 
 #############

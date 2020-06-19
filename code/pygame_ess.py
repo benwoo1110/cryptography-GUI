@@ -193,6 +193,9 @@ class pygame_ess:
                     traceback.print_exc()
                     return True
 
+            # When press closed windows
+            if event.type == pygame.QUIT: return 'quit'
+
             pygame_ess.scroll_event(window, event)
 
         # User did not click

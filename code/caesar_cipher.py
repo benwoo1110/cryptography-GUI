@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 
@@ -20,9 +21,9 @@ screen = pygame.display.set_mode((1024, 768))
 # Variables declaration #
 #########################
 logging.debug('Initialising caesar cipher variables...')
-
 page_name:str = 'caesar_cipher'
 caesar_cipher_objects:dict = dict()
+mode = Mode()
 
 
 ##############################
@@ -46,8 +47,7 @@ caesar_cipher_objects['plaintext'] = item(name='plaintext',
                                           frame=coord(
                                               325, 156, 
                                               632, 62, 
-                                              307, 146
-                                              ),
+                                              307, 146),
                                           runclass=textfield_event.run)
 
 caesar_cipher_objects['key'] = item(name='key',
@@ -63,8 +63,7 @@ caesar_cipher_objects['key'] = item(name='key',
                                           frame=coord(
                                               325, 238, 
                                               160, 62, 
-                                              307, 229
-                                              ),
+                                              307, 229),
                                           runclass=textfield_event.run)
 
 caesar_cipher_objects['alphabet'] = item(name='alphabet',
@@ -79,9 +78,7 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                           frame=coord(
                                               311, 403, 
                                               649, 47, 
-                                              311, 403
-                                              ),
-                                          runclass='')
+                                              311, 403),)
 
 caesar_cipher_objects['replaced'] = item(name='replaced',
                                          type='textfield',
@@ -95,9 +92,7 @@ caesar_cipher_objects['replaced'] = item(name='replaced',
                                          frame=coord(
                                                 311, 464, 
                                                 649, 47, 
-                                                311, 464
-                                                ),
-                                         runclass='')
+                                                311, 464),)
 
 caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                            type='textfield',
@@ -111,9 +106,7 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                            frame=coord(
                                                 325, 574, 
                                                 632, 62, 
-                                                307, 564
-                                                ),
-                                           runclass='')
+                                                307, 564),)
 
 
 ###################
@@ -200,13 +193,18 @@ class caesar_cipher:
     def run():
         '''Display Caesar Cipher Page'''
         
+        # Load mode button
+        mode.set_mode(caesar_cipher_window, caesar_cipher_objects)
         # Load the screen
-        caesar_cipher.decrypt()
-        logging.info('Loaded caesar cipher window...')
+        caesar_cipher.encrypt()
+        logging.info('Loaded caesar cipher window.')
          
         while True:
             # Check for selection
             selection_result:dict = pygame_ess.selection_event(caesar_cipher_window, caesar_cipher_objects)
+
+            # Check of mode button press
+            mode.run(caesar_cipher_window, caesar_cipher_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(caesar_cipher_window): 
@@ -219,8 +217,10 @@ class caesar_cipher:
             
             # Textfield updated
             elif selection_result['object_type'] == 'textfield':
-                # Update ciphertext
-                caesar_cipher.encrypt()
+                # encrypt to ciphertext
+                if mode.current_mode == 'encrypt': caesar_cipher.encrypt()
+                # decrypt to plaintext
+                elif mode.current_mode == 'decrypt': caesar_cipher.decrypt()
 
 
 #############
