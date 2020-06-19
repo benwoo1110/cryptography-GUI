@@ -79,7 +79,27 @@ class pygame_ess:
 
         return objects
 
-    def load_screen(window:surface):
+
+    ##################
+    # Display events #
+    ##################
+    def load_objects(window:surface, objects:dict, names:list, direct_to_screen:bool = False) -> None:
+        Window = window.Window
+        
+        # Loop through object specified and load them
+        for name in names:
+            # Try to load object specified
+            try:
+                if direct_to_screen: screen.blit(objects[name].images[objects[name].type], (objects[name].frame.image_coord()))
+                else: Window.blit(objects[name].images[objects[name].type], (objects[name].frame.image_coord()))
+            # Error loading object
+            except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
+
+        # Output to screen
+        if direct_to_screen: pygame_ess.update()
+        else: pygame_ess.load_screen(window)
+
+    def load_screen(window:surface) -> None:
         # Ouput window to screen
         screen.blit(window.Window, (window.frame.bx, window.frame.by))
 
@@ -90,7 +110,7 @@ class pygame_ess:
     #####################
     # Interaction event #
     #####################
-    def selection_event(window, selection_objects:dict) -> dict:
+    def selection_event(window:surface, selection_objects:dict, direct_to_screen:bool = False) -> dict:
         selection_result = {'object_name':'', 'object_type':'', 'action_result':''}
         Window = window.Window
 
@@ -101,12 +121,18 @@ class pygame_ess:
 
                 # Check if mouse in selection object box
                 mouse_hover_over_object  = False
-                while selection_object.in_box(pygame.mouse.get_pos(), window.frame.by):
+                while selection_object.in_box(pygame.mouse.get_pos(), window.frame.box_coord()):
                     # Change to hover type
                     if selection_object.hover_action and not mouse_hover_over_object:
-                        Window.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
+                        # Check if draws driectly to screen or surface
+                        if direct_to_screen:
+                            screen.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord(window.frame.box_coord())))
+                            pygame_ess.update()
+                        else:
+                            Window.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
+                            pygame_ess.load_screen(window)
+
                         mouse_hover_over_object = True
-                        pygame_ess.load_screen(window)
                         logging.debug('[{}] Hovered on {} {}'.format(window.name, selection_object.name, selection_object.type))
 
                     # Run click event
@@ -133,8 +159,12 @@ class pygame_ess:
 
                 # Moved out of hitbox
                 if mouse_hover_over_object:
-                    Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
-                    pygame_ess.load_screen(window)
+                    if direct_to_screen:
+                        screen.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord(window.frame.box_coord())))
+                        pygame_ess.update()
+                    else:
+                        Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
+                        pygame_ess.load_screen(window)       
 
         # No selections/clicks were made
         return selection_result
@@ -169,16 +199,20 @@ class pygame_ess:
         return False  
 
     def scroll_event(window, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            # Scroll up
-            if event.button == 4:
-                window.frame.by = min(window.frame.by + 35, 0)
-                pygame_ess.load_screen(window)
+        # Check if scrolling is needed
+        if 768 - window.frame.h < 0:
+            
+            # Check of scroll action
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Scroll up
+                if event.button == 4:
+                    window.frame.by = min(window.frame.by + 35, 0)
+                    pygame_ess.load_screen(window)
 
-            # Scroll down
-            elif event.button == 5:
-                window.frame.by = max(window.frame.by - 35, min(768 - window.frame.h, 0))
-                pygame_ess.load_screen(window)
+                # Scroll down
+                elif event.button == 5:
+                    window.frame.by = max(window.frame.by - 35, min(768 - window.frame.h, 0))
+                    pygame_ess.load_screen(window)
 
 
     ########################

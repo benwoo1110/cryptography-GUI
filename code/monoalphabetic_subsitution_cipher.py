@@ -20,7 +20,6 @@ screen = pygame.display.set_mode((1024, 768))
 #########################
 logging.debug('Initialising monoalphabetic subsitution cipher variables...')
 page_name:str = 'monoalphabetic_subsitution_cipher'
-button_types:dict = {'back':'back', 'info':''}
 monoalphabetic_subsitution_cipher_objects:dict = dict()
 
 

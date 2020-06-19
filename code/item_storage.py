@@ -7,6 +7,12 @@ import logging
 from input_validation import validate
 
 
+##################
+# Initialization #
+##################
+pygame.init()
+
+
 #######################################
 # Storage images and its cooridinates #
 #######################################
@@ -19,11 +25,14 @@ class coord:
         self.ix:int = ix
         self.iy:int = iy
 
-    def box_size(self) -> tuple: return (self.w, self.h)
+    def box_size(self) -> tuple: 
+        return (self.w, self.h)
 
-    def box_coord(self) -> tuple: return (self.bx, self.by)
+    def box_coord(self, surface_coord:tuple = (0, 0)) -> tuple: 
+        return (self.bx + surface_coord[0], self.by + surface_coord[1])
     
-    def image_coord(self) -> tuple: return (self.ix, self.iy)
+    def image_coord(self, surface_coord:tuple = (0, 0)) -> tuple: 
+        return (self.ix + surface_coord[0], self.iy + surface_coord[1])
 
     def __str__(self):
         return 'bx:{} by:{} w:{} h:{} ix:{} iy:{}'.format(self.bx, self.by, self.w, self.h, self.ix, self.iy)
@@ -96,8 +105,12 @@ class item:
         # Debug objects
         logging.debug(self.__str__())
 
-    def in_box(self, mouse_pos:tuple, scroll_y:int = 0) -> bool:
-        return self.frame.bx < mouse_pos[0] < self.frame.bx + self.frame.w and self.frame.by + scroll_y < mouse_pos[1] < self.frame.by + self.frame.h + scroll_y
+    def in_box(self, mouse_pos:tuple, surface_coord:tuple = (0, 0)) -> bool:
+        # Save surface coord to seperate variables
+        scroll_x:int = surface_coord[0]
+        scroll_y:int = surface_coord[1]
+        # Return if in box
+        return self.frame.bx + scroll_x < mouse_pos[0] < self.frame.bx + self.frame.w + scroll_x and self.frame.by + scroll_y < mouse_pos[1] < self.frame.by + self.frame.h + scroll_y
 
     def __str__(self):
         return '''

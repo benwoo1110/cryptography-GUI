@@ -73,10 +73,10 @@ class invalid_input:
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(invalid_input_window, invalid_input_objects)
+            selection_result:dict = pygame_ess.selection_event(invalid_input_window, invalid_input_objects, direct_to_screen=True)
 
             # Quit program
-            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(invalid_input_objects): 
+            if selection_result['action_result'] == 'quit' or pygame_ess.buffer(invalid_input_window): 
                 return 'quit'
 
             # Dismiss alert

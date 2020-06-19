@@ -84,7 +84,7 @@ class textfield_event:
                 # Exit textfield if click out
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
-                    if not textfield_object.in_box(pygame.mouse.get_pos()):
+                    if not textfield_object.in_box(pygame.mouse.get_pos(), window.frame.box_coord()):
                         textfield_event.update_textfield(window, textfield_object, False)
                         logging.info('Exited '+textfield_object.name+' textfield.')
                         return textfield_object.meta.text
