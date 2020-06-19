@@ -1,8 +1,8 @@
 ######################################
 # Import and initialize the librarys #
 ######################################
-import pygame
 import logging
+import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
 from atbash_cipher import atbash_cipher

@@ -1,8 +1,8 @@
 ######################################
 # Import and initialize the librarys #
 ######################################
-import pygame
 import logging
+import pygame
 import glob
 from item_storage import *
 import os

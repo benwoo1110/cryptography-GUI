@@ -1,3 +1,12 @@
+######################################
+# Import and initialize the librarys #
+######################################
+import logging
+
+
+#############################
+# Input validation function #
+#############################
 class validate:
 
     class text:
@@ -55,14 +64,14 @@ class validate:
             # Check if its a float
             if self.is_float:
                 try: check_number = int(number)
-                except: 
+                except TypeError: 
                     print('Text not a Integer.')
                     return False       
                 
             # Check if its a integer
             else:
                 try: check_number = int(number)
-                except: 
+                except TypeError: 
                     print('Text not a Integer.')
                     return False
             

@@ -1,9 +1,9 @@
 ######################################
 # Import and initialize the librarys #
 ######################################
+import logging
 import pygame
 import os
-import logging
 from input_validation import validate
 
 
