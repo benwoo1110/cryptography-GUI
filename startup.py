@@ -2,6 +2,10 @@
 # Startup file #
 ################
 
+######################################
+# Import and initialize the librarys #
+######################################
+import pygame
 # Set to code directory
 import sys
 sys.path.insert(1, './code')
@@ -42,12 +46,13 @@ logging.getLogger().addHandler(debugHandler)
 # Starting Cryptography GUI app #
 #################################
 if __name__ == "__main__":
-    # Run home screen
-    import pygame
     logging.info('Starting Crpytography GUI...')
+    
+    # Initialize pygame
     pygame.init()
     pygame.display.set_caption("Cryptography GUI")
 
+    # Run home screen
     from home_screen import cryptography
     cryptography.run()
 
