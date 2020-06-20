@@ -46,14 +46,16 @@ invalid_input_objects['message'] = item(name='message',
                                         meta=text_data(
                                                 text='Oh no! Your input is invalid!',
                                                 font_type='Monaco.dfont',
-                                                font_size=26,
-                                                colour=pygame_ess.colour.gray
+                                                font_size=22,
+                                                warp_text=28,
+                                                align='center',
+                                                colour=pygame_ess.colour.whiteish
                                                 ),
                                         images=pygame_ess.load_images([page_name, 'message']),
                                         frame=coord(
-                                              332, 359, 
+                                              333, 359, 
                                               360, 60, 
-                                              332, 359),)
+                                              333, 359),)
 
 # ok button
 invalid_input_objects['ok'] = item(name='ok!',

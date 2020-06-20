@@ -32,11 +32,11 @@ class validate:
             for char in text.lower():
                 if self.use_ascii:
                     if ord(char) not in self.chars_allowed: 
-                        invalid_input.run()
+                        invalid_input.run('Text should only contain text, numbers and symbols')
                         return False
                 else:
                     if char not in self.chars_allowed: 
-                        invalid_input.run()
+                        invalid_input.run('Text should only contain text, numbers and symbols')
                         return False
                 
             # If check is all satisfied
@@ -67,14 +67,14 @@ class validate:
         def check(self, number:str) -> bool:
             # Check if doesnt exceed max_length
             if len(number) > self.max_length: 
-                invalid_input.run()
+                invalid_input.run('Text exceeded max length of {} characters'.format(self.max_length))
                 return False
 
             # Check if its a float
             if self.is_float:
                 try: check_number = int(number)
                 except: 
-                    invalid_input.run()
+                    invalid_input.run('Input is not an integer from {} to {}.'.format(self.min_num, self.max_num))
                     return False       
                 
             # Check if its a integer
@@ -82,12 +82,12 @@ class validate:
                 try: 
                     check_number = int(number)
                 except: 
-                    invalid_input.run()
+                    invalid_input.run('Input is not an float from {} to {}.'.format(self.min_num, self.max_num))
                     return False
             
             # Checks if number is in range
             if check_number not in self.num_range():
-                invalid_input.run()
+                invalid_input.run('Input number need to be between {} and {}.'.format(self.min_num, self.max_num))
                 return False
 
             return True

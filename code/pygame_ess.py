@@ -35,6 +35,7 @@ class pygame_ess:
         white = (255, 255, 255)
         red = (255, 0, 0)
         gray = (43, 43, 43)
+        whiteish = (213, 213, 213)
     
 
     ###############
@@ -189,8 +190,8 @@ class pygame_ess:
                 
                 # When errors loading screen/runclass
                 except: 
-                    print('error running', selection_object.name)
-                    traceback.print_exc()
+                    logging.error('error running', selection_object.name)
+                    logging.error(traceback.print_exc())
                     return True
 
             # When press closed windows

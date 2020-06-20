@@ -4,6 +4,7 @@
 import logging
 import pygame
 import os
+import textwrap
 
 
 #######################################
@@ -35,20 +36,18 @@ class coord:
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, 
-    font_size:int = 36, colour:set = (0, 0, 0), validation = None):
+    def __init__(self, text:str = '', font_type:str = None, font_size:int = 36, 
+    warp_text:int = None, align:str = 'left', colour:set = (0, 0, 0), validation = None):
         self.text:str = text
         self.font_size:int = font_size
         self.colour:tuple = colour
         self.validation = validation
-
-        # Check if custom font is defined
-        if font_type == '':
-            self.font_type = None
-            self.is_custom_font = False
+        self.warp_text = warp_text
+        self.align = align
+        self.font_type = font_type
 
         # Get font file if its custom
-        elif is_custom_font:
+        if font_type != None:
             # Get font type file
             font_dir:str = 'font/'+font_type
 
@@ -57,16 +56,48 @@ class text_data:
             
             # Save dir of custom font
             self.font_type = font_dir
-            self.is_custom_font = True
 
     def render_text(self):
-        font = pygame.font.Font(self.font_type, self.font_size)
-        return font.render(self.text, True, self.colour)
+        # Warp text if specified 
+        if self.warp_text != None:
+            warpped_text = textwrap.wrap(self.text, width=self.warp_text)
+
+            for line in range(len(warpped_text)):
+                if self.align == 'left': warpped_text[line] = '{1:<{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
+                elif self.align == 'center': warpped_text[line] = '{1:^{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
+                elif self.align == 'right': warpped_text[line] = '{1:>{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
+                else: logging.warn('Invalid alignment type.')
+
+            print(warpped_text)
+
+        # No text wrapping defined
+        else: warpped_text = [self.text]
+
+        # Render multi line text
+        rendered_lines = []
+        w = 0
+        h = [0]
+
+        # Get size and each line
+        for line in warpped_text:
+            line_text = pygame.font.Font(self.font_type, self.font_size)
+            rendered_lines.append(line_text.render(line, True, self.colour))
+            # Get size of text
+            text_w, text_h = line_text.size(line)
+            w = max(w, text_w)
+            h.append(text_h + h[-1])
+
+        # Generate surface for text
+        text_surface = pygame.surface.Surface((w, h[-1]))
+        for line in range(len(warpped_text)):
+            text_surface.blit(rendered_lines[line], (0, h[line]))
+        
+        return text_surface
 
     def __str__(self):
-        return '''text:{}
-      font_type:{}, is_custom_font:{}, font_size:{}, colour:{}
-      validation:{}'''.format(self.text, self.font_type, self.is_custom_font, self.font_size, self.colour, self.validation)
+        return '''text:{}, warp_text:{}, align:{}
+      [FONT] type:{}, size:{}, colour:{}
+      validation:{}'''.format(self.text, self.warp_text, self.align, self.font_type, self.font_size, self.colour, self.validation)
 
 
 ###########################
