@@ -4,7 +4,6 @@
 import logging
 import pygame
 from pygame_ess import pygame_ess
-from invalid_input import invalid_input
 import time
 
 
@@ -46,6 +45,9 @@ class textfield_event:
     def run(window, textfield_object) -> str:
         '''keyboard input'''
 
+        # Check if there is input validation
+        if textfield_object.meta.validation == None: logging.warn('No input validation specified.')
+
         textfield_event.update_textfield(window, textfield_object, True)
         logging.info('Loaded '+textfield_object.name+' textfield.')
 
@@ -61,10 +63,16 @@ class textfield_event:
 
                     # Exit textfield if click return or escape
                     if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
-                        textfield_event.update_textfield(window, textfield_object, False)
-                        '''invalid_input.run()'''
-                        logging.info('Exited '+textfield_object.name+' textfield.')
-                        return textfield_object.meta.text
+
+                        # Check if input is valid
+                        if textfield_object.meta.validation == None or textfield_object.meta.validation.check(textfield_object.meta.text):
+                            # Exit from texfield if so
+                            textfield_event.update_textfield(window, textfield_object, False)
+                            logging.info('Exited '+textfield_object.name+' textfield.')
+                            return textfield_object.meta.text
+                        
+                        # Load back textfield screen
+                        else: textfield_event.update_textfield(window, textfield_object, True)
 
                     # Allow only based on validation defined
                     elif event.key in textfield_object.meta.validation.chars_allowed:
@@ -85,9 +93,17 @@ class textfield_event:
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos(), window.frame.box_coord()):
-                        textfield_event.update_textfield(window, textfield_object, False)
-                        logging.info('Exited '+textfield_object.name+' textfield.')
-                        return textfield_object.meta.text
+
+                        # Check if input is valid
+                        if textfield_object.meta.validation == None or textfield_object.meta.validation.check(textfield_object.meta.text):
+                            # Exit from texfield if so
+                            textfield_event.update_textfield(window, textfield_object, False)
+                            logging.info('Exited '+textfield_object.name+' textfield.')
+                            return textfield_object.meta.text
+
+                        # Load back textfield screen
+                        else: textfield_event.update_textfield(window, textfield_object, True)
+
 
                 # Quit program
                 elif event.type == pygame.QUIT: return 'quit'

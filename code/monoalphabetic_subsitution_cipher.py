@@ -3,11 +3,12 @@
 ######################################
 import logging
 import pygame
+import random
 from item_storage import *
 from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
-import random
+from input_validation import validate
 
 
 ##################
@@ -50,7 +51,8 @@ monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -79,7 +81,8 @@ monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                               text='"ABCDEFGHIJKLMNOPQRSTUVWXYZ"',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'key']),
                                           frame=coord(
@@ -93,7 +96,8 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

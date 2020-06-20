@@ -2,6 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import logging
+from invalid_input import invalid_input
 
 
 #############################
@@ -23,14 +24,20 @@ class validate:
 
         def check(self, text:str) -> bool:
             # Check if text exceed max length
-            if len(text) > self.max_length: return False
+            if len(text) > self.max_length: 
+                invalid_input.run()
+                return False
 
             # Check if each char in chars_allowed
             for char in text.lower():
                 if self.use_ascii:
-                    if ord(char) not in self.chars_allowed: return False
+                    if ord(char) not in self.chars_allowed: 
+                        invalid_input.run()
+                        return False
                 else:
-                    if char not in self.chars_allowed: return False
+                    if char not in self.chars_allowed: 
+                        invalid_input.run()
+                        return False
                 
             # If check is all satisfied
             return True
@@ -59,24 +66,28 @@ class validate:
 
         def check(self, number:str) -> bool:
             # Check if doesnt exceed max_length
-            if len(number) > self.max_length: return False
+            if len(number) > self.max_length: 
+                invalid_input.run()
+                return False
 
             # Check if its a float
             if self.is_float:
                 try: check_number = int(number)
-                except TypeError: 
-                    print('Text not a Integer.')
+                except: 
+                    invalid_input.run()
                     return False       
                 
             # Check if its a integer
             else:
-                try: check_number = int(number)
-                except TypeError: 
-                    print('Text not a Integer.')
+                try: 
+                    check_number = int(number)
+                except: 
+                    invalid_input.run()
                     return False
             
             # Checks if number is in range
-            if check_number in self.num_range():
-                return True
+            if check_number not in self.num_range():
+                invalid_input.run()
+                return False
 
-            return False
+            return True

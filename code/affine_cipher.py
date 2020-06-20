@@ -41,7 +41,8 @@ affine_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -91,7 +92,8 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

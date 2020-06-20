@@ -7,6 +7,7 @@ from item_storage import *
 from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
+from input_validation import validate
 
 
 ##################
@@ -40,7 +41,8 @@ atbash_cipher_objects['plaintext'] = item(name='plaintext',
                                               text='plaintext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'plaintext']),
                                           frame=coord(
@@ -56,7 +58,8 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               text='ciphertext',
                                               font_type='Monaco.dfont',
                                               font_size=34,
-                                              colour=pygame_ess.colour.black
+                                              colour=pygame_ess.colour.black,
+                                              validation=validate.text()
                                               ),
                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
                                           frame=coord(

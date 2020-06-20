@@ -4,13 +4,6 @@
 import logging
 import pygame
 import os
-from input_validation import validate
-
-
-##################
-# Initialization #
-##################
-pygame.init()
 
 
 #######################################
@@ -43,11 +36,11 @@ class coord:
 #####################################
 class text_data:
     def __init__(self, text:str = '', font_type:str = '', is_custom_font:bool = True, 
-    font_size:int = 36, colour:set = (0, 0, 0), validation:validate = validate.text()):
+    font_size:int = 36, colour:set = (0, 0, 0), validation = None):
         self.text:str = text
         self.font_size:int = font_size
         self.colour:tuple = colour
-        self.validation:validate = validation
+        self.validation = validation
 
         # Check if custom font is defined
         if font_type == '':

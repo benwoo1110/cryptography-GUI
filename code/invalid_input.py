@@ -5,6 +5,7 @@ import logging
 import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
+from textfield_event import textfield_event
 
 
 ##################
@@ -23,7 +24,7 @@ invalid_input_objects:dict = dict()
 
 
 ##############################
-# Load affine cipher objects #
+# Load invalid input objects #
 ##############################
 logging.debug('Initialising invalid input objects...')
 
@@ -37,12 +38,27 @@ invalid_input_objects['alert'] = item(name='alert',
                                           frame=coord(
                                               306, 291, 
                                               412, 186, 
-                                              0, 0
-                                              ),)
+                                              0, 0),)
 
+# Invalid input message
+invalid_input_objects['message'] = item(name='message',
+                                        type='textfield',
+                                        meta=text_data(
+                                                text='Oh no! Your input is invalid!',
+                                                font_type='Monaco.dfont',
+                                                font_size=26,
+                                                colour=pygame_ess.colour.gray
+                                                ),
+                                        images=pygame_ess.load_images([page_name, 'message']),
+                                        frame=coord(
+                                              332, 359, 
+                                              360, 60, 
+                                              332, 359),)
+
+# ok button
 invalid_input_objects['ok'] = item(name='ok!',
                                           type='button',
-                                          images=pygame_ess.load_images([page_name, 'ok'], ),
+                                          images=pygame_ess.load_images([page_name, 'ok']),
                                           frame=coord(
                                               422, 429, 
                                               179, 35, 
@@ -64,11 +80,13 @@ invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is
 class invalid_input:
     '''cryptography home page'''
 
-    def run():
+    def run(invalid_message:str = 'Oh no! Your input is invalid!'):
         '''Display cryptography home page'''
 
+        # Set message
+        invalid_input_objects['message'].meta.text = invalid_message
         # Load the screen
-        pygame_ess.load_screen(invalid_input_window)
+        textfield_event.update_textfield(invalid_input_window, invalid_input_objects['message'], False)
         logging.info('Loaded invalid input window.')
 
         while True:
