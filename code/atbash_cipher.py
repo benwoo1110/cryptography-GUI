@@ -8,6 +8,7 @@ from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
+from info import info
 
 
 ##################
@@ -138,6 +139,11 @@ class atbash_cipher:
 
         # Load mode button
         mode.set_mode(atbash_cipher_window, atbash_cipher_objects)
+
+        # Set info button runclass
+        atbash_cipher_objects['info'].runclass = info.run
+        atbash_cipher_objects['info'].runclass_parameter = page_name
+
         # Load the screen
         atbash_cipher.encrypt()
         logging.info('Loaded atbash cipher window.')

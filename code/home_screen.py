@@ -48,7 +48,10 @@ for cipher_type in cipher_types:
     cryptography_objects[cipher_type] = item(name=cipher_type,
                                              type='button',
                                              images=pygame_ess.load_images([page_name, cipher_type]),
-                                             frame=coord(47, cipher_type_y_coord, 929, 86, 0, cipher_type_y_coord),
+                                             frame=coord(
+                                                        47, cipher_type_y_coord, 
+                                                        929, 86, 
+                                                         0, cipher_type_y_coord),
                                              runclass=cipher_types[cipher_type])
 
 

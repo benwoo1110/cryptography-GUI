@@ -8,6 +8,7 @@ from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
+from info import info
 
 
 ##################
@@ -214,6 +215,11 @@ class polyalphabetic_substitution_cipher:
 
         # Load mode button
         mode.set_mode(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)     
+        
+        # Set info button runclass
+        polyalphabetic_substitution_cipher_objects['info'].runclass = info.run
+        polyalphabetic_substitution_cipher_objects['info'].runclass_parameter = page_name
+        
         # Load screen
         polyalphabetic_substitution_cipher.encrypt()
         logging.info('Loaded polyalphabetic subsitution window.')

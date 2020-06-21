@@ -8,6 +8,7 @@ from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
+from info import info
 
 
 ##################
@@ -190,6 +191,11 @@ class affine_cipher:
 
         # Load mode button
         mode.set_mode(affine_cipher_window, affine_cipher_objects)
+
+        # Set info button runclass
+        affine_cipher_objects['info'].runclass = info.run
+        affine_cipher_objects['info'].runclass_parameter = page_name
+
         # Load screen
         affine_cipher.encrypt()
         logging.info('Loaded affine cipher window.')

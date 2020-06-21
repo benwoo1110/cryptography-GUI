@@ -8,6 +8,7 @@ from pygame_ess import pygame_ess
 from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
+from info import info
 
 
 ##################
@@ -197,6 +198,11 @@ class caesar_cipher:
         
         # Load mode button
         mode.set_mode(caesar_cipher_window, caesar_cipher_objects)
+
+        # Set info button runclass
+        caesar_cipher_objects['info'].runclass = info.run
+        caesar_cipher_objects['info'].runclass_parameter = page_name
+
         # Load the screen
         caesar_cipher.encrypt()
         logging.info('Loaded caesar cipher window.')

@@ -148,6 +148,7 @@ class pygame_ess:
                         # Load back previous screen
                         if click_result == True: 
                             pygame_ess.load_screen(window)
+                            logging.info('loaded '+window.name)
 
                         # Stores click_result
                         selection_result['object_name'] = selection_object.name
