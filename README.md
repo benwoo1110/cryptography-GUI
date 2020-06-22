@@ -7,7 +7,6 @@ A Simple visualisation for basic string cryptography algorithms.
 * Caesar Cipher
 * Monoalphabetic Cipher
 * Polyalphabetic Substitution Cipher
-* Rail-fence Cipher (coming soon)
 
 ## Depencencies needed:
 * python 3.x
