@@ -5,18 +5,24 @@
 ######################################
 # Import and initialize the librarys #
 ######################################
-import pygame
-# Set to code directory
 import sys
-sys.path.insert(1, './code')
+import os
+import pygame
+import logging
+import logging.handlers
+from datetime import datetime
 
 
 #######################
 # Setup debug logging #
 #######################
-import logging
-import logging.handlers
-from datetime import datetime
+
+# Ensure that logs folder is created
+if not os.path.isdir('./logs'):
+    # Create logs directory
+    try: os.mkdir('logs')
+    except OSError: print("[ERROR] Creation of the directory ./logs failed")
+    else: print("[INFO] Successfully created the directory ./logs")
 
 # Get date
 # datetime object containing current date and time
@@ -47,7 +53,10 @@ logging.getLogger().addHandler(debugHandler)
 #################################
 if __name__ == "__main__":
     logging.info('Starting Crpytography GUI...')
-    
+
+    # Set to code directory
+    sys.path.insert(1, './code')
+
     # Initialize pygame
     pygame.init()
     pygame.display.set_caption("Cryptography GUI")
