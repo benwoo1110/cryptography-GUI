@@ -38,7 +38,7 @@ logging.debug('Initialising info input objects...')
 for cipher_type in info_screen_data.keys():
     info_objects[cipher_type] = item(name=cipher_type, 
                                 type='info', 
-                                images=pygame_ess.load_images([page_name, cipher_type]),
+                                images=pygame_ess.load.images([page_name, cipher_type]),
                                 frame=coord(
                                         0, 0,
                                         1024, 2010,
@@ -47,7 +47,7 @@ for cipher_type in info_screen_data.keys():
 # Learn more! button
 info_objects['learn_more'] = item(name='learn_more', 
                                 type='button', 
-                                images=pygame_ess.load_images([page_name, 'learn_more']),
+                                images=pygame_ess.load.images([page_name, 'learn_more']),
                                 frame=coord(
                                         451, 2010,
                                         263, 74,
@@ -58,7 +58,7 @@ info_objects['learn_more'] = item(name='learn_more',
 # Try now! button
 info_objects['try_now'] = item(name='try_now', 
                                 type='button', 
-                                images=pygame_ess.load_images([page_name, 'try_now']),
+                                images=pygame_ess.load.images([page_name, 'try_now']),
                                 frame=coord(
                                         741, 2010,
                                         263, 74,
@@ -67,7 +67,7 @@ info_objects['try_now'] = item(name='try_now',
                                 runclass='back')
 
 # Load back button
-pygame_ess.load_essential_objects(info_objects, page_name, shares=['back'], background=False)
+pygame_ess.load.essential_objects(info_objects, page_name, shares=['back'], background=False)
 
 
 ###################
@@ -97,11 +97,11 @@ class info:
         info_objects['try_now'].frame.iy = info_screen_data[cipher_type]['height'] - 123
 
         # Load screen
-        pygame_ess.load_objects(info_window, info_objects, [cipher_type])
+        pygame_ess.display.objects(info_window, info_objects, [cipher_type])
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(info_window, info_objects)
+            selection_result:dict = pygame_ess.event.selection(info_window, info_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(info_window): 

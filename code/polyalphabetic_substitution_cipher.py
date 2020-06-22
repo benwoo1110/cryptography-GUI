@@ -33,7 +33,7 @@ mode = Mode()
 logging.debug('Initialising polyalphabetic subsitution objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
+pygame_ess.load.essential_objects(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
@@ -45,7 +45,7 @@ polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'keyword']),
+                                          images=pygame_ess.load.images([page_name, 'keyword']),
                                           frame=coord(
                                               325, 174, 
                                               632, 62, 
@@ -61,7 +61,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'plaintext']),
+                                          images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
                                               325, 255, 
                                               632, 62, 
@@ -76,7 +76,7 @@ polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                               font_size=34,
                                               colour=pygame_ess.colour.white
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'text']),
+                                          images=pygame_ess.load.images([page_name, 'text']),
                                           frame=coord(
                                               325, 381, 
                                               632, 62, 
@@ -90,7 +90,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                               font_size=34,
                                               colour=pygame_ess.colour.white
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'key']),
+                                          images=pygame_ess.load.images([page_name, 'key']),
                                           frame=coord(
                                               325, 437, 
                                               632, 62, 
@@ -105,7 +105,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                          images=pygame_ess.load.images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 572, 
                                               632, 62, 
@@ -226,7 +226,7 @@ class polyalphabetic_substitution_cipher:
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
+            selection_result:dict = pygame_ess.event.selection(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)
 
             # Check of mode button press
             mode.run(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects)

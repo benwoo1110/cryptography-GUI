@@ -40,14 +40,14 @@ cryptography_objects:dict = dict()
 logging.debug('Initialising home screen objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(cryptography_objects, page_name)
+pygame_ess.load.essential_objects(cryptography_objects, page_name)
 
 # cipher types view list
 for cipher_type in cipher_types:
     cipher_type_y_coord = 112 + list(cipher_types.keys()).index(cipher_type) * 106
     cryptography_objects[cipher_type] = item(name=cipher_type,
                                              type='button',
-                                             images=pygame_ess.load_images([page_name, cipher_type]),
+                                             images=pygame_ess.load.images([page_name, cipher_type]),
                                              frame=coord(
                                                         47, cipher_type_y_coord, 
                                                         929, 86, 
@@ -72,12 +72,12 @@ class cryptography:
         '''Display cryptography home page'''
 
         # Load the screen
-        pygame_ess.load_screen(cryptography_window)
+        pygame_ess.display.screen(cryptography_window)
         logging.info('Loaded home screen window.')
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(cryptography_window, cryptography_objects)
+            selection_result:dict = pygame_ess.event.selection(cryptography_window, cryptography_objects)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(cryptography_window): 

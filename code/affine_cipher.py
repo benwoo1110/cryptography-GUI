@@ -33,7 +33,7 @@ mode = Mode()
 logging.debug('Initialising affine cipher objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(affine_cipher_objects, page_name, ['back', 'info'])
+pygame_ess.load.essential_objects(affine_cipher_objects, page_name, ['back', 'info'])
 
 # Textfields
 affine_cipher_objects['plaintext'] = item(name='plaintext',
@@ -45,7 +45,7 @@ affine_cipher_objects['plaintext'] = item(name='plaintext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'plaintext']),
+                                          images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
                                               325, 158, 
                                               632, 62, 
@@ -62,7 +62,7 @@ affine_cipher_objects['a'] = item(name='a',
                                     colour=pygame_ess.colour.black,
                                     validation=validate.digits(min_num=1, max_num=26)
                                     ),
-                                images=pygame_ess.load_images([page_name, 'a']),
+                                images=pygame_ess.load.images([page_name, 'a']),
                                 frame=coord(
                                     325, 248, 
                                     160, 62, 
@@ -79,7 +79,7 @@ affine_cipher_objects['b'] = item(name='b',
                                     colour=pygame_ess.colour.black,
                                     validation=validate.digits(min_num=1, max_num=26)
                                     ),
-                                images=pygame_ess.load_images([page_name, 'b']),
+                                images=pygame_ess.load.images([page_name, 'b']),
                                 frame=coord(
                                     569, 247, 
                                     160, 62, 
@@ -96,7 +96,7 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                          images=pygame_ess.load.images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 535, 
                                               632, 62, 
@@ -202,7 +202,7 @@ class affine_cipher:
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(affine_cipher_window, affine_cipher_objects)
+            selection_result:dict = pygame_ess.event.selection(affine_cipher_window, affine_cipher_objects)
 
             # Check of mode button press
             mode.run(affine_cipher_window, affine_cipher_objects)

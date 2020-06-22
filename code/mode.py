@@ -31,7 +31,7 @@ logging.debug('Initialising set mode button objects...')
 # Load decrypt mode
 mode_objects['decrypt'] = item(name='decrypt',
                                type='button',
-                               images=pygame_ess.load_images([page_name, 'decrypt']),
+                               images=pygame_ess.load.images([page_name, 'decrypt']),
                                frame=coord(
                                         127, 6, 
                                         153, 62, 
@@ -41,7 +41,7 @@ mode_objects['decrypt'] = item(name='decrypt',
 # Load encrypt mode
 mode_objects['encrypt'] = item(name='encrypt',
                                type='button',
-                               images=pygame_ess.load_images([page_name, 'encrypt']),
+                               images=pygame_ess.load.images([page_name, 'encrypt']),
                                frame=coord(
                                         127, 6, 
                                         153, 62, 
@@ -75,7 +75,7 @@ class Mode:
         Window.blit(mode_window.Window, mode_window.frame.box_coord())
 
         # Load to screen
-        pygame_ess.load_screen(window)
+        pygame_ess.display.screen(window)
 
     def set_mode(self, window:surface, objects:dict) -> str:
         # Set to encrypt
@@ -85,7 +85,7 @@ class Mode:
             mode_objects['encrypt'].runclass = 'encrypt'
 
             # Change button
-            pygame_ess.load_objects(mode_window, mode_objects, ['encrypt'])
+            pygame_ess.display.objects(mode_window, mode_objects, ['encrypt'])
             self.load_button(window, objects)
 
             # Change object runclass of plaintext and ciphertext
@@ -102,7 +102,7 @@ class Mode:
             mode_objects['decrypt'].runclass = 'decrypt'
 
             # Change button
-            pygame_ess.load_objects(mode_window, mode_objects, ['decrypt'])
+            pygame_ess.load.objects(mode_window, mode_objects, ['decrypt'])
             self.load_button(window, objects)
 
             # Change object runclass of plaintext and ciphertext
@@ -118,7 +118,7 @@ class Mode:
         mode_window.frame.by = objects['ciphertext'].frame.iy + window.frame.by + 104
 
         # Check for mode selection
-        selection_result = pygame_ess.selection_event(mode_window, mode_objects)
+        selection_result = pygame_ess.event.selection(mode_window, mode_objects)
 
         if selection_result['object_name'] == 'decrypt':
             # Set mode to encrypt

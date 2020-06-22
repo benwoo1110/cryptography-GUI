@@ -29,12 +29,12 @@ invalid_input_objects:dict = dict()
 logging.debug('Initialising invalid input objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(invalid_input_objects, page_name, is_alpha=True)
+pygame_ess.load.essential_objects(invalid_input_objects, page_name, is_alpha=True)
 
 # Alert
 invalid_input_objects['alert'] = item(name='alert',
                                           type='alert',
-                                          images=pygame_ess.load_images([page_name, 'alert'], is_alpha=True),
+                                          images=pygame_ess.load.images([page_name, 'alert'], is_alpha=True),
                                           frame=coord(
                                               306, 291, 
                                               412, 186, 
@@ -51,7 +51,7 @@ invalid_input_objects['message'] = item(name='message',
                                                 align='center',
                                                 colour=pygame_ess.colour.whiteish
                                                 ),
-                                        images=pygame_ess.load_images([page_name, 'message']),
+                                        images=pygame_ess.load.images([page_name, 'message']),
                                         frame=coord(
                                               333, 359, 
                                               360, 60, 
@@ -60,7 +60,7 @@ invalid_input_objects['message'] = item(name='message',
 # ok button
 invalid_input_objects['ok'] = item(name='ok!',
                                           type='button',
-                                          images=pygame_ess.load_images([page_name, 'ok']),
+                                          images=pygame_ess.load.images([page_name, 'ok']),
                                           frame=coord(
                                               422, 429, 
                                               179, 35, 
@@ -93,7 +93,7 @@ class invalid_input:
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(invalid_input_window, invalid_input_objects, direct_to_screen=True)
+            selection_result:dict = pygame_ess.event.selection(invalid_input_window, invalid_input_objects, direct_to_screen=True)
 
             # Quit program
             if selection_result['action_result'] == 'quit' or pygame_ess.buffer(invalid_input_window): 

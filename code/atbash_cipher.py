@@ -33,7 +33,7 @@ mode = Mode()
 logging.debug('Initialising atbash cipher objects...')
 
 # background image
-pygame_ess.load_essential_objects(atbash_cipher_objects, page_name, ['back', 'info'])
+pygame_ess.load.essential_objects(atbash_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 atbash_cipher_objects['plaintext'] = item(name='plaintext',
@@ -45,7 +45,7 @@ atbash_cipher_objects['plaintext'] = item(name='plaintext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'plaintext']),
+                                          images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
                                               325, 156, 
                                               632, 62, 
@@ -62,7 +62,7 @@ atbash_cipher_objects['ciphertext'] = item(name='ciphertext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                          images=pygame_ess.load.images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 542, 
                                               632, 62, 
@@ -150,7 +150,7 @@ class atbash_cipher:
          
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(atbash_cipher_window, atbash_cipher_objects)
+            selection_result:dict = pygame_ess.event.selection(atbash_cipher_window, atbash_cipher_objects)
 
             # Check of mode button press
             mode.run(atbash_cipher_window, atbash_cipher_objects)

@@ -39,7 +39,7 @@ class textfield_event:
         if selected and not backspace: textfield_object.meta.text = textfield_object.meta.text[:-1]
 
         # Output to screen
-        pygame_ess.load_screen(window)
+        pygame_ess.display.screen(window)
 
 
     def run(window, textfield_object) -> str:
@@ -109,7 +109,7 @@ class textfield_event:
                 elif event.type == pygame.QUIT: return 'quit'
 
                 # check for Scroll
-                pygame_ess.scroll_event(window, event)
+                pygame_ess.event.scroll(window, event)
 
             # Apply keypress, key repeat based on repeat interval in seconds
             if key_pressed != [] and time.time() - time_pressed >= repeat_interval:

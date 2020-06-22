@@ -33,12 +33,12 @@ mode = Mode()
 logging.debug('Initialising monoalphabetic subsitution cipher objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
+pygame_ess.load.essential_objects(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
 
 # Button
 monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
                                               type='button',
-                                              images=pygame_ess.load_images([page_name, 'shuffle']),
+                                              images=pygame_ess.load.images([page_name, 'shuffle']),
                                               frame=coord(
                                                   738, 459, 
                                                   199, 56, 
@@ -55,7 +55,7 @@ monoalphabetic_subsitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'plaintext']),
+                                          images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
                                               325, 175, 
                                               632, 62, 
@@ -70,7 +70,7 @@ monoalphabetic_subsitution_cipher_objects['alphabet'] = item(name='alphabet',
                                               font_size=34,
                                               colour=pygame_ess.colour.white
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'alphabet']),
+                                          images=pygame_ess.load.images([page_name, 'alphabet']),
                                           frame=coord(
                                               325, 314, 
                                               632, 62, 
@@ -85,7 +85,7 @@ monoalphabetic_subsitution_cipher_objects['key'] = item(name='key',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'key']),
+                                          images=pygame_ess.load.images([page_name, 'key']),
                                           frame=coord(
                                               325, 385, 
                                               632, 62, 
@@ -100,7 +100,7 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                          images=pygame_ess.load.images([page_name, 'ciphertext']),
                                           frame=coord(
                                               325, 611, 
                                               632, 62, 
@@ -209,7 +209,7 @@ class monoalphabetic_subsitution_cipher:
 
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
+            selection_result:dict = pygame_ess.event.selection(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)
 
             # Check of mode button press
             mode.run(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects)

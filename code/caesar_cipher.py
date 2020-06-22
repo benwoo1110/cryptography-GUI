@@ -33,7 +33,7 @@ mode = Mode()
 logging.debug('Initialising caesar cipher objects...')
 
 # Load essentials images
-pygame_ess.load_essential_objects(caesar_cipher_objects, page_name, ['back', 'info'])
+pygame_ess.load.essential_objects(caesar_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 caesar_cipher_objects['plaintext'] = item(name='plaintext',
@@ -45,7 +45,7 @@ caesar_cipher_objects['plaintext'] = item(name='plaintext',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.text()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'plaintext']),
+                                          images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
                                               325, 156, 
                                               632, 62, 
@@ -61,7 +61,7 @@ caesar_cipher_objects['key'] = item(name='key',
                                               colour=pygame_ess.colour.black,
                                               validation=validate.digits()
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'key']),
+                                          images=pygame_ess.load.images([page_name, 'key']),
                                           frame=coord(
                                               325, 238, 
                                               160, 62, 
@@ -76,7 +76,7 @@ caesar_cipher_objects['alphabet'] = item(name='alphabet',
                                               font_size=34,
                                               colour=pygame_ess.colour.white
                                               ),
-                                          images=pygame_ess.load_images([page_name, 'alphabet']),
+                                          images=pygame_ess.load.images([page_name, 'alphabet']),
                                           frame=coord(
                                               311, 403, 
                                               649, 47, 
@@ -90,7 +90,7 @@ caesar_cipher_objects['replaced'] = item(name='replaced',
                                                 font_size=34,
                                                 colour=pygame_ess.colour.white
                                                 ),
-                                         images=pygame_ess.load_images([page_name, 'replaced']),
+                                         images=pygame_ess.load.images([page_name, 'replaced']),
                                          frame=coord(
                                                 311, 464, 
                                                 649, 47, 
@@ -105,7 +105,7 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
                                                 colour=pygame_ess.colour.black,
                                                 validation=validate.text()
                                                 ),
-                                           images=pygame_ess.load_images([page_name, 'ciphertext']),
+                                           images=pygame_ess.load.images([page_name, 'ciphertext']),
                                            frame=coord(
                                                 325, 574, 
                                                 632, 62, 
@@ -209,7 +209,7 @@ class caesar_cipher:
          
         while True:
             # Check for selection
-            selection_result:dict = pygame_ess.selection_event(caesar_cipher_window, caesar_cipher_objects)
+            selection_result:dict = pygame_ess.event.selection(caesar_cipher_window, caesar_cipher_objects)
 
             # Check of mode button press
             mode.run(caesar_cipher_window, caesar_cipher_objects)
