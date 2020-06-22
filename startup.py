@@ -7,7 +7,6 @@
 ######################################
 import sys
 import os
-import pygame
 import logging
 import logging.handlers
 from datetime import datetime
@@ -58,13 +57,12 @@ if __name__ == "__main__":
     sys.path.insert(1, './code')
 
     # Initialize pygame
-    pygame.init()
-    pygame.display.set_caption("Cryptography GUI")
+    from pygame_ess import pygame_ess
+    from home_screen import cryptography
 
     # Run home screen
-    from home_screen import cryptography
+    pygame_ess.set_caption('Cryptography GUI')
     cryptography.run()
 
     # End program
-    logging.info('Exiting program...')
-    pygame.quit()
+    pygame_ess.quit()

@@ -43,7 +43,11 @@ class pygame_ess:
     # Load events #
     ###############
     class load:
+        '''Loading of images and objects to surfaces'''
+
         def images(image_page:list, file_type:str = '.png', is_alpha:bool = False) -> dict:
+            '''Load all images in a given directory to pygame surface'''
+
             # Define variables
             images = dict()
             image_dir = 'images/{}/'.format('/'.join(image_page))
@@ -66,6 +70,8 @@ class pygame_ess:
             return images
 
         def text(surface, object):
+            '''Load text of object, includes things liek text warping, align and multi line support'''
+
             # Grap text_data
             text_data = object.meta
 
@@ -97,12 +103,16 @@ class pygame_ess:
             surface.blit(text_surface, (object.frame.box_coord()))
 
         def object(surface, object, state:str = '', load_text:bool = True) -> None:
+            '''Load an object to a pygame surface'''
+            
             surface.blit(object.images[object.type+state], (object.frame.image_coord()))
 
             # Load text of object is a textfield
             if object.type == 'textfield': pygame_ess.load.text(surface, object)
 
         def objects(surface, objects:dict, names:list) -> None:
+            '''Load mutliple objects to a pygame surface'''
+
             # Loop through object specified and load them
             for name in names:
                 # Try to load object specified
@@ -111,9 +121,12 @@ class pygame_ess:
                 except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
 
         def surface(surface, window):
+            '''Load a surface onto another pygame surface'''
             surface.blit(window.Window, window.frame.box_coord())
 
         def screen(surface, objects:dict):
+            '''Load all objects given to screen'''
+
             # Load objects to window
             for object in objects.values():
                 # Load image of item
@@ -124,7 +137,11 @@ class pygame_ess:
     # Display events #
     ##################
     class display:
+        '''Display text, objects and surfaces to screen'''
+        
         def object(window, object, state:str = '', direct_to_screen:bool = False) -> None:
+            '''Display an object to screen'''
+
             if direct_to_screen: 
                 screen.blit(object.images[object.type+state], (object.frame.image_coord()))
                 pygame_ess.update()
@@ -134,6 +151,8 @@ class pygame_ess:
                 pygame_ess.display.screen(window)
 
         def objects(window, objects:dict, names:list, direct_to_screen:bool = False) -> None:
+            '''Display mutliple objects to screen'''
+
             # Draw direct to screen
             if direct_to_screen:
                 # Loop through object specified and load them
@@ -151,10 +170,14 @@ class pygame_ess:
                 pygame_ess.display.screen(window)
 
         def surface(window, window_to_merge):
+            '''Display a surface given to screen'''
+
             pygame_ess.load.surface(window.Window, window_to_merge)
             pygame_ess.display.screen(window)
 
         def screen(window, update_all:bool = False, objects:dict = None) -> None:
+            '''Display all objects given to screen'''
+
             # Update all objects of the surface
             if update_all: pygame_ess.load.screen(window.Window, objects)
 
@@ -169,7 +192,11 @@ class pygame_ess:
     # Interaction event #
     #####################
     class event:
+        '''Process actios by the user'''
+
         def selection(window, selection_objects:dict, direct_to_screen:bool = False) -> dict:
+            '''Check for mouse hover and selections'''
+
             selection_result = {'object_name':'', 'object_type':'', 'action_result':''}
 
             for selection_object in selection_objects.values():
@@ -215,6 +242,8 @@ class pygame_ess:
             return selection_result
 
         def click(window, selection_object) -> any:
+            '''Check if mouse click on objects, and run defined actions'''
+
             for event in pygame.event.get():                
                 # Check for left click
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
@@ -246,6 +275,8 @@ class pygame_ess:
             return False  
 
         def scroll(window, event):
+            '''Scrolling of surface'''
+
             # Check if scrolling is needed
             if 768 - window.frame.h < 0:
                 # Check of scroll action
@@ -264,16 +295,23 @@ class pygame_ess:
     ########################
     # Other core functions #
     ########################
+    def set_caption(caption:str = 'pygame time!'):
+        '''Set window header title'''
+        pygame.display.set_caption(caption)
+
     def update(tick:int = 60):
+        '''Draw display changes to screen'''
         pygame.display.flip()
         pygame.display.update()
         pygame.time.Clock().tick(tick)
 
     def buffer(window) -> bool:
+        '''Loop through pygame events and check of quit and scrolling'''
         for event in pygame.event.get():
             if event.type == pygame.QUIT: return True
             pygame_ess.event.scroll(window, event)
 
     def quit():
-        print('Exiting program...')
+        '''Exit from program'''
+        logging.info('Exiting program...')
         pygame.quit()
