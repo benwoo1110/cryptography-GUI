@@ -5,6 +5,7 @@ import logging
 import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
+import webbrowser 
 
 
 ##################
@@ -107,7 +108,12 @@ class info:
                 return 'quit'
 
             # Close info window
-            elif selection_result['action_result'] == 'back': return True
+            elif selection_result['action_result'] == 'back': 
+                return True
+
+            # Open learn more URL
+            elif selection_result['action_result'] == 'learn_more': 
+                webbrowser.open(info_screen_data[cipher_type]['link'])
 
 
 #############
