@@ -80,7 +80,7 @@ class pygame_ess:
             else: warpped_text = [text_data.text]
 
             # Generate surface for text
-            text_surface = pygame.surface.Surface(object.frame.box_size())
+            text_surface = pygame.surface.Surface(object.frame.box_size(), pygame.SRCALPHA)
 
             # Render multi line text
             h = 0
@@ -187,7 +187,7 @@ class pygame_ess:
                             # Load back previous screen
                             if click_result == True: 
                                 pygame_ess.display.screen(window)
-                                logging.info('loaded '+window.name)
+                                logging.info('loaded {}.'.format(window.name))
 
                             # Stores click_result
                             selection_result['object_name'] = selection_object.name

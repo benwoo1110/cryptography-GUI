@@ -169,7 +169,8 @@ class surface:
 
         # Save to class
         self.name = name
-        self.Window:pygame.surface.Surface = window.convert_alpha()
+        if is_alpha: self.Window = window.convert_alpha()
+        else: self.Window = window.convert()
         self.frame:coord = frame
         self.background_fill:tuple = background_fill
         self.is_alpha:bool = is_alpha
