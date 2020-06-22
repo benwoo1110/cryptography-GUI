@@ -30,7 +30,7 @@ logging.getLogger().setLevel(logging.NOTSET)
 # Add stdout handler, with level INFO
 console = logging.StreamHandler(sys.stdout)
 console.setLevel(logging.INFO)
-formater = logging.Formatter('[%(levelname)s] %(message)s')
+formater = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
 console.setFormatter(formater)
 logging.getLogger().addHandler(console)
 

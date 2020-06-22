@@ -2,18 +2,12 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 import webbrowser 
 from pygame_ess import pygame_ess
 from item_storage import *
 from common_objects import common_objects
 
-
-##################
-# Initialization #
-##################
 logging.info('Loading info screen...')
-screen = pygame.display.set_mode((1024, 768))
 
 
 ########################
@@ -86,6 +80,11 @@ class info:
 
     def run(cipher_type:str = 'affine_cipher'):
         '''Display cryptography home page'''
+
+        # Ensure cipher_type exist
+        if cipher_type not in info_screen_data.keys(): 
+            logging.error('[{}] No such cipher type for the info screen.'.format(info_window.name))
+            return True
 
         # Set correct info screen
         # Set height

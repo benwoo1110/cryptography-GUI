@@ -4,6 +4,8 @@
 import logging
 from invalid_input import invalid_input
 
+logging.info('Loading input validation checks...')
+
 
 #############################
 # Input validation function #

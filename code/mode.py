@@ -2,23 +2,17 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
 
-
-##################
-# Initialization #
-##################
 logging.info('Loading switch mode button...')
-screen = pygame.display.set_mode((1024, 768))
 
 
 #########################
 # Variables declaration #
 #########################
-logging.debug('Initialising monoalphabetic subsitution cipher variables...')
+logging.debug('Initialising mode switch variables...')
 page_name:str = 'mode'
 mode_objects:dict = dict()
 
@@ -26,7 +20,7 @@ mode_objects:dict = dict()
 ################################
 # Load set mode button objects #
 ################################
-logging.debug('Initialising set mode button objects...')
+logging.debug('Initialising mode switch objects...')
 
 # Load decrypt mode
 mode_objects['decrypt'] = item(name='decrypt',
@@ -71,11 +65,7 @@ class Mode:
         mode_window.frame.by = objects['ciphertext'].frame.iy + 104
 
         # Add mode button to main window
-        Window = window.Window
-        Window.blit(mode_window.Window, mode_window.frame.box_coord())
-
-        # Load to screen
-        pygame_ess.display.screen(window)
+        pygame_ess.load.surface(window.Window, mode_window)
 
     def set_mode(self, window:surface, objects:dict) -> str:
         # Set to encrypt

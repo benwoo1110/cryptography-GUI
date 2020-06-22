@@ -2,15 +2,15 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
+
+logging.debug('Initialising shared objects...')
 
 
 #######################
 # Load shared objects #
 #######################
-logging.debug('Initialising shared objects...')
 shared_objects:dict = dict()
 
 shared_objects['back'] = item(name='back',
@@ -47,8 +47,7 @@ class common_objects:
                                         frame=coord(
                                                 0, 0,
                                                 1024, 768,
-                                                0, 0
-                                                ))
+                                                0, 0))
 
         # Load common shred objects needed
         for share in shares:

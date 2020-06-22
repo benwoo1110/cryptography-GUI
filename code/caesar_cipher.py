@@ -2,7 +2,6 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from mode import Mode
@@ -11,12 +10,7 @@ from input_validation import validate
 from info import info
 from common_objects import common_objects
 
-
-##################
-# Initialization #
-##################
 logging.info('Loading caesar cipher...')
-screen = pygame.display.set_mode((1024, 768))
 
 
 #########################

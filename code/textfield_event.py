@@ -3,14 +3,9 @@
 ######################################
 import logging
 import pygame
-from pygame_ess import pygame_ess
 import time
+from pygame_ess import pygame_ess
 
-
-##################
-# Initialization #
-##################
-screen = pygame.display.set_mode((1024, 768))
 
 
 #################################################

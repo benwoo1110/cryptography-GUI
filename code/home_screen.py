@@ -2,7 +2,6 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 from pygame_ess import pygame_ess
 from item_storage import *
 from atbash_cipher import atbash_cipher
@@ -11,13 +10,9 @@ from caesar_cipher import caesar_cipher
 from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
 from common_objects import common_objects
+from credits import credits
 
-
-##################
-# Initialization #
-##################
 logging.info('Loading home screen...')
-screen = pygame.display.set_mode((1024, 768))
 
 
 ########################
@@ -45,22 +40,32 @@ common_objects.load(cryptography_objects, page_name)
 
 # cipher types view list
 for cipher_type in cipher_types:
-    cipher_type_y_coord = 112 + list(cipher_types.keys()).index(cipher_type) * 106
+    cipher_type_y_coord = 118 + list(cipher_types.keys()).index(cipher_type) * 112
     cryptography_objects[cipher_type] = item(name=cipher_type,
                                              type='button',
                                              images=pygame_ess.load.images([page_name, cipher_type]),
                                              frame=coord(
                                                         47, cipher_type_y_coord, 
                                                         929, 86, 
-                                                         0, cipher_type_y_coord),
+                                                        0, cipher_type_y_coord),
                                              runclass=cipher_types[cipher_type])
+
+# credits button
+cryptography_objects['credits'] = item(name='credits',
+                                        type='button',
+                                        images=pygame_ess.load.images([page_name, 'credits']),
+                                        frame=coord(
+                                                375, 720, 
+                                                275, 29, 
+                                                352, 710),
+                                        runclass=credits.run)
 
 
 ###################
 # Generate window #
 ###################
 logging.debug('Initialising home screen window...')
-cryptography_window:surface = surface(cryptography_objects, name=page_name, frame=coord(0, 0, 1024, 1000))
+cryptography_window:surface = surface(cryptography_objects, name=page_name, frame=coord(0, 0, 1024, 768))
 
 
 #############

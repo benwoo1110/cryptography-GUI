@@ -2,7 +2,6 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 import random
 from item_storage import *
 from pygame_ess import pygame_ess
@@ -12,12 +11,8 @@ from input_validation import validate
 from info import info
 from common_objects import common_objects
 
-
-##################
-# Initialization #
-##################
 logging.info('Loading monoalphabetic subsitution cipher...')
-screen = pygame.display.set_mode((1024, 768))
+
 
 #########################
 # Variables declaration #
@@ -131,7 +126,7 @@ class monoalphabetic_subsitution_cipher:
         random.shuffle(shuffled_alphabet)
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
-        # Update key text        
+        # Update key text
         pygame_ess.display.object(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'])
         
         # encrypt to ciphertext

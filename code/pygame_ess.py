@@ -12,7 +12,7 @@ import textwrap
 ##################
 # Initialization #
 ##################
-logging.info('Loading pygame essentials...')
+logging.info('Loading pygame essentials classes...')
 pygame.init()
 screen = pygame.display.set_mode((1024, 768))
 
@@ -21,7 +21,7 @@ screen = pygame.display.set_mode((1024, 768))
 # Essentials functions #
 ########################
 class pygame_ess:
-    '''Essentials functions and variables for pygame'''
+    '''Essentials classes, functions and variables for pygame'''
 
 
     #############################
@@ -31,7 +31,7 @@ class pygame_ess:
 
     # Common defined colours
     class colour:
-        '''Colour types in RGB form'''
+        '''Common colour types in RGB tuple form'''
         black = (0, 0, 0)
         white = (255, 255, 255)
         red = (255, 0, 0)
@@ -43,7 +43,7 @@ class pygame_ess:
     # Load events #
     ###############
     class load:
-        def images(image_page:list, file_type:str = '.png', is_alpha:bool = False) -> bool:
+        def images(image_page:list, file_type:str = '.png', is_alpha:bool = False) -> dict:
             # Define variables
             images = dict()
             image_dir = 'images/{}/'.format('/'.join(image_page))
@@ -53,6 +53,9 @@ class pygame_ess:
             
             # Get all image file from givent directory
             image_dir_list = glob.glob(image_dir+"*"+file_type)
+
+            # Warn on empty dir
+            if len(image_dir_list) == 0: logging.error('No image found in {}'.format(image_dir))
 
             # Load them into pygame
             for image in image_dir_list:
@@ -107,7 +110,10 @@ class pygame_ess:
                 # Error loading object
                 except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
 
-        def surface(surface, objects:dict):
+        def surface(surface, window):
+            surface.blit(window.Window, window.frame.box_coord())
+
+        def screen(surface, objects:dict):
             # Load objects to window
             for object in objects.values():
                 # Load image of item
@@ -144,9 +150,13 @@ class pygame_ess:
                 pygame_ess.load.objects(window.Window, objects, names)
                 pygame_ess.display.screen(window)
 
+        def surface(window, window_to_merge):
+            pygame_ess.load.surface(window.Window, window_to_merge)
+            pygame_ess.display.screen(window)
+
         def screen(window, update_all:bool = False, objects:dict = None) -> None:
             # Update all objects of the surface
-            if update_all: pygame_ess.load.surface(window.Window, objects)
+            if update_all: pygame_ess.load.screen(window.Window, objects)
 
             # Ouput window to screen
             screen.blit(window.Window, (window.frame.bx, window.frame.by))

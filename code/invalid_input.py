@@ -2,18 +2,11 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
-from textfield_event import textfield_event
 from common_objects import common_objects
 
-
-##################
-# Initialization #
-##################
-logging.info('Loading invalid input...')
-screen = pygame.display.set_mode((1024, 768))
+logging.info('Loading invalid input alert...')
 
 
 #########################
@@ -73,7 +66,7 @@ invalid_input_objects['ok'] = item(name='ok!',
 ###################
 # Generate window #
 ###################
-logging.info('Initialising invalid input window...')
+logging.debug('Initialising invalid input window...')
 invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is_alpha = True)
 
 

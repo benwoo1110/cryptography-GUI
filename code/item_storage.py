@@ -7,6 +7,8 @@ import os
 import textwrap
 from pygame_ess import pygame_ess
 
+logging.info('Loading item storage classes...')
+
 
 #######################################
 # Storage images and its cooridinates #
@@ -151,8 +153,16 @@ runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.hover_ac
 # Store suface of window #
 ##########################
 class surface:
-    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = coord(bx=0, by=0, w=1024, h=768), 
+    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = None, 
     background_fill:tuple = None, load:bool = True, is_alpha:bool = False):
+       
+        # Calculate smart height of window size if no frame defined
+        if frame == None:
+            logging.warn('No frame defined for surface {}, doing smart frame calculation.'.format(name))
+            frame = coord(bx=0, by=0, w=1024, h=0)
+            for window_object in window_objects.values():
+                frame.h = max(frame.h, window_object.frame.iy+window_object.frame.h)
+
         # Create window
         if is_alpha: window = pygame.surface.Surface((frame.w, frame.h), pygame.SRCALPHA)
         else: window = pygame.surface.Surface((frame.w, frame.h))
@@ -165,7 +175,7 @@ class surface:
         else: window.fill(background_fill)
 
         # Load surface
-        if load: pygame_ess.load.surface(window, window_objects)
+        if load: pygame_ess.load.screen(window, window_objects)
 
         # Save to class
         self.name = name
