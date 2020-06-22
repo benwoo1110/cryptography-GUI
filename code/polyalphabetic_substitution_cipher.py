@@ -9,6 +9,7 @@ from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 from info import info
+from common_objects import common_objects
 
 
 ##################
@@ -33,7 +34,7 @@ mode = Mode()
 logging.debug('Initialising polyalphabetic subsitution objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
+common_objects.load(polyalphabetic_substitution_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
@@ -158,10 +159,8 @@ class polyalphabetic_substitution_cipher:
 
         # Stores ciphertext
         polyalphabetic_substitution_cipher_objects['ciphertext'].meta.text = ciphertext
-
         # Output to screen
-        for text in ['text', 'key', 'ciphertext']:
-            textfield_event.update_textfield(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects[text], False)
+        pygame_ess.display.objects(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects, ['text', 'key', 'ciphertext'])
 
         return ciphertext
 
@@ -202,11 +201,8 @@ class polyalphabetic_substitution_cipher:
 
         # Update text
         polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
-        print(polyalphabetic_substitution_cipher_objects['text'].meta.text)
-
         # Output to screen
-        for text in ['text', 'key', 'plaintext']:
-            textfield_event.update_textfield(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects[text], False)
+        pygame_ess.display.objects(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects, ['text', 'key', 'ciphertext'])
 
         return plaintext
 

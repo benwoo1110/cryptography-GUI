@@ -6,6 +6,7 @@ import pygame
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
+from common_objects import common_objects
 
 
 ##################
@@ -29,7 +30,7 @@ invalid_input_objects:dict = dict()
 logging.debug('Initialising invalid input objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(invalid_input_objects, page_name, is_alpha=True)
+common_objects.load(invalid_input_objects, page_name, is_alpha=True)
 
 # Alert
 invalid_input_objects['alert'] = item(name='alert',
@@ -53,9 +54,9 @@ invalid_input_objects['message'] = item(name='message',
                                                 ),
                                         images=pygame_ess.load.images([page_name, 'message']),
                                         frame=coord(
-                                              333, 359, 
-                                              360, 60, 
-                                              333, 359),)
+                                              330, 359, 
+                                              364, 60, 
+                                              330, 359),)
 
 # ok button
 invalid_input_objects['ok'] = item(name='ok!',
@@ -88,7 +89,7 @@ class invalid_input:
         # Set message
         invalid_input_objects['message'].meta.text = invalid_message
         # Load the screen
-        textfield_event.update_textfield(invalid_input_window, invalid_input_objects['message'], False)
+        pygame_ess.display.object(invalid_input_window, invalid_input_objects['message'])
         logging.info('Loaded invalid input window.')
 
         while True:

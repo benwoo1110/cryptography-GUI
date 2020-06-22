@@ -3,9 +3,10 @@
 ######################################
 import logging
 import pygame
+import webbrowser 
 from pygame_ess import pygame_ess
 from item_storage import *
-import webbrowser 
+from common_objects import common_objects
 
 
 ##################
@@ -33,6 +34,9 @@ info_screen_data:dict = {'atbash_cipher':{'height':1901, 'link':'http://practica
 # Load invalid input objects #
 ##############################
 logging.debug('Initialising info input objects...')
+
+# Load back button
+common_objects.load(info_objects, page_name, shares=['back'], background=False)
 
 # Load all info objects
 for cipher_type in info_screen_data.keys():
@@ -65,9 +69,6 @@ info_objects['try_now'] = item(name='try_now',
                                         741, 2010
                                         ),
                                 runclass='back')
-
-# Load back button
-pygame_ess.load.essential_objects(info_objects, page_name, shares=['back'], background=False)
 
 
 ###################

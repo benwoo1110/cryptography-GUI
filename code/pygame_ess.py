@@ -4,15 +4,16 @@
 import logging
 import pygame
 import glob
-from item_storage import *
 import os
 import traceback
+import textwrap
 
 
 ##################
 # Initialization #
 ##################
 logging.info('Loading pygame essentials...')
+pygame.init()
 screen = pygame.display.set_mode((1024, 768))
 
 
@@ -61,47 +62,92 @@ class pygame_ess:
 
             return images
 
-        def essential_objects(objects:dict, page_name:str, shares:list = [], background:bool = True, is_alpha:bool = False) -> dict:
-            # Load background
-            if background:
-                objects['background'] = item(name=page_name+' background', 
-                                            type='background', 
-                                            images=pygame_ess.load.images([page_name], is_alpha=is_alpha),
-                                            frame=coord(
-                                                    0, 0,
-                                                    1024, 768,
-                                                    0, 0
-                                                    ))
+        def text(surface, object):
+            # Grap text_data
+            text_data = object.meta
 
-            # Load common shred objects needed
-            for share in shares:
-                try: objects[share] = shared_objects[share]
-                except: print('Object {} not founded.'.format(share))
+            # Warp text if specified
+            if text_data.warp_text != None:
+                warpped_text = textwrap.wrap(text_data.text, width=text_data.warp_text)
 
-            return objects
+                for line in range(len(warpped_text)):
+                    if text_data.align == 'left': warpped_text[line] = '{1:<{0}}'.format(text_data.warp_text, warpped_text[line]).rstrip()
+                    elif text_data.align == 'center': warpped_text[line] = '{1:^{0}}'.format(text_data.warp_text, warpped_text[line]).rstrip()
+                    elif text_data.align == 'right': warpped_text[line] = '{1:>{0}}'.format(text_data.warp_text, warpped_text[line]).rstrip()
+                    else: logging.error('Invalid alignment type {}'.format(text_data.align))
+
+            # No text wrapping defined
+            else: warpped_text = [text_data.text]
+
+            # Generate surface for text
+            text_surface = pygame.surface.Surface(object.frame.box_size())
+
+            # Render multi line text
+            h = 0
+            for line in warpped_text:
+                line_text = pygame.font.Font(text_data.font_type, text_data.font_size)
+                rendered_text = line_text.render(line, True, text_data.colour)
+                text_surface.blit(rendered_text, (0, h))
+                h += line_text.size(line)[1]
+
+            # Load to surface
+            surface.blit(text_surface, (object.frame.box_coord()))
+
+        def object(surface, object, state:str = '', load_text:bool = True) -> None:
+            surface.blit(object.images[object.type+state], (object.frame.image_coord()))
+
+            # Load text of object is a textfield
+            if object.type == 'textfield': pygame_ess.load.text(surface, object)
+
+        def objects(surface, objects:dict, names:list) -> None:
+            # Loop through object specified and load them
+            for name in names:
+                # Try to load object specified
+                try: pygame_ess.load.object(surface, objects[name])
+                # Error loading object
+                except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
+
+        def surface(surface, objects:dict):
+            # Load objects to window
+            for object in objects.values():
+                # Load image of item
+                pygame_ess.load.object(surface, object)
 
 
     ##################
     # Display events #
     ##################
     class display:
-        def objects(window:surface, objects:dict, names:list, direct_to_screen:bool = False) -> None:
-            Window = window.Window
+        def object(window, object, state:str = '', direct_to_screen:bool = False) -> None:
+            if direct_to_screen: 
+                screen.blit(object.images[object.type+state], (object.frame.image_coord()))
+                pygame_ess.update()
             
-            # Loop through object specified and load them
-            for name in names:
-                # Try to load object specified
-                try:
-                    if direct_to_screen: screen.blit(objects[name].images[objects[name].type], (objects[name].frame.image_coord()))
-                    else: Window.blit(objects[name].images[objects[name].type], (objects[name].frame.image_coord()))
-                # Error loading object
-                except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
+            else: 
+                pygame_ess.load.object(window.Window, object, state)
+                pygame_ess.display.screen(window)
 
-            # Output to screen
-            if direct_to_screen: pygame_ess.update()
-            else: pygame_ess.display.screen(window)
+        def objects(window, objects:dict, names:list, direct_to_screen:bool = False) -> None:
+            # Draw direct to screen
+            if direct_to_screen:
+                # Loop through object specified and load them
+                for name in names:
+                    # Try to load object specified
+                    try: screen.blit(objects[name].images[objects[name].type], (objects[name].frame.image_coord()))
+                    # Error loading object
+                    except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
+                
+                pygame_ess.update()
 
-        def screen(window:surface) -> None:
+            # Load objects to surface, then display to screen
+            else:
+                pygame_ess.load.objects(window.Window, objects, names)
+                pygame_ess.display.screen(window)
+
+        def screen(window, update_all:bool = False, objects:dict = None) -> None:
+            # Update all objects of the surface
+            if update_all: pygame_ess.load.surface(window.Window, objects)
+
             # Ouput window to screen
             screen.blit(window.Window, (window.frame.bx, window.frame.by))
 
@@ -113,12 +159,10 @@ class pygame_ess:
     # Interaction event #
     #####################
     class event:
-        def selection(window:surface, selection_objects:dict, direct_to_screen:bool = False) -> dict:
+        def selection(window, selection_objects:dict, direct_to_screen:bool = False) -> dict:
             selection_result = {'object_name':'', 'object_type':'', 'action_result':''}
-            Window = window.Window
 
             for selection_object in selection_objects.values():
-            
                 # Skip selection check if runclass is empty
                 if selection_object.runclass != None: 
 
@@ -127,14 +171,8 @@ class pygame_ess:
                     while selection_object.in_box(pygame.mouse.get_pos(), window.frame.box_coord()):
                         # Change to hover type
                         if selection_object.hover_action and not mouse_hover_over_object:
-                            # Check if draws driectly to screen or surface
-                            if direct_to_screen:
-                                screen.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord(window.frame.box_coord())))
-                                pygame_ess.update()
-                            else:
-                                Window.blit(selection_object.images[selection_object.type+'_hover'], (selection_object.frame.image_coord()))
-                                pygame_ess.display.screen(window)
-
+                            # Draws hover to surface
+                            pygame_ess.display.object(window, selection_object, '_hover', direct_to_screen)
                             mouse_hover_over_object = True
                             logging.debug('[{}] Hovered on {} {}'.format(window.name, selection_object.name, selection_object.type))
 
@@ -144,8 +182,7 @@ class pygame_ess:
                         # If clicked on object
                         if click_result != False: 
                             # Remove mouse hover
-                            if mouse_hover_over_object:
-                                Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
+                            if mouse_hover_over_object: pygame_ess.load.object(window.Window, selection_object, '', direct_to_screen)
                             
                             # Load back previous screen
                             if click_result == True: 
@@ -162,13 +199,7 @@ class pygame_ess:
                             return selection_result
 
                     # Moved out of hitbox
-                    if mouse_hover_over_object:
-                        if direct_to_screen:
-                            screen.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord(window.frame.box_coord())))
-                            pygame_ess.update()
-                        else:
-                            Window.blit(selection_object.images[selection_object.type], (selection_object.frame.image_coord()))
-                            pygame_ess.display.screen(window)       
+                    if mouse_hover_over_object: pygame_ess.display.object(window, selection_object, '', direct_to_screen)  
 
             # No selections/clicks were made
             return selection_result
@@ -193,8 +224,7 @@ class pygame_ess:
                     
                     # When errors loading screen/runclass
                     except: 
-                        logging.error('error running', selection_object.name)
-                        logging.error(traceback.print_exc())
+                        logging.error('error running {} runclass.'.format(selection_object.runclass))
                         return True
 
                 # When press closed windows
@@ -208,7 +238,6 @@ class pygame_ess:
         def scroll(window, event):
             # Check if scrolling is needed
             if 768 - window.frame.h < 0:
-                
                 # Check of scroll action
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Scroll up
@@ -238,30 +267,3 @@ class pygame_ess:
     def quit():
         print('Exiting program...')
         pygame.quit()
-
-
-#######################
-# Load shared objects #
-#######################
-logging.debug('Initialising shared objects...')
-shared_objects:dict = dict()
-
-shared_objects['back'] = item(name='back',
-                              type='button',
-                              images=pygame_ess.load.images(['shared_objects', 'back']),
-                              frame=coord(
-                                        47, 28,
-                                        162, 67,
-                                        0, 0
-                                        ),
-                              runclass='back')
-            
-shared_objects['info'] = item(name='info',
-                            type='button',
-                            images=pygame_ess.load.images(['shared_objects', 'info']),
-                            frame=coord(
-                                        813, 28,
-                                        162, 67,
-                                        814, 0
-                                        ),
-                            runclass='info')

@@ -9,6 +9,7 @@ from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 from info import info
+from common_objects import common_objects
 
 
 ##################
@@ -33,7 +34,7 @@ mode = Mode()
 logging.debug('Initialising affine cipher objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(affine_cipher_objects, page_name, ['back', 'info'])
+common_objects.load(affine_cipher_objects, page_name, ['back', 'info'])
 
 # Textfields
 affine_cipher_objects['plaintext'] = item(name='plaintext',
@@ -144,9 +145,8 @@ class affine_cipher:
 
         # Save back to ciphertext object
         affine_cipher_objects['ciphertext'].meta.text = ciphertext
-
         # Update screen
-        textfield_event.update_textfield(affine_cipher_window, affine_cipher_objects['ciphertext'], False)
+        pygame_ess.display.object(affine_cipher_window, affine_cipher_objects['ciphertext'])        
 
         return ciphertext
 
@@ -179,9 +179,8 @@ class affine_cipher:
 
         # Save back to plaintext object
         affine_cipher_objects['plaintext'].meta.text = plaintext
-
         # Update screen
-        textfield_event.update_textfield(affine_cipher_window, affine_cipher_objects['plaintext'], False)
+        pygame_ess.display.object(affine_cipher_window, affine_cipher_objects['plaintext'])        
 
         return plaintext
 

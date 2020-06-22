@@ -9,6 +9,7 @@ from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 from info import info
+from common_objects import common_objects
 
 
 ##################
@@ -33,7 +34,7 @@ mode = Mode()
 logging.debug('Initialising atbash cipher objects...')
 
 # background image
-pygame_ess.load.essential_objects(atbash_cipher_objects, page_name, ['back', 'info'])
+common_objects.load(atbash_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 atbash_cipher_objects['plaintext'] = item(name='plaintext',
@@ -104,7 +105,7 @@ class atbash_cipher:
 
         # Output to screen
         atbash_cipher_objects['ciphertext'].meta.text = ciphertext
-        textfield_event.update_textfield(atbash_cipher_window, atbash_cipher_objects['ciphertext'], False)
+        pygame_ess.display.object(atbash_cipher_window, atbash_cipher_objects['ciphertext'])
 
         return ciphertext
 
@@ -130,7 +131,7 @@ class atbash_cipher:
 
         # Output to screen
         atbash_cipher_objects['plaintext'].meta.text = plaintext
-        textfield_event.update_textfield(atbash_cipher_window, atbash_cipher_objects['plaintext'], False)
+        pygame_ess.display.object(atbash_cipher_window, atbash_cipher_objects['plaintext'])
 
         return plaintext
 

@@ -10,6 +10,7 @@ from affine_cipher import affine_cipher
 from caesar_cipher import caesar_cipher
 from monoalphabetic_subsitution_cipher import monoalphabetic_subsitution_cipher
 from polyalphabetic_substitution_cipher import polyalphabetic_substitution_cipher
+from common_objects import common_objects
 
 
 ##################
@@ -40,7 +41,7 @@ cryptography_objects:dict = dict()
 logging.debug('Initialising home screen objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(cryptography_objects, page_name)
+common_objects.load(cryptography_objects, page_name)
 
 # cipher types view list
 for cipher_type in cipher_types:

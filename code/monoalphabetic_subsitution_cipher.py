@@ -10,6 +10,7 @@ from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 from info import info
+from common_objects import common_objects
 
 
 ##################
@@ -33,7 +34,7 @@ mode = Mode()
 logging.debug('Initialising monoalphabetic subsitution cipher objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
+common_objects.load(monoalphabetic_subsitution_cipher_objects, page_name, ['back', 'info'])
 
 # Button
 monoalphabetic_subsitution_cipher_objects['shuffle'] = item(name='shuffle',
@@ -131,7 +132,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['key'].meta.text = '"' +  ''.join(shuffled_alphabet) + '"'
 
         # Update key text        
-        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'], selected=False)
+        pygame_ess.display.object(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['key'])
         
         # encrypt to ciphertext
         if mode.current_mode == 'encrypt': monoalphabetic_subsitution_cipher.encrypt()
@@ -163,7 +164,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['ciphertext'].meta.text = ciphertext
 
         # Update screen
-        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['ciphertext'], False)
+        pygame_ess.display.object(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['ciphertext'])
 
         return ciphertext
 
@@ -189,7 +190,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['plaintext'].meta.text = plaintext
 
         # Update screen
-        textfield_event.update_textfield(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['plaintext'], False)
+        pygame_ess.display.object(monoalphabetic_subsitution_cipher_window, monoalphabetic_subsitution_cipher_objects['plaintext'])
     
         return plaintext
 

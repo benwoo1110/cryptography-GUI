@@ -9,6 +9,7 @@ from mode import Mode
 from textfield_event import textfield_event
 from input_validation import validate
 from info import info
+from common_objects import common_objects
 
 
 ##################
@@ -33,7 +34,7 @@ mode = Mode()
 logging.debug('Initialising caesar cipher objects...')
 
 # Load essentials images
-pygame_ess.load.essential_objects(caesar_cipher_objects, page_name, ['back', 'info'])
+common_objects.load(caesar_cipher_objects, page_name, ['back', 'info'])
 
 # Textfield
 caesar_cipher_objects['plaintext'] = item(name='plaintext',
@@ -150,10 +151,8 @@ class caesar_cipher:
 
         # Save it to data
         caesar_cipher_objects['ciphertext'].meta.text = ciphertext
-
         # Print data to screen
-        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['ciphertext'], False)
+        pygame_ess.display.objects(caesar_cipher_window, caesar_cipher_objects, ['replaced', 'ciphertext'])
 
         return ciphertext
 
@@ -186,10 +185,9 @@ class caesar_cipher:
 
         # Save it to data
         caesar_cipher_objects['plaintext'].meta.text = plaintext
-
         # Print data to screen
-        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['replaced'], False)
-        textfield_event.update_textfield(caesar_cipher_window, caesar_cipher_objects['plaintext'], False)
+        pygame_ess.display.objects(caesar_cipher_window, caesar_cipher_objects, ['replaced', 'plaintext'])
+
 
         return plaintext
     

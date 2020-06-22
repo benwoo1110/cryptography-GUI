@@ -5,6 +5,7 @@ import logging
 import pygame
 import os
 import textwrap
+from pygame_ess import pygame_ess
 
 
 #######################################
@@ -68,8 +69,6 @@ class text_data:
                 elif self.align == 'right': warpped_text[line] = '{1:>{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
                 else: logging.warn('Invalid alignment type.')
 
-            print(warpped_text)
-
         # No text wrapping defined
         else: warpped_text = [self.text]
 
@@ -116,6 +115,9 @@ class item:
         self.runclass:any = runclass
         self.runclass_parameter:bool = runclass_parameter
 
+        # Ensure that textfield has teh correct meta
+        if meta == None: self.meta = text_data()
+
         # Set to default hover_action if not defined
         if hover_action == None:
             if self.type == 'button': self.hover_action = True
@@ -149,16 +151,11 @@ runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.hover_ac
 # Store suface of window #
 ##########################
 class surface:
-    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = coord(bx=0, by=0, w=1024, h=None), background_fill:tuple = None, is_alpha:bool = False):
-        # get the height of window if not defined
-        if frame.h == None:
-            frame.h = 0
-            for window_object in window_objects.values():
-                frame.h =  max(frame.h, window_object.frame.iy+window_object.frame.h)
-
+    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = coord(bx=0, by=0, w=1024, h=768), 
+    background_fill:tuple = None, load:bool = True, is_alpha:bool = False):
         # Create window
         if is_alpha: window = pygame.surface.Surface((frame.w, frame.h), pygame.SRCALPHA)
-        else:  window = pygame.surface.Surface((frame.w, frame.h))
+        else: window = pygame.surface.Surface((frame.w, frame.h))
 
         # Fill surface with default colour
         if background_fill == None:
@@ -167,14 +164,8 @@ class surface:
         # Fill with colour with user defined
         else: window.fill(background_fill)
 
-        # Load objects to window
-        for window_object in window_objects.values():
-            # Load image of item
-            window.blit(window_object.images[window_object.type], window_object.frame.image_coord())
-
-            # Load text for textfield objects
-            if window_object.type == 'textfield':
-                window.blit(window_object.meta.render_text(), window_object.frame.box_coord())
+        # Load surface
+        if load: pygame_ess.load.surface(window, window_objects)
 
         # Save to class
         self.name = name

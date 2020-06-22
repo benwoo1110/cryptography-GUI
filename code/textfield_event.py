@@ -19,27 +19,31 @@ screen = pygame.display.set_mode((1024, 768))
 class textfield_event:
     '''Handles textfield objects and keyboard input'''
 
-    def update_textfield(window, textfield_object, selected=True, backspace=False):
+    def update_textfield(window, textfield_object, backspace=False):
         '''Update the text displayed on screen'''
         
-        Window = window.Window
-
-        # textfield is selected
-        if selected: 
-            Window.blit(textfield_object.images['textfield_selected'], (textfield_object.frame.image_coord()))
-            if not backspace: textfield_object.meta.text += '_'
+        # textfield is selected, add a _ and load selected background
+        if not backspace: 
+            pygame_ess.display.object(window, textfield_object, '_selected')
+            textfield_object.meta.text += '_'
+            pygame_ess.display.object(window, textfield_object, '_selected')
+            textfield_object.meta.text = textfield_object.meta.text[:-1]
         
-        # textfield not selected
-        else: Window.blit(textfield_object.images['textfield'], (textfield_object.frame.image_coord()))
+        # textfield is selected but backspace is pressed
+        else: pygame_ess.display.object(window, textfield_object, '_selected')
 
-        # Render the text
-        Window.blit(textfield_object.meta.render_text(), textfield_object.frame.box_coord())
+    
+    def exit_textfield(window, textfield_object):
+        # Check if input is valid
+        if textfield_object.meta.validation == None or textfield_object.meta.validation.check(textfield_object.meta.text):
+            # Exit from texfield if so
+            pygame_ess.display.object(window, textfield_object)
+            logging.info('Exited {} textfield.'.format(textfield_object.name))
+            return True
 
-        # Remove the '_'
-        if selected and not backspace: textfield_object.meta.text = textfield_object.meta.text[:-1]
-
-        # Output to screen
+        # Load back screen
         pygame_ess.display.screen(window)
+        return False
 
 
     def run(window, textfield_object) -> str:
@@ -48,13 +52,12 @@ class textfield_event:
         # Check if there is input validation
         if textfield_object.meta.validation == None: logging.warn('No input validation specified.')
 
-        textfield_event.update_textfield(window, textfield_object, True)
+        textfield_event.update_textfield(window, textfield_object)
         logging.info('Loaded '+textfield_object.name+' textfield.')
 
         # Key repeat variables
         key_pressed = []
-        time_pressed = 0
-        repeat_interval = 0.75
+        time_pressed, repeat_interval = 0, 1.2
 
         while True:
             for event in pygame.event.get():
@@ -63,20 +66,11 @@ class textfield_event:
 
                     # Exit textfield if click return or escape
                     if event.key in [pygame.K_RETURN, pygame.K_ESCAPE]:
-
-                        # Check if input is valid
-                        if textfield_object.meta.validation == None or textfield_object.meta.validation.check(textfield_object.meta.text):
-                            # Exit from texfield if so
-                            textfield_event.update_textfield(window, textfield_object, False)
-                            logging.info('Exited '+textfield_object.name+' textfield.')
-                            return textfield_object.meta.text
-                        
-                        # Load back textfield screen
-                        else: textfield_event.update_textfield(window, textfield_object, True)
+                        # Exit textfield
+                        if textfield_event.exit_textfield(window, textfield_object): return textfield_object.meta.text
 
                     # Allow only based on validation defined
-                    elif event.key in textfield_object.meta.validation.chars_allowed:
-                        key_pressed.append(event)
+                    elif event.key in textfield_object.meta.validation.chars_allowed: key_pressed.append(event)
 
                 # Key is released
                 elif event.type == pygame.KEYUP:
@@ -85,25 +79,15 @@ class textfield_event:
                     for pressed in range(len(key_pressed)):
                         if key_pressed[pressed].key == event.key:
                             key_pressed.pop(pressed)
-                            time_pressed = 0
-                            repeat_interval = 1.2
+                            time_pressed, repeat_interval = 0, 1.2
                             break
 
                 # Exit textfield if click out
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     # Check clicked outside of textfield
                     if not textfield_object.in_box(pygame.mouse.get_pos(), window.frame.box_coord()):
-
-                        # Check if input is valid
-                        if textfield_object.meta.validation == None or textfield_object.meta.validation.check(textfield_object.meta.text):
-                            # Exit from texfield if so
-                            textfield_event.update_textfield(window, textfield_object, False)
-                            logging.info('Exited '+textfield_object.name+' textfield.')
-                            return textfield_object.meta.text
-
-                        # Load back textfield screen
-                        else: textfield_event.update_textfield(window, textfield_object, True)
-
+                        # Exit textfield
+                        if textfield_event.exit_textfield(window, textfield_object): return textfield_object.meta.text
 
                 # Quit program
                 elif event.type == pygame.QUIT: return 'quit'
@@ -123,12 +107,11 @@ class textfield_event:
                 else: new_text += key_pressed[-1].unicode
 
                 # Do not exceed max length
-                if len(new_text) <= textfield_object.meta.validation.max_length:
+                if textfield_object.meta.validation == None or len(new_text) <= textfield_object.meta.validation.max_length:
                     # Stores the new_text
                     textfield_object.meta.text = new_text
                     # Update textfield
-                    textfield_event.update_textfield(window, textfield_object, True, True)
-                    textfield_event.update_textfield(window, textfield_object, True)
+                    textfield_event.update_textfield(window, textfield_object)
 
                 # Setup for next key repeat
                 time_pressed = time.time()

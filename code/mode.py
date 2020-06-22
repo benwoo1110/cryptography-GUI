@@ -85,7 +85,7 @@ class Mode:
             mode_objects['encrypt'].runclass = 'encrypt'
 
             # Change button
-            pygame_ess.display.objects(mode_window, mode_objects, ['encrypt'])
+            pygame_ess.load.object(mode_window.Window, mode_objects['encrypt'])
             self.load_button(window, objects)
 
             # Change object runclass of plaintext and ciphertext
@@ -102,7 +102,7 @@ class Mode:
             mode_objects['decrypt'].runclass = 'decrypt'
 
             # Change button
-            pygame_ess.load.objects(mode_window, mode_objects, ['decrypt'])
+            pygame_ess.load.object(mode_window.Window, mode_objects['decrypt'])
             self.load_button(window, objects)
 
             # Change object runclass of plaintext and ciphertext
