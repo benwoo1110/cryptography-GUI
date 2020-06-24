@@ -141,7 +141,7 @@ class pygame_ess:
 
         def surface(surface, window) -> None:
             '''Load a surface onto another pygame surface'''
-            surface.blit(window.Window, window.frame.box_coord())
+            surface.blit(window.surface, window.frame.box_coord())
 
         def screen(surface, objects:dict) -> None:
             '''Load all objects given to screen'''

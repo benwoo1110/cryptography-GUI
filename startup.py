@@ -11,6 +11,15 @@ import logging
 import logging.handlers
 from datetime import datetime
 
+# Set to code directory
+sys.path.insert(1, './code')
+
+
+#####################
+# Get configuration #
+#####################
+import config
+
 
 #######################
 # Setup debug logging #
@@ -52,9 +61,6 @@ logging.getLogger().addHandler(debugHandler)
 #################################
 if __name__ == "__main__":
     logging.info('Starting Crpytography GUI...')
-
-    # Set to code directory
-    sys.path.insert(1, './code')
 
     # Initialize pygame
     from pygame_ess import pygame_ess
