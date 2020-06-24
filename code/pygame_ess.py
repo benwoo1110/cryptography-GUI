@@ -38,6 +38,24 @@ class pygame_ess:
         gray = (43, 43, 43)
         whiteish = (213, 213, 213)
     
+    ###############
+    # Create events #
+    ###############
+    class create:
+        '''Creating for pygame shapes and surfaces'''
+
+        def surface(size:tuple = (1024, 768), background_fill:tuple = None, is_alpha:bool = False): # -> pygame.surface.Surface:
+            '''Create a new surface'''
+
+            # Create window based on if is alpha
+            if is_alpha: window = pygame.surface.Surface(size, pygame.SRCALPHA, depth=32)
+            else: window = pygame.surface.Surface(size, depth=32)
+
+            # set background color
+            if background_fill != None: window.fill(background_fill)
+
+            return window
+
 
     ###############
     # Load events #
@@ -64,12 +82,11 @@ class pygame_ess:
             # Load them into pygame
             for image in image_dir_list:
                 image_name = image.split('/')[-1].split('\\')[-1].split('.')[0]
-                if is_alpha: images[image_name] = pygame.image.load(image).convert_alpha()
-                else: images[image_name] = pygame.image.load(image).convert()
+                images[image_name] = pygame.image.load(image).convert_alpha() if is_alpha else pygame.image.load(image).convert()
 
             return images
 
-        def text(surface, object):
+        def text(surface, object) -> pygame.surface.Surface:
             '''Load text of object, includes things liek text warping, align and multi line support'''
 
             # Grap text_data
@@ -89,7 +106,7 @@ class pygame_ess:
             else: warpped_text = [text_data.text]
 
             # Generate surface for text
-            text_surface = pygame.surface.Surface(object.frame.box_size(), pygame.SRCALPHA)
+            text_surface = pygame_ess.create.surface(object.frame.box_size(), is_alpha=True)
 
             # Render multi line text
             h = 0
@@ -101,6 +118,8 @@ class pygame_ess:
 
             # Load to surface
             surface.blit(text_surface, (object.frame.box_coord()))
+
+            return text_surface
 
         def object(surface, object, state:str = '', load_text:bool = True) -> None:
             '''Load an object to a pygame surface'''
@@ -118,13 +137,13 @@ class pygame_ess:
                 # Try to load object specified
                 try: pygame_ess.load.object(surface, objects[name])
                 # Error loading object
-                except: logging.error('[{}] {} object not in objects dictionary.'.format(window.name, name))
+                except: logging.error('{} object not in objects dictionary.'.format(name))
 
-        def surface(surface, window):
+        def surface(surface, window) -> None:
             '''Load a surface onto another pygame surface'''
             surface.blit(window.Window, window.frame.box_coord())
 
-        def screen(surface, objects:dict):
+        def screen(surface, objects:dict) -> None:
             '''Load all objects given to screen'''
 
             # Load objects to window
@@ -147,7 +166,7 @@ class pygame_ess:
                 pygame_ess.update()
             
             else: 
-                pygame_ess.load.object(window.Window, object, state)
+                pygame_ess.load.object(window.surface, object, state)
                 pygame_ess.display.screen(window)
 
         def objects(window, objects:dict, names:list, direct_to_screen:bool = False) -> None:
@@ -166,23 +185,23 @@ class pygame_ess:
 
             # Load objects to surface, then display to screen
             else:
-                pygame_ess.load.objects(window.Window, objects, names)
+                pygame_ess.load.objects(window.surface, objects, names)
                 pygame_ess.display.screen(window)
 
         def surface(window, window_to_merge):
             '''Display a surface given to screen'''
 
-            pygame_ess.load.surface(window.Window, window_to_merge)
+            pygame_ess.load.surface(window.surface, window_to_merge)
             pygame_ess.display.screen(window)
 
         def screen(window, update_all:bool = False, objects:dict = None) -> None:
             '''Display all objects given to screen'''
 
             # Update all objects of the surface
-            if update_all: pygame_ess.load.screen(window.Window, objects)
+            if update_all: pygame_ess.load.screen(window.surface, objects)
 
             # Ouput window to screen
-            screen.blit(window.Window, (window.frame.bx, window.frame.by))
+            screen.blit(window.surface, (window.frame.bx, window.frame.by))
 
             # Draw to screen
             pygame_ess.update()
@@ -219,7 +238,7 @@ class pygame_ess:
                         # If clicked on object
                         if click_result != False: 
                             # Remove mouse hover
-                            if mouse_hover_over_object: pygame_ess.load.object(window.Window, selection_object, '', direct_to_screen)
+                            if mouse_hover_over_object: pygame_ess.load.object(window.surface, selection_object, '', direct_to_screen)
                             
                             # Load back previous screen
                             if click_result == True: 
@@ -264,6 +283,7 @@ class pygame_ess:
                     # When errors loading screen/runclass
                     except: 
                         logging.error('error running {} runclass.'.format(selection_object.runclass))
+                        traceback.print_exc()
                         return True
 
                 # When press closed windows

@@ -2,9 +2,7 @@
 # Import and initialize the librarys #
 ######################################
 import logging
-import pygame
 import os
-import textwrap
 from pygame_ess import pygame_ess
 
 logging.info('Loading item storage classes...')
@@ -39,65 +37,31 @@ class coord:
 # Stores data for text & textfields #
 #####################################
 class text_data:
-    def __init__(self, text:str = '', font_type:str = None, font_size:int = 36, 
+    def __init__(self, text:str = '', font_type:str = None, calculate_font_dir:bool = True, font_size:int = 36, 
     warp_text:int = None, align:str = 'left', colour:set = (0, 0, 0), validation = None):
         self.text:str = text
+        self.calculate_font_dir:bool = calculate_font_dir
         self.font_size:int = font_size
         self.colour:tuple = colour
         self.validation = validation
-        self.warp_text = warp_text
-        self.align = align
-        self.font_type = font_type
+        self.warp_text:int = warp_text
+        self.align:str = align
 
-        # Get font file if its custom
-        if font_type != None:
+        # Get font file from fonts folder
+        if calculate_font_dir:
             # Get font type file
             font_dir:str = 'font/'+font_type
-
             # If in code directory and not root, go back a step
             if os.path.basename(os.getcwd()) == 'code': font_dir = '../' + font_dir
-            
             # Save dir of custom font
-            self.font_type = font_dir
-
-    def render_text(self):
-        # Warp text if specified 
-        if self.warp_text != None:
-            warpped_text = textwrap.wrap(self.text, width=self.warp_text)
-
-            for line in range(len(warpped_text)):
-                if self.align == 'left': warpped_text[line] = '{1:<{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
-                elif self.align == 'center': warpped_text[line] = '{1:^{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
-                elif self.align == 'right': warpped_text[line] = '{1:>{0}}'.format(self.warp_text, warpped_text[line]).rstrip()
-                else: logging.warn('Invalid alignment type.')
-
-        # No text wrapping defined
-        else: warpped_text = [self.text]
-
-        # Render multi line text
-        rendered_lines = []
-        w = 0
-        h = [0]
-
-        # Get size and each line
-        for line in warpped_text:
-            line_text = pygame.font.Font(self.font_type, self.font_size)
-            rendered_lines.append(line_text.render(line, True, self.colour))
-            # Get size of text
-            text_w, text_h = line_text.size(line)
-            w = max(w, text_w)
-            h.append(text_h + h[-1])
-
-        # Generate surface for text
-        text_surface = pygame.surface.Surface((w, h[-1]))
-        for line in range(len(warpped_text)):
-            text_surface.blit(rendered_lines[line], (0, h[line]))
+            self.font_type:str = font_dir
         
-        return text_surface
+        # Save font_type directly
+        else: self.font_type:str = font_type
 
     def __str__(self):
         return '''text:{}, warp_text:{}, align:{}
-      [FONT] type:{}, size:{}, colour:{}
+      font: (type:{}, size:{}, colour:{})
       validation:{}'''.format(self.text, self.warp_text, self.align, self.font_type, self.font_size, self.colour, self.validation)
 
 
@@ -118,17 +82,17 @@ class item:
         self.runclass_parameter:bool = runclass_parameter
 
         # Ensure that textfield has teh correct meta
-        if meta == None: self.meta = text_data()
+        if meta == None and self.type == 'textfield': 
+            logging.warn('No text meta data defined for {} textfield, setting default text_data.'.format(self.name))
+            self.meta = text_data()
 
         # Set to default hover_action if not defined
         if hover_action == None:
-            if self.type == 'button': self.hover_action = True
-            else: hover_action = False
+            self.hover_action = self.type == 'button'
 
         # Set to default runclass_parameter if not defined
         if runclass_parameter == None:
-            if self.type == 'textfield': self.runclass_parameter = True
-            else: self.runclass_parameter = False
+            self.runclass_parameter = self.type == 'textfield'
 
         # Debug objects
         logging.debug(self.__str__())
@@ -163,24 +127,15 @@ class surface:
             for window_object in window_objects.values():
                 frame.h = max(frame.h, window_object.frame.iy+window_object.frame.h)
 
-        # Create window
-        if is_alpha: window = pygame.surface.Surface((frame.w, frame.h), pygame.SRCALPHA)
-        else: window = pygame.surface.Surface((frame.w, frame.h))
-
-        # Fill surface with default colour
-        if background_fill == None:
-            # Fill if surface doesnt need tranparency
-            if not is_alpha: window.fill((43, 43, 43))
-        # Fill with colour with user defined
-        else: window.fill(background_fill)
+        # Create the surface
+        window = pygame_ess.create.surface(frame.box_size(), background_fill, is_alpha)
 
         # Load surface
         if load: pygame_ess.load.screen(window, window_objects)
 
         # Save to class
         self.name = name
-        if is_alpha: self.Window = window.convert_alpha()
-        else: self.Window = window.convert()
+        self.surface = window.convert_alpha() if is_alpha else window.convert()
         self.frame:coord = frame
         self.background_fill:tuple = background_fill
         self.is_alpha:bool = is_alpha
@@ -191,6 +146,6 @@ class surface:
     def __str__(self):
         return '''
 name: {}
-Window: {}
+surface: {}
 frame: {}
-background_fill:{}, is_alpha{}'''.format(self.name, self.Window, self.frame, self.background_fill, self.is_alpha)
+background_fill:{}, is_alpha:{}'''.format(self.name, self.surface, self.frame, self.background_fill, self.is_alpha)
