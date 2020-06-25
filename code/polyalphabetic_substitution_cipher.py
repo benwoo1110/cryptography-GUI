@@ -42,7 +42,7 @@ polyalphabetic_substitution_cipher_objects['keyword'] = item(name='keyword',
                                               ),
                                           images=pygame_ess.load.images([page_name, 'keyword']),
                                           frame=coord(
-                                              325, 174, 
+                                              325, 176, 
                                               632, 62, 
                                               307, 165),
                                           runclass=textfield_event.run)
@@ -58,7 +58,7 @@ polyalphabetic_substitution_cipher_objects['plaintext'] = item(name='plaintext',
                                               ),
                                           images=pygame_ess.load.images([page_name, 'plaintext']),
                                           frame=coord(
-                                              325, 255, 
+                                              325, 257, 
                                               632, 62, 
                                               307, 248),
                                           runclass=textfield_event.run)
@@ -73,7 +73,7 @@ polyalphabetic_substitution_cipher_objects['text'] = item(name='text',
                                               ),
                                           images=pygame_ess.load.images([page_name, 'text']),
                                           frame=coord(
-                                              325, 381, 
+                                              325, 382, 
                                               632, 62, 
                                               325, 381),)
 
@@ -87,7 +87,7 @@ polyalphabetic_substitution_cipher_objects['key'] = item(name='key',
                                               ),
                                           images=pygame_ess.load.images([page_name, 'key']),
                                           frame=coord(
-                                              325, 437, 
+                                              325, 439, 
                                               632, 62, 
                                               307, 437),)
 
@@ -102,7 +102,7 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
                                               ),
                                           images=pygame_ess.load.images([page_name, 'ciphertext']),
                                           frame=coord(
-                                              325, 572, 
+                                              325, 574, 
                                               632, 62, 
                                               307, 564),)
 
@@ -111,7 +111,8 @@ polyalphabetic_substitution_cipher_objects['ciphertext'] = item(name='ciphertext
 # Generate window #
 ###################
 logging.debug('Initialising polyalphabetic subsitution window...')
-polyalphabetic_substitution_cipher_window:surface = surface(polyalphabetic_substitution_cipher_objects, name=page_name)
+polyalphabetic_substitution_cipher_window:surface = surface(polyalphabetic_substitution_cipher_objects, name=page_name,
+                                                            frame=coord(bx=0, by=0, w=1024, h=768, scale=False))
 
 
 ###########################################

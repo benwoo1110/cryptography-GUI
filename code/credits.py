@@ -42,7 +42,8 @@ credits_objects['check_it_out'] = item(name='check_it_out',
 ###################
 logging.debug('Initialising caesar cipher window...')
 # Load background and back button
-credits_window:surface = surface(credits_objects, name=page_name, frame=coord(bx=0, by=0, w=1024, h=1102))
+credits_window:surface = surface(credits_objects, name=page_name,
+                                 frame=coord(bx=0, by=0, w=1024, h=1102, scale=False))
 
 
 ################

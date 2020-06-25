@@ -65,7 +65,8 @@ cryptography_objects['credits'] = item(name='credits',
 # Generate window #
 ###################
 logging.debug('Initialising home screen window...')
-cryptography_window:surface = surface(cryptography_objects, name=page_name, frame=coord(0, 0, 1024, 768))
+cryptography_window:surface = surface(cryptography_objects, name=page_name, 
+                                      frame=coord(0, 0, 1024, 768, scale=False))
 
 
 #############

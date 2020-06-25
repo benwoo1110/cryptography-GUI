@@ -67,7 +67,9 @@ invalid_input_objects['ok'] = item(name='ok!',
 # Generate window #
 ###################
 logging.debug('Initialising invalid input window...')
-invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is_alpha = True)
+invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is_alpha = True, 
+                                       frame=coord(bx=0, by=0, w=1024, h=768, scale=False),
+                                       background_fill=None)
 
 
 #######################

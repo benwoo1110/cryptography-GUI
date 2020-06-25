@@ -6,6 +6,7 @@ import webbrowser
 from pygame_ess import pygame_ess
 from item_storage import *
 from common_objects import common_objects
+from config import config
 
 logging.info('Loading info screen...')
 
@@ -69,7 +70,8 @@ info_objects['try_now'] = item(name='try_now',
 # Generate window #
 ###################
 logging.debug('Initialising info screen window...')
-info_window:surface = surface(info_objects, name=page_name, frame=coord(0, 0, 1024, 2010))
+info_window:surface = surface(info_objects, name=page_name, 
+                              frame=coord(0, 0, 1024, 2010, scale=False))
 
 
 ###############
@@ -89,12 +91,12 @@ class info:
         # Set correct info screen
         # Set height
         info_window.frame.by = 0
-        info_window.frame.h = info_screen_data[cipher_type]['height']
+        info_window.frame.h = int(info_screen_data[cipher_type]['height'] * config.scale_w())
         # Set button position
-        info_objects['learn_more'].frame.by = info_screen_data[cipher_type]['height'] - 123
-        info_objects['learn_more'].frame.iy = info_screen_data[cipher_type]['height'] - 123
-        info_objects['try_now'].frame.by = info_screen_data[cipher_type]['height'] - 123
-        info_objects['try_now'].frame.iy = info_screen_data[cipher_type]['height'] - 123
+        info_objects['learn_more'].frame.by = int( (info_screen_data[cipher_type]['height'] - 123)  * config.scale_w())
+        info_objects['learn_more'].frame.iy = int( (info_screen_data[cipher_type]['height'] - 123)  * config.scale_w())
+        info_objects['try_now'].frame.by = int( (info_screen_data[cipher_type]['height'] - 123)  * config.scale_w())
+        info_objects['try_now'].frame.iy = int( (info_screen_data[cipher_type]['height'] - 123)  * config.scale_w())
 
         # Load screen
         pygame_ess.display.objects(info_window, info_objects, [cipher_type])

@@ -111,7 +111,8 @@ caesar_cipher_objects['ciphertext'] = item(name='ciphertext',
 # Generate window #
 ###################
 logging.debug('Initialising caesar cipher window...')
-caesar_cipher_window:surface = surface(caesar_cipher_objects, name=page_name)
+caesar_cipher_window:surface = surface(caesar_cipher_objects, name=page_name,
+                                       frame=coord(0, 0, 1024, 768, scale=False))
 
 
 ######################

@@ -101,7 +101,8 @@ affine_cipher_objects['ciphertext'] = item(name='ciphertext',
 # Generate window #
 ###################
 logging.debug('Initialising affine cipher window...')
-affine_cipher_window:surface = surface(affine_cipher_objects, name=page_name)
+affine_cipher_window:surface = surface(affine_cipher_objects, name=page_name,
+                                       frame=coord(0, 0, 1024, 768, scale=False))
 
 
 ######################

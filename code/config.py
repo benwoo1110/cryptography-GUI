@@ -63,8 +63,11 @@ class Struct:
     def screen_res(self) -> tuple:
         return (self.screen.width, self.screen.height)
 
-    def w_scale(self):
+    def scale_w(self) -> float:
         return (self.screen.width/1024)
+
+    def scale_h(self) -> float:
+        return (self.screen.height/768)
 
     def __str__(self):
         return '[config] {}'.format(parsed_config_file)

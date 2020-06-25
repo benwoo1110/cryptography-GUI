@@ -5,6 +5,7 @@ import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from textfield_event import textfield_event
+from config import config
 
 logging.info('Loading switch mode button...')
 
@@ -47,7 +48,8 @@ mode_objects['encrypt'] = item(name='encrypt',
 # Generate surface #
 ###################
 logging.debug('Initialising mode button surface...')
-mode_window:surface = surface(mode_objects, name=page_name, frame=coord(bx=694, by=0, w=330, h=100))
+mode_window:surface = surface(mode_objects, name=page_name, 
+                              frame=coord(bx=694, by=0, w=330, h=100, scale=False))
 
 
 ###########################
@@ -62,7 +64,7 @@ class Mode:
     # Load the mode button below ciphertext
     def load_button(self, window:surface, objects:dict):
         # Set mode_window position
-        mode_window.frame.by = objects['ciphertext'].frame.iy + 104
+        mode_window.frame.by = objects['ciphertext'].frame.iy + 112 * config.scale_w()
 
         # Add mode button to main window
         pygame_ess.load.surface(window.surface, mode_window)
@@ -105,7 +107,7 @@ class Mode:
     # Check of mode button click
     def run(self, window:surface, objects:dict):
         # Grap y-axis location of mode button (due to scrolling)
-        mode_window.frame.by = objects['ciphertext'].frame.iy + window.frame.by + 104
+        mode_window.frame.by = objects['ciphertext'].frame.iy + window.frame.by + 112 * config.scale_w()
 
         # Check for mode selection
         selection_result = pygame_ess.event.selection(mode_window, mode_objects)
