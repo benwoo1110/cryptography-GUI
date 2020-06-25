@@ -14,13 +14,21 @@ default_config_contents = '''\
 
 # Size of pygame window in pixel
 screen_size:
-  width: 768
-  height: 1024
+  width: 1024
+  height: 768
 
 # Level of output shown
+# CRITICAL -> 50
+# ERROR -> 40
+# WARNING -> 30
+# INFO -> 20
+# DEBUG -> 10
 debug_level:
+  # For console output
   console: 'INFO'
+  # App activities logged in './cryptography-GUI/logs'
   logs: 'DEBUG'
+
 '''
 
 # Set config file directory
@@ -34,12 +42,33 @@ if not os.path.isfile(config_dir):
 
 # Read from config file
 with open(config_dir) as config_file:
-        parsed_config_file = yaml.load(config_file, Loader=yaml.FullLoader)
-        config_file.close()
+    parsed_config_file = yaml.load(config_file, Loader=yaml.FullLoader)
+    config_file.close()
+
+
+###########################
+# Loading config to class #
+###########################
+class Struct:
+    def __init__(self, **response):
+        for k,v in response.items():
+            if isinstance(v,dict):
+                self.__dict__[k] = Struct(**v)
+            else:
+                self.__dict__[k] = v
+
+    def screen_res(self) -> tuple:
+      return (self.screen_size.width, self.screen_size.height)
+
+    def __str__(self):
+        return '[config] {}'.format(parsed_config_file)
+
+# Convert dict to class object
+config = Struct(**parsed_config_file)
 
 
 ###############
 # For testing #
 ###############
 if __name__ == "__main__":
-    print(parsed_config_file)
+    print(config)

@@ -7,6 +7,7 @@ import glob
 import os
 import traceback
 import textwrap
+from config import config
 
 
 ##################
@@ -14,7 +15,7 @@ import textwrap
 ##################
 logging.info('Loading pygame essentials classes...')
 pygame.init()
-screen = pygame.display.set_mode((1024, 768))
+screen = pygame.display.set_mode(config.screen_res())
 
 
 ########################

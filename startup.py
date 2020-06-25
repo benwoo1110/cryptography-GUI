@@ -18,7 +18,7 @@ sys.path.insert(1, './code')
 #####################
 # Get configuration #
 #####################
-import config
+from config import config
 
 
 #######################
@@ -43,14 +43,14 @@ logging.getLogger().setLevel(logging.NOTSET)
 
 # Add stdout handler, with level INFO
 console = logging.StreamHandler(sys.stdout)
-console.setLevel(logging.INFO)
+console.setLevel(level=os.environ.get("LOGLEVEL", config.debug_level.console))
 formater = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
 console.setFormatter(formater)
 logging.getLogger().addHandler(console)
 
 # Add file debug handler, with level DEBUG
 debugHandler = logging.handlers.RotatingFileHandler(filename=log_file_dir, mode='w')
-debugHandler.setLevel(logging.DEBUG)
+debugHandler.setLevel(level=os.environ.get("LOGLEVEL", config.debug_level.logs))
 formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s', datefmt='%H:%M:%S')
 debugHandler.setFormatter(formatter)
 logging.getLogger().addHandler(debugHandler)
@@ -61,6 +61,7 @@ logging.getLogger().addHandler(debugHandler)
 #################################
 if __name__ == "__main__":
     logging.info('Starting Crpytography GUI...')
+    logging.info(config)
 
     # Initialize pygame
     from pygame_ess import pygame_ess
