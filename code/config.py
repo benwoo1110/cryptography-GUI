@@ -13,7 +13,7 @@ default_config_contents = '''\
 # NOTE: Change only if you know what you are doing!
 
 # Size of pygame window in pixel
-screen_size:
+screen:
   width: 1024
   height: 768
 
@@ -58,7 +58,7 @@ class Struct:
                 self.__dict__[k] = v
 
     def screen_res(self) -> tuple:
-      return (self.screen_size.width, self.screen_size.height)
+      return (self.screen.width, self.screen.height)
 
     def __str__(self):
         return '[config] {}'.format(parsed_config_file)

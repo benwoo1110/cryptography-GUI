@@ -134,7 +134,7 @@ class surface:
         if load: pygame_ess.load.screen(window, window_objects)
 
         # Save to class
-        self.name = name
+        self.name:str = name
         self.surface = window.convert_alpha() if is_alpha else window.convert()
         self.frame:coord = frame
         self.background_fill:tuple = background_fill

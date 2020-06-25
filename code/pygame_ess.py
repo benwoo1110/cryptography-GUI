@@ -295,22 +295,24 @@ class pygame_ess:
             # User did not click
             return False  
 
-        def scroll(window, event):
+        def scroll(window, event) -> None:
             '''Scrolling of surface'''
 
             # Check if scrolling is needed
-            if 768 - window.frame.h < 0:
+            if config.screen.height - window.frame.h < 0:
                 # Check of scroll action
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Scroll up
                     if event.button == 4:
                         window.frame.by = min(window.frame.by + 35, 0)
                         pygame_ess.display.screen(window)
+                        logging.debug('[{}] scrolled up {}'.format(window.name, window.frame.by))
 
                     # Scroll down
                     elif event.button == 5:
-                        window.frame.by = max(window.frame.by - 35, min(768 - window.frame.h, 0))
+                        window.frame.by = max(window.frame.by - 35, min(config.screen.height - window.frame.h, 0))
                         pygame_ess.display.screen(window)
+                        logging.debug('[{}] scrolled down {}'.format(window.name, window.frame.by))
 
 
     ########################
@@ -319,6 +321,7 @@ class pygame_ess:
     def set_caption(caption:str = 'pygame time!'):
         '''Set window header title'''
         pygame.display.set_caption(caption)
+        logging.debug('window captions set to {}'.format(caption))
 
     def update(tick:int = 60):
         '''Draw display changes to screen'''
