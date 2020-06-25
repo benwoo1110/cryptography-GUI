@@ -234,7 +234,7 @@ class pygame_ess:
                             logging.debug('[{}] Hovered on {} {}'.format(window.name, selection_object.name, selection_object.type))
 
                         # Run click event
-                        click_result = pygame_ess.event.click(window, selection_object) 
+                        click_result = pygame_ess.event.click(window, selection_object, selection_objects) 
 
                         # If clicked on object
                         if click_result != False: 
@@ -261,7 +261,7 @@ class pygame_ess:
             # No selections/clicks were made
             return selection_result
 
-        def click(window, selection_object) -> any:
+        def click(window, selection_object, selection_objects) -> any:
             '''Check if mouse click on objects, and run defined actions'''
 
             for event in pygame.event.get():                
@@ -290,16 +290,21 @@ class pygame_ess:
                 # When press closed windows
                 if event.type == pygame.QUIT: return 'quit'
 
+                # Check for other events
                 pygame_ess.event.scroll(window, event)
+                pygame_ess.event.keyboard(selection_objects, event)
 
             # User did not click
             return False  
+
+        def keyboard(selection_objects, event):
+            pass
 
         def scroll(window, event) -> None:
             '''Scrolling of surface'''
 
             # Check if scrolling is needed
-            if config.screen.height - window.frame.h < 0:
+            if config.screen.height - window.frame.h < 0 and window.scroll:
                 # Check of scroll action
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Scroll up

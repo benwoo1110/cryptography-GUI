@@ -5,6 +5,7 @@ import logging
 from item_storage import *
 from pygame_ess import pygame_ess
 from common_objects import common_objects
+from config import config
 
 logging.info('Loading invalid input alert...')
 
@@ -69,7 +70,7 @@ invalid_input_objects['ok'] = item(name='ok!',
 logging.debug('Initialising invalid input window...')
 invalid_input_window:surface = surface(invalid_input_objects, name=page_name, is_alpha = True, 
                                        frame=coord(bx=0, by=0, w=1024, h=768, scale=False),
-                                       background_fill=None)
+                                       background_fill=None, scroll=False)
 
 
 #######################

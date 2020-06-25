@@ -19,7 +19,7 @@ default_config_contents = '''\
 # Size of pygame window in pixel
 screen:
   width: 1024
-  height: 650
+  height: 768
 
 # Level of output shown
 # CRITICAL -> 50

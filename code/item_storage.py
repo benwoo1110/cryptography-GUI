@@ -132,7 +132,7 @@ runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.hover_ac
 ##########################
 class surface:
     def __init__(self, window_objects:dict, name:str = 'window', frame:coord = None, 
-    background_fill:tuple = (43,43,43), load:bool = True, is_alpha:bool = False):
+    background_fill:tuple = pygame_ess.colour.gray, load:bool = True, is_alpha:bool = False, scroll:bool = True):
        
         # Calculate smart height of window size if no frame defined
         if frame == None:
@@ -160,6 +160,7 @@ class surface:
         self.frame:coord = frame
         self.background_fill:tuple = background_fill
         self.is_alpha:bool = is_alpha
+        self.scroll:bool = scroll
 
         # Debug surface
         logging.debug(self.__str__())
