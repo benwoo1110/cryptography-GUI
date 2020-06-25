@@ -109,7 +109,8 @@ monoalphabetic_subsitution_cipher_objects['ciphertext'] = item(name='ciphertext'
 logging.debug('Initialising monoalphabetic subsitution cipher window...')
 monoalphabetic_subsitution_cipher_window:surface = surface(monoalphabetic_subsitution_cipher_objects, 
                                                            name=page_name, 
-                                                           frame=coord(bx=0,by=0,w=1024,h=810))
+                                                           frame=coord(bx=0,by=0,w=1024,h=810),
+                                                           background_fill=pygame_ess.colour.gray)
 
 
 ##########################################

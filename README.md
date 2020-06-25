@@ -11,8 +11,9 @@ A Simple visualisation for basic string cryptography algorithms.
 ## Depencencies needed:
 * python 3.x
 * pygame
+* yyaml
 
-pygame installation: `pip3 install pygame` <br />
+Manual install: `pip3 install pyyaml pygame`
 
 ## To run to the program:
 #### For macos/linux:

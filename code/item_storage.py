@@ -69,17 +69,14 @@ class text_data:
 # Storages UI object data #
 ###########################
 class item:
-    def __init__(self, name:str = 'name', type:str = 'object', meta:any = None, images:dict = {}, 
+    def __init__(self, name:str = 'name', type:str = 'object', meta:any = None, load_images:dict = None, images:dict = {},
     frame:coord = coord(), hover_action:bool = None, runclass:any = None, runclass_parameter:bool = None):
         # Stores object data
         self.name:str = name
         self.type:str = type
         self.meta:any = meta
-        self.images:dict = images
         self.frame:coord = frame
-        self.hover_action:bool = hover_action
         self.runclass:any = runclass
-        self.runclass_parameter:bool = runclass_parameter
 
         # Ensure that textfield has teh correct meta
         if meta == None and self.type == 'textfield': 
@@ -87,12 +84,16 @@ class item:
             self.meta = text_data()
 
         # Set to default hover_action if not defined
-        if hover_action == None:
-            self.hover_action = self.type == 'button'
+        if hover_action == None: self.hover_action:bool = self.type == 'button'
+        else: self.hover_action:bool = hover_action
 
         # Set to default runclass_parameter if not defined
-        if runclass_parameter == None:
-            self.runclass_parameter = self.type == 'textfield'
+        if runclass_parameter == None: self.runclass_parameter = self.type == 'textfield'
+        else: self.runclass_parameter:bool = runclass_parameter
+
+        # Load images
+        if load_images != None: self.images:dict = pygame_ess.load.images(**load_images)
+        else: self.images:dict = images
 
         # Debug objects
         logging.debug(self.__str__())

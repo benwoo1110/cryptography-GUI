@@ -24,7 +24,6 @@ screen = pygame.display.set_mode(config.screen_res())
 class pygame_ess:
     '''Essentials classes, functions and variables for pygame'''
 
-
     #############################
     # Shared / common variables #
     #############################
@@ -84,6 +83,7 @@ class pygame_ess:
             for image in image_dir_list:
                 image_name = image.split('/')[-1].split('\\')[-1].split('.')[0]
                 images[image_name] = pygame.image.load(image).convert_alpha() if is_alpha else pygame.image.load(image).convert()
+                images[image_name] = pygame.transform.smoothscale(images[image_name], (int(images[image_name].get_width()*config.w_scale()), int(images[image_name].get_height()*config.w_scale())))
 
             return images
 

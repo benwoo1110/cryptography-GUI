@@ -10,12 +10,16 @@ import os
 
 # Default setting for file
 default_config_contents = '''\
+###############################
+# Cryptography GUI config.yml #
+###############################
+
 # NOTE: Change only if you know what you are doing!
 
 # Size of pygame window in pixel
 screen:
   width: 1024
-  height: 768
+  height: 650
 
 # Level of output shown
 # CRITICAL -> 50
@@ -28,7 +32,6 @@ debug_level:
   console: 'INFO'
   # App activities logged in './cryptography-GUI/logs'
   logs: 'DEBUG'
-
 '''
 
 # Set config file directory
@@ -58,7 +61,10 @@ class Struct:
                 self.__dict__[k] = v
 
     def screen_res(self) -> tuple:
-      return (self.screen.width, self.screen.height)
+        return (self.screen.width, self.screen.height)
+
+    def w_scale(self):
+        return (self.screen.width/1024)
 
     def __str__(self):
         return '[config] {}'.format(parsed_config_file)
