@@ -1,6 +1,8 @@
 # cryptography-GUI
 A Simple visualisation for basic string cryptography algorithms.
 
+![Alt text](design/home_screen.png)
+
 ## List of algorithms:
 * Atbash Cipher
 * Affine Cipher
