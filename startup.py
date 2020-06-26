@@ -30,12 +30,12 @@ with open('requirements.txt', 'r') as requirements:
         # If dependencies out of date
         except pkg_resources.VersionConflict:
             print('Dependency {} outdated. Attempting to update now...'.format(dependency))
-            os.system('pip3 install {}'.format(dependency))
+            os.system('pip3 install --no-cache-dir {}'.format(dependency))
 
         # If dependencies is not found/installed.
         except pkg_resources.DistributionNotFound:
             print('Dependency {} not found. Attempting to install now...'.format(dependency))
-            os.system('pip3 install {}'.format(dependency))
+            os.system('pip3 install --no-cache-dir {}'.format(dependency))
 
         # Dependencies is all good
         else: print('{} is installed.'.format(dependency))
