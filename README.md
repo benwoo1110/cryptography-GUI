@@ -13,17 +13,20 @@ A Simple visualisation for basic string cryptography algorithms.
 * pygame
 * yyaml
 
-Manual install: `pip3 install pyyaml pygame`
+#### Manual install: 
+```css
+pip3 install pyyaml pygame
+```
 
 ## To run to the program:
 #### For macos/linux:
-```
+```css
 chmod +x start.sh
 ./start.sh
 ```
 #### For windows:
 run `start.bat` file
-```
+```css
 ./start.bat
 ```
 <br />
