@@ -48,8 +48,8 @@ class pygame_ess:
             '''Create a new surface'''
 
             # Create window based on if is alpha
-            if is_alpha: window = pygame.surface.Surface(size, pygame.SRCALPHA, depth=32)
-            else: window = pygame.surface.Surface(size, depth=32)
+            if is_alpha: window = pygame.surface.Surface(size, pygame.SRCALPHA)
+            else: window = pygame.surface.Surface(size)
 
             # set background color
             if background_fill != None: window.fill(background_fill)

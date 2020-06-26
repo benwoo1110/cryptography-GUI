@@ -42,7 +42,7 @@ invalid_input_objects['message'] = item(name='message',
                                                 text='Oh no! Your input is invalid!',
                                                 font_type='Monaco.dfont',
                                                 font_size=22,
-                                                warp_text=28,
+                                                warp_text=27,
                                                 align='center',
                                                 colour=pygame_ess.colour.whiteish
                                                 ),
