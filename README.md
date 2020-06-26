@@ -22,6 +22,7 @@ pip3 install pyyaml pygame
 
 ## To run to the program:
 #### For macos/linux:
+run `start.sh` file
 ```css
 chmod +x start.sh
 ./start.sh
@@ -29,7 +30,7 @@ chmod +x start.sh
 #### For windows:
 run `start.bat` file
 ```css
-./start.bat
+.\start.bat
 ```
 <br />
 
