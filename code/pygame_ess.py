@@ -333,7 +333,7 @@ class pygame_ess:
         pygame.display.set_caption(caption)
         logging.debug('window captions set to {}'.format(caption))
 
-    def update(tick:int = 60):
+    def update(tick:int = config.ticks):
         '''Draw display changes to screen'''
         pygame.display.flip()
         pygame.display.update()

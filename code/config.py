@@ -37,6 +37,9 @@ debug_level:
   console: 'INFO'
   # App activities logged in './cryptography-GUI/logs'
   logs: 'DEBUG'
+
+# Changes the refresh rate of pygame
+ticks: 60
 '''
 
 # Set config file directory
