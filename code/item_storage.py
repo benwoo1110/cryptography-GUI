@@ -19,22 +19,18 @@ logging.info('Loading item storage classes...')
 #######################################
 class coord:
     def __init__(self, bx:int = 0, by:int = 0, w:int = 0, h:int = 0, ix:int = 0, iy:int = 0, scale:bool = True):
-        self.scale:bool = scale
 
-        if scale:
-            self.bx:int = int(bx * config.scale_w())
-            self.by:int = int(by * config.scale_w())
-            self.w:int = int(w * config.scale_w())
-            self.h:int = int(h * config.scale_w())
-            self.ix:int = int(ix * config.scale_w())
-            self.iy:int = int(iy * config.scale_w())
-        else:
-            self.bx:int = int(bx)
-            self.by:int = int(by)
-            self.w:int = int(w)
-            self.h:int = int(h)
-            self.ix:int = int(ix)
-            self.iy:int = int(iy)
+        self.scale:bool = scale
+        self.bx:int = int(bx)
+        self.by:int = int(by)
+        self.w:int = int(w)
+        self.h:int = int(h)
+        self.ix:int = int(ix)
+        self.iy:int = int(iy)
+
+    def __setattr__(self, name, value):
+        if name != 'scale' and self.scale: self.__dict__[name] = int(value * config.scale_w())
+        else: self.__dict__[name] = value
 
     def box_size(self) -> tuple: 
         return (self.w, self.h)
@@ -136,22 +132,18 @@ runclass:{}, runclass_parameter:{}'''.format(self.name, self.type, self.hover_ac
 # Store suface of window #
 ##########################
 class surface:
-    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = None, 
+    def __init__(self, window_objects:dict, name:str = 'window', frame:coord = None, fill_screen:bool = True,
     background_fill:tuple = pygame_ess.colour.gray, load:bool = True, is_alpha:bool = False, scroll:bool = True):
        
         # Calculate smart height of window size if no frame defined
         if frame == None:
             logging.warn('No frame defined for surface {}, doing smart frame calculation.'.format(name))
-            frame = coord(bx=0, by=0, w=1024, h=0, scale=False)
+            frame = coord(bx=0, by=0, w=1024, h=0)
             for window_object in window_objects.values():
                 frame.h = max(frame.h, window_object.frame.iy+window_object.frame.h)
 
-        # Custom scale
-        frame.bx = int(frame.bx * config.scale_w())
-        frame.by = int(frame.by * config.scale_w())
-        frame.w = int(frame.w * config.scale_w())
-        if config.scale_h() < config.scale_w(): frame.h = int(frame.h * config.scale_w())
-        else: frame.h = int(frame.h * config.scale_h())
+        # Set surface to height of screen
+        if fill_screen and frame.h < config.screen.height: frame.h = config.screen.height / config.scale_w()
 
         # Create the surface
         window = pygame_ess.create.surface(frame.box_size(), background_fill, is_alpha)
