@@ -40,6 +40,9 @@ debug_level:
 
 # Changes the refresh rate of pygame
 ticks: 60
+
+# Change speed of scrolling
+scroll_speed: 35
 '''
 
 # Set config file directory

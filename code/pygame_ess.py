@@ -43,9 +43,9 @@ class pygame_ess:
         gray = (43, 43, 43)
         whiteish = (213, 213, 213)
     
-    ###############
+    #################
     # Create events #
-    ###############
+    #################
     class create:
         '''Creating for pygame shapes and surfaces'''
 
@@ -314,13 +314,13 @@ class pygame_ess:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     # Scroll up
                     if event.button == 4:
-                        window.frame.by = min(window.frame.by + 35, 0)
+                        window.frame.by = min(window.frame.by + config.scroll_speed, 0)
                         pygame_ess.display.screen(window)
                         logging.debug('[{}] scrolled up {}'.format(window.name, window.frame.by))
 
                     # Scroll down
                     elif event.button == 5:
-                        window.frame.by = max(window.frame.by - 35, min(config.screen.height - window.frame.h, 0))
+                        window.frame.by = max(window.frame.by - config.scroll_speed, min(config.screen.height - window.frame.h, 0))
                         pygame_ess.display.screen(window)
                         logging.debug('[{}] scrolled down {}'.format(window.name, window.frame.by))
 

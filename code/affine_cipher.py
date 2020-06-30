@@ -17,6 +17,7 @@ from common_objects import common_objects
 
 logging.info('Loading affine cipher...')
 
+
 #########################
 # Variables declaration #
 #########################
