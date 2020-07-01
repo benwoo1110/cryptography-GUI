@@ -104,7 +104,8 @@ class info:
         info_objects['try_now'].frame.iy = int( (info_screen_data[cipher_type]['height'] - 123)  * config.scale_w())
 
         # Load screen
-        pygame_ess.display.objects(info_window, info_objects, [cipher_type])
+        pygame_ess.load.objects(info_window.surface, info_objects, [cipher_type])
+        pygame_ess.display.screen(info_window, animate=True)
 
         while True:
             # Check for selection

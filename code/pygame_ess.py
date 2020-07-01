@@ -200,17 +200,23 @@ class pygame_ess:
             pygame_ess.load.surface(window.surface, window_to_merge)
             pygame_ess.display.screen(window)
 
-        def screen(window, update_all:bool = False, objects:dict = None) -> None:
+        def screen(window, update_all:bool = False, objects:dict = None, animate:bool = False) -> None:
             '''Display all objects given to screen'''
 
             # Update all objects of the surface
             if update_all: pygame_ess.load.screen(window.surface, objects)
 
+            
             # Ouput window to screen
-            screen.blit(window.surface, (window.frame.bx, window.frame.by))
-
-            # Draw to screen
-            pygame_ess.update()
+            if animate:
+                for i in range(768, -1, -48):
+                    window.frame.bx = i
+                    screen.blit(window.surface, (window.frame.bx, window.frame.by))
+                    pygame_ess.update()
+                    if pygame_ess.buffer(window): return 'quit'
+            else:
+                screen.blit(window.surface, (window.frame.bx, window.frame.by))
+                pygame_ess.update()
 
 
     #####################
@@ -337,7 +343,7 @@ class pygame_ess:
         '''Draw display changes to screen'''
         pygame.display.flip()
         pygame.display.update()
-        pygame.time.Clock().tick(tick)
+        pygame.time.Clock().tick_busy_loop(tick)
 
     def buffer(window) -> bool:
         '''Loop through pygame events and check of quit and scrolling'''

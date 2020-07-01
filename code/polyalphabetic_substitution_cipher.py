@@ -217,6 +217,7 @@ class polyalphabetic_substitution_cipher:
         polyalphabetic_substitution_cipher_objects['info'].runclass_parameter = page_name
         
         # Load screen
+        pygame_ess.display.screen(polyalphabetic_substitution_cipher_window, animate=True)
         polyalphabetic_substitution_cipher.encrypt()
         logging.info('Loaded polyalphabetic subsitution window.')
 

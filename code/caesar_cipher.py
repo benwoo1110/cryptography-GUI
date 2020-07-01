@@ -202,6 +202,7 @@ class caesar_cipher:
         caesar_cipher_objects['info'].runclass_parameter = page_name
 
         # Load the screen
+        pygame_ess.display.screen(caesar_cipher_window, animate=True)
         caesar_cipher.encrypt()
         logging.info('Loaded caesar cipher window.')
          

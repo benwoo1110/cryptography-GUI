@@ -83,7 +83,6 @@ class cryptography:
     def run():
         '''Display cryptography home page'''
 
-        # Load the screen
         pygame_ess.display.screen(cryptography_window)
         logging.info('Loaded home screen window.')
 

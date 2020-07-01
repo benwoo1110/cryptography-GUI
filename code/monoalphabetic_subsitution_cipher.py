@@ -205,6 +205,7 @@ class monoalphabetic_subsitution_cipher:
         monoalphabetic_subsitution_cipher_objects['info'].runclass_parameter = page_name
         
         # Load screen
+        pygame_ess.display.screen(monoalphabetic_subsitution_cipher_window, animate=True)
         monoalphabetic_subsitution_cipher.shuffle()
         logging.info('Loaded monoalphabetic subsitution cipher window.')
 

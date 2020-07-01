@@ -196,6 +196,7 @@ class affine_cipher:
         affine_cipher_objects['info'].runclass_parameter = page_name
 
         # Load screen
+        pygame_ess.display.screen(affine_cipher_window, animate=True)
         affine_cipher.encrypt()
         logging.info('Loaded affine cipher window.')
 

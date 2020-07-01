@@ -146,6 +146,7 @@ class atbash_cipher:
         atbash_cipher_objects['info'].runclass_parameter = page_name
 
         # Load the screen
+        pygame_ess.display.screen(atbash_cipher_window, animate=True)
         atbash_cipher.encrypt()
         logging.info('Loaded atbash cipher window.')
          
