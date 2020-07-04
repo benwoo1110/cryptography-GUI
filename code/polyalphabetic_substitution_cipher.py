@@ -194,7 +194,7 @@ class polyalphabetic_substitution_cipher:
                 if ciphertext[char].islower(): plainchar = plainchar.lower()
                 plaintext += plainchar
             
-            else: plaintext += plaintext[char]
+            else: plaintext += ciphertext[char]
 
         # Stores ciphertext
         polyalphabetic_substitution_cipher_objects['plaintext'].meta.text = plaintext
@@ -202,7 +202,7 @@ class polyalphabetic_substitution_cipher:
         # Update text
         polyalphabetic_substitution_cipher_objects['text'].meta.text = plaintext
         # Output to screen
-        pygame_ess.display.objects(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects, ['text', 'key', 'ciphertext'])
+        pygame_ess.display.objects(polyalphabetic_substitution_cipher_window, polyalphabetic_substitution_cipher_objects, ['text', 'key', 'plaintext'])
 
         return plaintext
 

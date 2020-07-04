@@ -167,7 +167,7 @@ class caesar_cipher:
             print('type error')
             return
 
-        alphablet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        alphablet = pygame_ess.alphabet
         replaced = alphablet[key%26:] + alphablet[:key%26]
         
         caesar_cipher_objects['replaced'].meta.text = '"'+replaced+'"'
@@ -181,7 +181,7 @@ class caesar_cipher:
                 if not char.isupper(): plainchar = plainchar.lower()
                 plaintext += plainchar
 
-            else: ciphertext += char
+            else: plaintext += char
 
         # Save it to data
         caesar_cipher_objects['plaintext'].meta.text = plaintext
