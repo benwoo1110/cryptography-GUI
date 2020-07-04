@@ -178,7 +178,7 @@ class polyalphabetic_substitution_cipher:
         ciphertext_length:int = len(ciphertext)
         keyword_length:int = len(keyword)
         key:str = keyword.upper() * (ciphertext_length//keyword_length) + keyword.upper()[:ciphertext_length%keyword_length]
-        print(key)
+
         # Stores key
         polyalphabetic_substitution_cipher_objects['key'].meta.text = key
 
@@ -187,9 +187,7 @@ class polyalphabetic_substitution_cipher:
         for char in range(ciphertext_length):
             if ciphertext[char].isalpha():
                 if alphabet.find(ciphertext[char].upper()) >= alphabet.find(key[char]): plainchar:str = alphabet[alphabet.find(ciphertext[char].upper()) - alphabet.find(key[char])]
-                else: 
-                    print(ciphertext[char].upper(), key[char], char)
-                    plainchar:str = alphabet[alphabet.find(ciphertext[char].upper()) + 26 - alphabet.find(key[char])]
+                else: plainchar:str = alphabet[alphabet.find(ciphertext[char].upper()) + 26 - alphabet.find(key[char])]
 
                 if ciphertext[char].islower(): plainchar = plainchar.lower()
                 plaintext += plainchar
